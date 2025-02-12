@@ -1,0 +1,9 @@
+.text{
+	position: relative;
+	top: 50%;
+	left: 50%;
+	&-header{
+		color: rgb(64, 0, 255);
+		font-size: 30px;
+	}
+}
