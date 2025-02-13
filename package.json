@@ -46,6 +46,7 @@
     "webpack-dev-server": "^5.2.0"
   },
   "dependencies": {
+    "@radix-ui/themes": "^3.2.0",
     "@reduxjs/toolkit": "^2.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
