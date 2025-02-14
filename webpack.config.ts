@@ -36,11 +36,39 @@ export default (env: any) => {
 		module: {
 			rules: [
 				{
-					test: /\.s[ac]ss$/i,
+					test: /\.css$/,
 					use: [
 						isDev ? "style-loader" : MiniCssExtractPlugin.loader,
 						"css-loader",
+					],
+				},
+				{
+					test: /\.module\.scss$/i,
+					use: [
+						isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+						{
+							loader: "css-loader",
+							options: {
+								modules: {
+									localIdentName: "[local]__[hash:base64:5]",
+									auto: true,
+								},
+								esModule: true,
+							},
+						},
 						"sass-loader",
+					],
+				},
+				{
+					test: /\.s[ac]ss$/i,
+					exclude: /\.module\.scss$/,
+					use: [
+						isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+						"css-loader",
+						{
+							loader: "sass-loader",
+							options: { sourceMap: true },
+						},
 					],
 				},
 				{

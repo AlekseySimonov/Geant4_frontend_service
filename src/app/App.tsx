@@ -1,5 +1,5 @@
 import { AuthPage } from '@/pages';
-import '../shared/styles/globals.scss'
+import '@/shared/styles/_globals.scss'
 import "@radix-ui/themes/styles.css";
 
 export const App = () => {
