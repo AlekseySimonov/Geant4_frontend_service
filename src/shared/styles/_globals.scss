@@ -1,11 +1,11 @@
+@use "sass:map";
 @use './_global-mixins.scss' as mixins;
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500..800&display=swap');
 
 body {
 	height: 100%;
-	font-family: 'Manrope', sans-serif;
-	line-height: 1.5;
-    font-weight: 500;
+	font-family: 'Manrope', sans-serif !important; 
+	line-height: 1.5 !important;
+    font-weight: 500 !important;
     margin: 0;
 	overflow: hidden;
 	scroll-behavior: smooth;
@@ -32,9 +32,9 @@ $font-sizes: (
 );
 
 @function get-color($key) {
-	@return map-get($colors, $key);
+	@return map.get($colors, $key);
 }
 
 @function get-font-size($key) {
-	@return map-get($font-sizes, $key);
+	@return map.get($font-sizes, $key);
 }

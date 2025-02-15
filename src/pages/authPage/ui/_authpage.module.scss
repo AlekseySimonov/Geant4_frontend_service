@@ -1,11 +1,44 @@
+@use '../../../shared/styles/_globals' as globals;
+@use '../../../shared/styles/_global-mixins' as mixins;
+
 .container{
-	width: 100vw;
-	height: 100vh;
 	overflow: hidden;
+	display: flex;
+	height: 100vh;
+	width: 100vw;
+	justify-content: center;
+	align-items: center;
 
 	&__background{
 		width: 100vw;
 		object-fit: cover;
 		height: 100vh;
+		position: absolute;
+		z-index: -99;
+	}
+	&__content{
+		position: absolute;
+		margin: auto;
+		padding: 50px;
+		width: 520px;
+		height: 600px;
+		border-radius: 16px;
+		background: globals.get-color("background");
+		&_header{
+			color: globals.get-color("foreground") ;	
+			font-size: globals.get-font-size(h2);	
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			justify-content: center;
+			align-items: center;
+			font-weight: 800;
+			span{
+				color:  globals.get-color("primary") ;
+				font-size: 44px ;
+				font-weight: 700;
+			}
+		}
+			
 	}
 }
