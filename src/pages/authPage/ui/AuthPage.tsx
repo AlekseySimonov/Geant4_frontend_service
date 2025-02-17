@@ -1,7 +1,8 @@
+import { Outlet } from 'react-router'
 import * as styles from './_authpage.module.scss'
 import backgroundImg from '@/shared/ui/assets/authBackground.jpg'
 
-export const AuthPage = () => {
+export const AuthPage: React.FC = () => {
 	return (
 		<div className= {styles.container}>
 			<img className={styles.container__background} src={backgroundImg} alt="" />
@@ -11,6 +12,7 @@ export const AuthPage = () => {
 					Добро пожаловать
 				</div>
 			</div>
+			<Outlet/>
 		</div>
 		
 	)

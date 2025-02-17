@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve",
+    "start": "webpack-dev-server --mode development --open --hot --history-api-fallback",
     "build:dev": "webpack --env mode=development",
     "build:prod": "webpack --env mode=production",
     "test": "jest"

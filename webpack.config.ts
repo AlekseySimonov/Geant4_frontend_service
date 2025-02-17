@@ -23,6 +23,7 @@ export default (env: any) => {
 			path: path.resolve(__dirname, 'build'),
 			filename: '[name].[contenthash].js',
 			clean: true,
+			publicPath: "/",
 		},
 		plugins: [
 			new HtmlWebpackPlugin({ template: path.resolve(__dirname, 'public', 'index.html'), favicon: path.resolve(__dirname, 'public', 'favicon.svg') }),
@@ -104,8 +105,10 @@ export default (env: any) => {
 		},
 		devtool: isDev && 'inline-source-map',
 		devServer: isDev ? {
+			hot: true,
 			port: env.port ?? 5800,
 			open: true,
+			historyApiFallback:true,
 		} : undefined,
 	}
 	return config

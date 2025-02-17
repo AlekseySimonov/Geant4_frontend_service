@@ -1,9 +1,7 @@
-import { AuthPage } from '@/pages';
 import '@/shared/styles/_globals.scss'
-// import "@radix-ui/themes/styles.css";
+import { RouterProvider } from 'react-router';
+import { appRouter } from './providers/router';
 
 export const App = () => {
-	return (
-		<AuthPage/>
-	)
+	return ( (<RouterProvider router={appRouter}/>))
 }
