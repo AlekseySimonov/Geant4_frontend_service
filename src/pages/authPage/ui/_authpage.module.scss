@@ -1,5 +1,4 @@
 @use '../../../shared/styles/_globals' as globals;
-@use '../../../shared/styles/_global-mixins' as mixins;
 
 .container{
 	overflow: hidden;
@@ -8,6 +7,7 @@
 	width: 100vw;
 	justify-content: center;
 	align-items: center;
+	z-index: 1;
 
 	&__background{
 		width: 100vw;
@@ -17,11 +17,15 @@
 		z-index: -99;
 	}
 	&__content{
+		display: flex;
+		flex-direction: column;
 		position: absolute;
-		margin: auto;
-		padding: 50px;
-		width: 520px;
-		height: 600px;
+		align-items: center;
+		// margin: auto;
+		padding-top: 50px;
+		padding-bottom: 70px;
+		padding-inline: 80px;
+		height: max-content;
 		border-radius: 16px;
 		background: globals.get-color("background");
 		&_header{
@@ -39,6 +43,5 @@
 				font-weight: 700;
 			}
 		}
-			
 	}
 }

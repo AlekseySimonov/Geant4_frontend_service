@@ -52,7 +52,8 @@ export default (env: any) => {
 							options: {
 								modules: {
 									localIdentName: "[local]__[hash:base64:5]",
-									auto: true,
+									namedExport: false,
+									exportLocalsConvention: "asIs",
 								},
 								esModule: true,
 							},

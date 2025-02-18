@@ -1,18 +1,4 @@
 @use "sass:map";
-@use './_global-mixins.scss' as mixins;
-
-body {
-	height: 100%;
-	font-family: 'Manrope', sans-serif !important; 
-	line-height: 1.5 !important;
-    font-weight: 500 !important;
-    margin: 0;
-	overflow: hidden;
-	scroll-behavior: smooth;
-    text-rendering: optimizeSpeed;
-	min-height: 100vh;
-	@include mixins.text-style("foreground", body-large);
-}
 
 $colors: (
 	"primary": #243160,
@@ -37,4 +23,18 @@ $font-sizes: (
 
 @function get-font-size($key) {
 	@return map.get($font-sizes, $key);
+}
+
+body {
+	height: 100%;
+	font-family: 'Manrope', sans-serif !important; 
+	line-height: 1.5 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+	overflow: hidden;
+	scroll-behavior: smooth !important;
+    text-rendering: optimizeSpeed !important;
+	min-height: 100vh;
+	color: get-color("foreground") !important;
+	font-size: get-font-size(body-large) !important;
 }
