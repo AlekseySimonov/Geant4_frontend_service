@@ -10,25 +10,11 @@
 	gap: 16px;
 	width: 400px;
 
-	.input, .input:focus{
-		border-width: 1px;
-		border-radius: 20px;
-		width: -webkit-fill-available;
-		padding-inline: 10px;
-		padding-block: 6px;
-		border-color: globals.get-color("info");
-	}
 	&_title{
 		margin-top: 22px;
 		font-size: globals.get-font-size(h3);
 		font-weight: 700;
 		text-align: center;
-	}
-	&_account{
-
-	}
-	&_password{
-
 	}
 	&_submit{
 		padding-block: 6px;
@@ -36,17 +22,19 @@
 		width: 100%;
 		color: globals.get-color("background");
 		border-radius: 20px;
+		margin-top: 10px;
 	}
 	&_passwordRemember{
 		font-size: globals.get-font-size(body-small);
 		display: flex;
-		align-items: center;
+		gap: 5px;
 		input{
 			width: 15px;
 			height: 15px;
 		}
 	}
 	&_regitration{
+		text-align: center;
 		a{
 			text-decoration: none;
 			color: globals.get-color("primary");

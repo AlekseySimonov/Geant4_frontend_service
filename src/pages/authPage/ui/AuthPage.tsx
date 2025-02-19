@@ -14,6 +14,5 @@ export const AuthPage: React.FC = () => {
 				<Outlet/>
 			</div>
 		</div>
-		
 	)
 }

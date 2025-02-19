@@ -1,63 +1,64 @@
-import { Form, Formik, Field, ErrorMessage } from "formik"
-import { useState } from "react";
+import { Form, Formik, Field, ErrorMessage, useFormikContext } from "formik"
+import { useEffect, useState } from "react";
 import * as Yup from 'yup'
 import styles from "./_loginForm.module.scss"
 import { Link } from "react-router";
+import { FormField } from './../../../shared/ui/components/formField/FormField';
 
 export const LoginForm: React.FC = () => {
-	console.log('hello', styles)
-
-	const [remember, setRemember] = useState(false)
-
 	const initialValues = {
-		email: '',
-		password: '',
+		email: "",
+		password: "",
 		remember: false,
 	};
 
+	const [formValues, setFormValues] = useState(initialValues);
+
+	const handleSubmit = () => {
+		console.log(formValues)
+	}
+
 	const validationSchema = Yup.object({
 		email: Yup.string()
-			.email(() => (<div>Неправильно указана Электронная почта.<br /> Пример: geant4@mail.com </div>)  )
-			.required('Email обязателен'),
-		password: Yup.string()
-			.required('Пароль обязателен'),
-	})
+			.email("Неправильно указана Электронная почта. Пример: geant4@mail.com")
+			.required("Email обязателен"),
+		password: Yup.string().required("Пароль обязателен"),
+	});
+
 	return (
 		<Formik
 			initialValues={initialValues}
 			validationSchema={validationSchema}
-			onSubmit={() => { console.log('Success') }}
+			onSubmit={handleSubmit}
 		>
-			<Form className={styles.form}>
+			{({ errors, values }) => {
+				useEffect(() => {setFormValues(values);}, [values]);
 
-				<div className={styles.form_title}> Вход в аккаунт</div>
+				return (
+					<Form className={styles.form}>
+						<div className={styles.form_title}>Вход в аккаунт</div>
 
-				<div className={styles.form_account}>
-					<Field className = {styles.input} name="email" placeholder="Почта"/>
-					<ErrorMessage name="email" component="div" className={styles.form_errorMessage} />
-				</div>
+						<FormField name="email" placeholder="" title="Логин" errors={errors} />
+						<FormField name="password" placeholder="" title="Пароль" errors={errors} type="password" />
 
-				<div className={styles.form_password}>
-					<Field className = {styles.input} name="password" type="password" placeholder="Пароль" />
-					<ErrorMessage name="password" component="div" className={styles.form_errorMessage} />
-				</div>
+						<div className={styles.form_passwordRemember}>
+							<input
+								type="checkbox"
+								checked={formValues.remember}
+								onChange={() => setFormValues((prev) => ({ ...prev, remember: !prev.remember, }))}
+							/>
+							Запомнить пароль
+						</div>
 
-				<div className={styles.form_passwordRemember} >
-					<input
-						type="checkbox"
-						checked={remember}
-						onChange={() => setRemember(!remember)}
-					/>
-					Запомнить пароль
-				</div>
-				
-				<button className = {styles.form_submit} type="submit">Войти</button>
+						<button className={styles.form_submit} type="submit">Войти</button>
 
-				<div className={styles.form_regitration}>
-					Еще нет аккаунта?
-					<Link to ="/auth/registration"> Зарегистрируйтесь</Link>
-				</div>
-			</Form>
+						<div className={styles.form_regitration}>
+							Еще нет аккаунта?
+							<Link to="/auth/registration"> Зарегистрируйтесь</Link>
+						</div>
+					</Form>
+				);
+			}}
 		</Formik>
-	)
-}
+	);
+};
