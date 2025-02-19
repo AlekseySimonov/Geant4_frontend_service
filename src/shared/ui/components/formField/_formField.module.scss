@@ -1,0 +1,25 @@
+@use '../../../styles/globals' as globals;
+
+.form_field{
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	font-size: globals.get-font-size(body-small);
+	.input, .input:focus{
+		border-width: 1px;
+		border-radius: 20px;
+		width: -webkit-fill-available;
+		padding-inline: 10px;
+		padding-block: 6px;
+		border-color: globals.get-color("info");
+	}
+	&__errorMessage{
+		color: globals.get-color("secondary");
+		margin-top: 4px;
+	}
+	.error{
+		border-width: 1px;
+		border-color: globals.get-color("secondary");
+	}
+}
+

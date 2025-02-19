@@ -1,0 +1,40 @@
+@use "sass:map";
+
+$colors: (
+	"primary": #243160,
+	"secondary": #F45725,
+	"accent": #17a2b8,
+	"background": #FFFFFF,
+	"foreground": #131313,
+	"info": #A4A5B1,
+);
+
+$font-sizes: (
+	body-large: 16px,
+	body-small: 13px,
+	h1: 32px,
+	h2: 28px,
+	h3: 24px
+);
+
+@function get-color($key) {
+	@return map.get($colors, $key);
+}
+
+@function get-font-size($key) {
+	@return map.get($font-sizes, $key);
+}
+
+body {
+	height: 100%;
+	font-family: 'Manrope', sans-serif !important; 
+	line-height: 1.5 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+	overflow: hidden;
+	scroll-behavior: smooth !important;
+    text-rendering: optimizeSpeed !important;
+	min-height: 100vh;
+	color: get-color("foreground") !important;
+	font-size: get-font-size(body-large) !important;
+}

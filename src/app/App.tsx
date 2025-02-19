@@ -1,10 +1,7 @@
-import './app.scss'
+import '@/shared/styles/_globals.scss'
+import { RouterProvider } from 'react-router';
+import { appRouter } from './providers/router';
 
 export const App = () => {
-	return (
-		<div className='text'>
-			<div className='text-header'>Configured Geant4 app</div>
-		</div>
-			
-	)
+	return ( (<RouterProvider router={appRouter}/>))
 }
