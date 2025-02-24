@@ -12,14 +12,15 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+          chmod 700 ~/.ssh
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_ed25519
-      - name: Debug SSH Key
-        run: ls -lah ~/.ssh && cat ~/.ssh/id_ed25519
 
-      - name: Debug SSH connection
-        run: ssh -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
+      - name: Add known hosts
+        run: ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Run bash script via ssh
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "bash ${{ secrets.PATH_TO_SCRIPT }}"
+      - name: Check SSH connection
+        run: ssh -T ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
+
+      - name: Run bash script via SSH
+        run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "bash ${{ secrets.PATH_TO_SCRIPT }}"
