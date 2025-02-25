@@ -7,9 +7,13 @@ COPY . .
 RUN chmod +x node_modules/.bin/webpack
 RUN npm run build:prod
 
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./nginx/ssl /etc/nginx/ss
+FROM node:20-alpine
+WORKDIR /app
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./
+
+RUN npm install -g serve
+
+CMD ["serve", "-s", "dist", "-l", "8000"]
