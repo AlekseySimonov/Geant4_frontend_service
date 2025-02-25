@@ -16,4 +16,4 @@ COPY --from=build /app/package.json ./
 
 RUN npm install -g serve
 
-CMD ["serve", "-s", "dist", "-l", "0.0.0.0:8000"]
+CMD ["serve", "-s", "dist", "-l", "tcp://0.0.0.0:8000"]
