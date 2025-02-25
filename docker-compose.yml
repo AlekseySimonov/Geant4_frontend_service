@@ -22,7 +22,6 @@ services:
       - "443:443"
     volumes:
       - ./nginx/ssl:/etc/nginx/ssl
-      - ./core/static:/static
     depends_on:
       - frontend
     networks:
