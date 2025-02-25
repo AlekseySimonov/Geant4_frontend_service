@@ -1,6 +1,5 @@
 services:
   frontend:
-    container_name: frontendapp
     build:
       context: .
       dockerfile: Dockerfile
@@ -8,6 +7,7 @@ services:
       - "8000:8000"
     volumes:
       - ./build:/app/build
+      - ./build:/usr/share/nginx/html
     environment:
       NODE_ENV: production
     networks:
@@ -29,3 +29,4 @@ services:
 
 networks:
   mynetwork:
+    driver: bridge
