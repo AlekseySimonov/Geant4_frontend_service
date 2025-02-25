@@ -4,16 +4,10 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm install --frozen-lockfile
 COPY . .
-RUN chmod +x node_modules/.bin/webpack
 RUN npm run build:prod
 
-FROM node:20-alpine
-WORKDIR /app
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build /app/build ./build
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/package.json ./
-
-RUN npm install -g serve
-
-CMD ["serve", "-s", "dist", "-l", "8000"]
+CMD ["nginx", "-g", "daemon off;"]
