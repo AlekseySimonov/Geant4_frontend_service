@@ -8,3 +8,16 @@ services:
       - 8000:8000
     environment:
       NODE_ENV: production
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: DockerFile
+    ports:
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./core/static:/static
+    depends_on:
+      - web-app
