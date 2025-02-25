@@ -10,6 +10,8 @@ services:
       - ./core:/core
     environment:
       NODE_ENV: production
+    networks:
+      - mynetwork
 
   nginx:
     build:
@@ -23,3 +25,8 @@ services:
       - ./core/static:/static
     depends_on:
       - frontend
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
