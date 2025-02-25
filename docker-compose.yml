@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./core:/core
+      - ./build:/build
     environment:
       NODE_ENV: production
     networks:
