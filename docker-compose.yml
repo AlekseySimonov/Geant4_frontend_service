@@ -20,4 +20,4 @@ services:
       - ./nginx/ssl:/etc/nginx/ssl
       - ./core/static:/static
     depends_on:
-      - web-app
+      - frontend
