@@ -3,4 +3,4 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY ssl /etc/nginx/ssl
 
-EXPOSE 81 443
+EXPOSE 80 443
