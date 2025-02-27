@@ -1,12 +1,9 @@
-declare module '*.scss' {
-    const classes: { [key: string]: string };
-    export default classes;
-}
-
-
-declare module "*.css" {
-	const classNames: { [key: string]: string };
-	export default classNames;
+declare module '*.module.scss' {
+    interface IClassNames {
+        [className: string]: string
+    }
+    const classNames: IClassNames;
+    export default classNames;
 }
 
 
