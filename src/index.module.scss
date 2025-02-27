@@ -1,3 +1,17 @@
+body {
+	height: 100%;
+	font-family: 'Manrope', sans-serif !important; 
+	line-height: 1.5 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+	overflow: hidden;
+	scroll-behavior: smooth !important;
+    text-rendering: optimizeSpeed !important;
+	min-height: 100vh;
+	color: get-color("foreground") !important;
+	font-size: get-font-size(body-large) !important;
+}
+
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
 audio:not([controls]){display:none;height:0}
