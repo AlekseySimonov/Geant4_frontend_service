@@ -6,6 +6,7 @@ export function buildDevServer(options: BuildOptions): DevServerConfiguration {
 		hot: true,
 		port: options.port ?? 5800,
 		open: true,
-		historyApiFallback:true,
+		historyApiFallback: true,
+		server: 'spdy',
 	}
 }

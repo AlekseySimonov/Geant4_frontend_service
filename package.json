@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot --history-api-fallback",
+    "start": "webpack-dev-server --mode development --open",
     "build:dev": "webpack --env mode=development",
     "build:prod": "webpack --env mode=production",
     "test": "jest --config ./config/tests/jest.config.ts"
