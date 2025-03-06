@@ -4,21 +4,28 @@ import * as Yup from 'yup'
 import styles from "./_loginForm.module.scss"
 import { Link } from "react-router";
 import { FormField } from './../../../shared/ui/components/formField/FormField';
+import { useRegistrationMutation } from "@/pages/authPage/model/authSlice";
 
 export const RegistrationForm: React.FC = () => {
+	const [registration, { isLoading, isError, error }] = useRegistrationMutation()
 	const initialValues = {
 		first_name: "",
 		last_name: "",
 		email: "",
 		password: "",
-		password2:"",
-		remember: false,
+		password2: "",
+		username: "",
+		// remember: false,
 	};
 
 	const [formValues, setFormValues] = useState(initialValues);
-
-	const handleSubmit = () => {
-		console.log(formValues)
+	const handleSubmit = async () => {
+		console.log("Submitting:", JSON.stringify(formValues, null, 2));
+		try {  
+            await registration(formValues).unwrap();  
+        } catch (err) {  
+            console.error('Registration failed:', err);  
+        }  
 	}
 
 	const validationSchema = Yup.object({
@@ -37,9 +44,9 @@ export const RegistrationForm: React.FC = () => {
         password2: Yup.string()
             .oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
             .required('Подтверждение пароля обязательно'),
-        checkbox: Yup.boolean()
-            .oneOf([true], 'Вы должны согласиться с условиями использования')
-            .required('Вы должны согласиться с условиями использования'),
+        // checkbox: Yup.boolean()
+        //     .oneOf([true], 'Вы должны согласиться с условиями использования')
+        //     .required('Вы должны согласиться с условиями использования'),
     })
 
 	return (
@@ -58,6 +65,7 @@ export const RegistrationForm: React.FC = () => {
 						<FormField name="first_name" placeholder="" title="Имя" errors={errors} />
 						<FormField name="last_name" placeholder="" title="Фамилия" errors={errors} />
 						<FormField name="email" placeholder="" title="Электронная почта" errors={errors} />
+						<FormField name="username" placeholder="" title="Ник" errors={errors} />
 						<FormField name="password" placeholder="" title="Пароль" errors={errors} type="password" />
 						<FormField name="password2" placeholder="" title="Повторите пароль" errors={errors} type="password" />
 

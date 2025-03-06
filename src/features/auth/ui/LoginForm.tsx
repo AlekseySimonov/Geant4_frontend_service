@@ -4,24 +4,31 @@ import * as Yup from 'yup'
 import styles from "./_loginForm.module.scss"
 import { Link } from "react-router";
 import { FormField } from './../../../shared/ui/components/formField/FormField';
+import { useLoginMutation } from "@/pages/authPage/model/authSlice";
 
 export const LoginForm: React.FC = () => {
+	const [login, { isLoading, isError, error }] = useLoginMutation()
+
 	const initialValues = {
-		email: "",
+		username: "",
 		password: "",
-		remember: false,
+		// remember: false,
 	};
 
 	const [formValues, setFormValues] = useState(initialValues);
 
-	const handleSubmit = () => {
-		console.log(formValues)
+	const handleSubmit = async () => {
+		try {  
+            await login(formValues).unwrap();  
+        } catch (err) {  
+            console.error('Login failed:', err);  
+        }  
 	}
 
 	const validationSchema = Yup.object({
-		email: Yup.string()
-			.email("Неправильно указана Электронная почта. Пример: geant4@mail.com")
-			.required("Email обязателен"),
+		// email: Yup.string()
+		// 	.email("Неправильно указана Электронная почта. Пример: geant4@mail.com")
+		// 	.required("Email обязателен"),
 		password: Yup.string().required("Пароль обязателен"),
 	});
 
@@ -38,14 +45,14 @@ export const LoginForm: React.FC = () => {
 					<Form className={styles.form}>
 						<div className={styles.form_title}>Вход в аккаунт</div>
 
-						<FormField name="email" placeholder="" title="Логин" errors={errors} />
+						<FormField name="username" placeholder="" title="Ник" errors={errors} />
 						<FormField name="password" placeholder="" title="Пароль" errors={errors} type="password" />
 
 						<div className={styles.form_passwordRemember}>
 							<input
 								type="checkbox"
-								checked={formValues.remember}
-								onChange={() => setFormValues((prev) => ({ ...prev, remember: !prev.remember, }))}
+								// checked={formValues.remember}
+								// onChange={() => setFormValues((prev) => ({ ...prev, remember: !prev.remember, }))}
 							/>
 							Запомнить пароль
 						</div>

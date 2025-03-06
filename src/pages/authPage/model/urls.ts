@@ -1,8 +1,8 @@
-const LOGIN = 'account/api/v1/login/'
-const REGISTRATION = 'account/api/v1/registration/'
-const LOGOUT = 'account/api/v1/logout/'
-const REFRESH = 'account/api/v1/token/refresh/'
-const EMAIL_VERIFY = '/account/api/v1/email-verify/'
+const LOGIN = 'login/'
+const REGISTRATION = 'registration/'
+const LOGOUT = 'logout/'
+const REFRESH = 'token/refresh/'
+const EMAIL_VERIFY = 'email-verify/'
 
 export const URLS = {
 	LOGIN,

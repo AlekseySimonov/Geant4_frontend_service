@@ -1,3 +1,5 @@
+nginx/ssl/*
+
 # Logs
 logs
 *.log

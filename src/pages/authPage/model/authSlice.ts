@@ -2,11 +2,12 @@ import { URLS } from "./urls";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface AuthRequest {
-	first_name: string;
-	second_name: string;
-	email: string;
-	password: string;
-	password2: string;
+	first_name?: string;
+	last_name?: string;
+	email?: string;
+	username?: string;
+	password?: string;
+	password2?: string;
 }
 
 export interface AuthResponse {
@@ -15,21 +16,21 @@ export interface AuthResponse {
 
 export const authApi = createApi({
 	reducerPath: 'authApi',
-	baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+	baseQuery: fetchBaseQuery({ baseUrl: 'https://92.63.76.159:444/api/v1' }),
 	tagTypes: ['Auth'],
 	endpoints: (builder) => ({
 		login: builder.mutation<AuthResponse, AuthRequest>({
 			query: (body) => ({
 				url: URLS.LOGIN,
 				method: 'POST',
-				data: body,
+				body,
 			}),
 		}),
 		registration: builder.mutation<AuthResponse, AuthRequest>({
 			query: (body) => ({
 				url: URLS.REGISTRATION,
 				method: 'POST',
-				data: body,
+				body,
 			}),
 		}),
 		logout: builder.mutation<void, void>({
