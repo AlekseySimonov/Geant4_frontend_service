@@ -17,7 +17,10 @@ export interface AuthResponse {
 export const authApi = createApi({
 	reducerPath: 'authApi',
     baseQuery: fetchBaseQuery({  
-        baseUrl: 'https://92.63.76.159:444/api/v1',  
+		baseUrl: 'https://92.63.76.159:444/api/v1', 
+		prepareHeaders(headers) {
+			return headers;
+		},
         credentials: 'include',
     }),  
 	tagTypes: ['Auth'],
