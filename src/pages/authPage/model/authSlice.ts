@@ -16,7 +16,10 @@ export interface AuthResponse {
 
 export const authApi = createApi({
 	reducerPath: 'authApi',
-	baseQuery: fetchBaseQuery({ baseUrl: 'https://92.63.76.159:444/api/v1' }),
+    baseQuery: fetchBaseQuery({  
+        baseUrl: 'https://92.63.76.159:444/api/v1',  
+        credentials: 'include',
+    }),  
 	tagTypes: ['Auth'],
 	endpoints: (builder) => ({
 		login: builder.mutation<AuthResponse, AuthRequest>({
