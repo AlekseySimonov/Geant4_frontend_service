@@ -6,8 +6,6 @@ RUN npm install --frozen-lockfile
 COPY . .
 RUN chmod +x node_modules/.bin/webpack
 RUN rm -rf build && npm run build:prod
-RUN ls -lah build
-
 
 FROM nginx:stable-alpine
 COPY --from=build /app/build /usr/share/nginx/html
