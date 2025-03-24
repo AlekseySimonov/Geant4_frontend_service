@@ -7,7 +7,7 @@ COPY . .
 RUN chmod +x node_modules/.bin/webpack
 RUN npm run build:prod
 
-FROM nginx:stable-alpine
+FROM nginx
 COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 8000
