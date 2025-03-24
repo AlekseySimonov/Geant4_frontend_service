@@ -1,8 +1,4 @@
-import path from 'path';
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
 import { buildLoaders } from './buildLoaders';
 import { buildDevServer } from './buildDevServer';
