@@ -19,7 +19,6 @@ services:
       - "443:443"
     volumes:
       - ./nginx/ssl:/etc/nginx/ssl
-      - ./build:/usr/share/nginx/html
     depends_on:
       - frontend
     networks:
