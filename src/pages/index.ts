@@ -1,2 +1,2 @@
 export { NotFoundPage } from "./notFoundPage";
-export { AuthPage } from "./authPage";
+export { default } from "./authPage";

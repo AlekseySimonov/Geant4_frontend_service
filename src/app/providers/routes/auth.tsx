@@ -1,7 +1,10 @@
 import { ForgotPasswordForm, LoginForm, RegistrationForm } from '@/features';
-import { AuthPage, NotFoundPage } from '@/pages';
+import { NotFoundPage } from '@/pages';
 import { Navigate } from 'react-router';
 import { IsAuth } from './СheckAuth';
+import { lazy } from 'react';
+
+const AuthPage = lazy(() => import("@/pages/authPage").then(module => ({ default: module.default })))
 
 export const authRoutes = {
 	path: "/auth",

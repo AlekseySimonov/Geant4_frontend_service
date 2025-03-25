@@ -1,12 +1,13 @@
-import { NotFoundPage } from "@/pages";
 import { RequireAuth } from "./СheckAuth";
+import { lazy } from "react";
+
+const MainPage = lazy(() => import("@/pages").then(module => ({ default: module.default })))
 
 export const baseRoutes = {
 	path: "/",
 	element:
 		<RequireAuth>
-			<NotFoundPage />
+			<MainPage />
 		</RequireAuth>,
-	errorElement: <NotFoundPage />,
 	// children: [],
 };

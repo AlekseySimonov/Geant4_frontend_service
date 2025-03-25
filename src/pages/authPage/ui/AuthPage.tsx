@@ -2,7 +2,7 @@ import { Outlet } from 'react-router'
 import styles from './_authpage.module.scss'
 import backgroundImg from '@/shared/ui/assets/authBackground.jpg'
 
-export const AuthPage: React.FC = () => {
+const AuthPage: React.FC = () => {
 	return (
 		<div className= {styles.container}>
 			<img className={styles.container__background} src={backgroundImg} alt="" />
@@ -16,3 +16,5 @@ export const AuthPage: React.FC = () => {
 		</div>
 	)
 }
+
+export default AuthPage
