@@ -6,7 +6,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - static_volume:/app/build
+      - ./build:/app/build
     environment:
       NODE_ENV: production
     networks:
@@ -21,14 +21,11 @@ services:
       - "443:443"
     volumes:
       - ./nginx/ssl:/etc/nginx/ssl
-      - static_volume:/usr/share/nginx/html
+      - ./build:/usr/share/nginx/html
     depends_on:
       - frontend
     networks:
       - mynetwork
-
-volumes:
-  static_volume:
 
 networks:
   mynetwork:
