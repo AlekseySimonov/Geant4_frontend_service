@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     volumes:
       - static_volume:/app/build
     environment:
@@ -11,7 +13,9 @@ services:
       - mynetwork
 
   nginx:
-    image: nginx:stable-alpine
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
     ports:
       - "80:80"
       - "443:443"
@@ -29,4 +33,3 @@ volumes:
 networks:
   mynetwork:
     driver: bridge
-
