@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - /app/build:static_volume
+      - static_volume:/app/build
     environment:
       NODE_ENV: production
     networks:
