@@ -5,8 +5,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ./build:/app/build
     environment:
       NODE_ENV: production
     networks:
@@ -21,7 +19,6 @@ services:
       - "443:443"
     volumes:
       - ./nginx/ssl:/etc/nginx/ssl
-      - ./build:/usr/share/nginx/html
     depends_on:
       - frontend
     networks:
