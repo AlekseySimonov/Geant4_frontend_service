@@ -2,7 +2,7 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: docker/Dockerfile   # Ваш Dockerfile с многоэтапной сборкой
+      dockerfile: docker/Dockerfile
     ports:
       - "80:80"
       - "443:443"
