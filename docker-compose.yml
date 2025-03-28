@@ -1,7 +1,7 @@
 services:
   frontend:
     build:
-      context: ./docker
+      context: .
       dockerfile: Dockerfile.frontend
     ports:
       - "8000:8000"
