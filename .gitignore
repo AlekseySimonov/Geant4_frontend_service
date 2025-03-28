@@ -1,4 +1,4 @@
-nginx/ssl/*
+docker/ssl/*
 build/*
 
 # Logs
