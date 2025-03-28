@@ -14,6 +14,8 @@ RUN npm run build:prod
 # Этап раздачи статических файлов через Nginx
 FROM nginx:stable-alpine
 
+RUN rm -rf /usr/share/nginx/html/*
+
 # Копируем кастомный конфиг nginx (если требуется)
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/ssl /etc/nginx/ssl
