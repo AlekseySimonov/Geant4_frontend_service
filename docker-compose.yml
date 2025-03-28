@@ -1,8 +1,8 @@
 services:
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./docker
+      dockerfile: Dockerfile.frontend
     ports:
       - "8000:8000"
     volumes:
@@ -14,8 +14,8 @@ services:
 
   nginx:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
+      context: ./docker
+      dockerfile: Dockerfile.nginx
     ports:
       - "80:80"
       - "443:443"
