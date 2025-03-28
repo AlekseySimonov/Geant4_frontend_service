@@ -1,32 +1,8 @@
 services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./build:/app/build
-    environment:
-      NODE_ENV: production
-    networks:
-      - mynetwork
-
   nginx:
     build:
-      context: ./nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/Dockerfile
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - ./nginx/ssl:/etc/nginx/ssl
-      - ./build:/usr/share/nginx/html
-    depends_on:
-      - frontend
-    networks:
-      - mynetwork
-
-networks:
-  mynetwork:
-    driver: bridge
