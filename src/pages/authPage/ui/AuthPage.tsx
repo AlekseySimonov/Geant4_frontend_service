@@ -10,9 +10,9 @@ const AuthPage: React.FC = () => {
 				<div className={styles.container__content_header}>
 					<span>Geant4</span>
 					Добро пожаловать
-				</div>
+				</div> 
 				<Outlet/>
-			</div>
+            </div>
 		</div>
 	)
 }
