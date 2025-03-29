@@ -13,7 +13,7 @@ services:
     container_name: filebeat
     user: root
     volumes:
-      - .config/filebeat/config.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./config/filebeat/config.yml:/usr/share/filebeat/filebeat.yml:ro
       - ./var/log/nginx/:/logs
     environment:
       - ELASTICSEARCH_HOST=${ELK_IP}:9200

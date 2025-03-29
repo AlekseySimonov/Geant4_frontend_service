@@ -4,7 +4,7 @@ filebeat.inputs:
     paths:
       - /logs/*.log
     fields:
-      service: fastapi_geant_backend
+      service: frontend_geant
 
 processors:
   - drop_fields:
