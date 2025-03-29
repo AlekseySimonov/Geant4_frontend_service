@@ -1,0 +1,14 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /logs/*.log
+    fields:
+      service: fastapi_geant_backend
+
+processors:
+  - drop_fields:
+      fields: ["agent", "input", "ecs", "log.offset"]
+
+output.logstash:
+  hosts: ["${ELK_IP}:5044"]

@@ -6,3 +6,18 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+  filebeat:
+    image: elastic/filebeat:7.16.2
+    container_name: filebeat
+    user: root
+    volumes:
+      - .config/filebeat/config.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./var/log/nginx/:/logs
+    environment:
+      - ELASTICSEARCH_HOST=${ELK_IP}:9200
+      - LOGSTASH_HOST=${ELK_IP}:5044
+      - ELK_IP=${ELK_IP}
+    command: [ "filebeat", "-e", "-strict.perms=false" ]
+    restart: always
