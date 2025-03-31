@@ -1,3 +1,4 @@
+import {setLoading } from "@/shared/model";
 import { URLS } from "./urls";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -21,7 +22,7 @@ export const authApi = createApi({
 		headers: {
 			"Content-Type": "application/json",
 		},
-		credentials:"include"
+		credentials: "include"
 	}),
 	tagTypes: ['Auth'],
 	endpoints: (builder) => ({
@@ -31,6 +32,16 @@ export const authApi = createApi({
 				method: 'POST',
 				body,
 			}),
+			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+				dispatch(setLoading(true));
+				try {
+					await queryFulfilled;
+				} catch(error) {
+					console.log(error)
+				} finally {
+					dispatch(setLoading(false));
+				}
+			},
 		}),
 		registration: builder.mutation<AuthResponse, AuthRequest>({
 			query: (body) => ({
@@ -38,6 +49,17 @@ export const authApi = createApi({
 				method: 'POST',
 				body,
 			}),
+			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+
+				dispatch(setLoading(true));
+				try {
+					await queryFulfilled
+				} catch(error) {
+						console.log(error)
+				} finally {
+					dispatch(setLoading(false));
+				}
+			},
 		}),
 		logout: builder.mutation<void, void>({
 			query: () => ({

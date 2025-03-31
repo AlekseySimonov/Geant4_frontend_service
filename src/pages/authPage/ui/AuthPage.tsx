@@ -1,8 +1,14 @@
 import { Outlet } from 'react-router'
 import styles from './_authpage.module.scss'
 import backgroundImg from '@/shared/ui/assets/authBackground.jpg'
+import { Loader } from '@/shared'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/app/store'
 
 const AuthPage: React.FC = () => {
+
+	const { isLoading} = useSelector((state: RootState) => state.mutationStatus)
+
 	return (
 		<div className={styles.container}>
 			<img className={styles.container__background} src={backgroundImg} alt="" />
@@ -12,6 +18,7 @@ const AuthPage: React.FC = () => {
 					Добро пожаловать
 				</div>
 				<Outlet />
+				{isLoading && <Loader /> }
 			</div>
 		</div>
 	)

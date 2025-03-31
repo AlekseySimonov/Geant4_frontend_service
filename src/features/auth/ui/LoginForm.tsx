@@ -1,33 +1,30 @@
-import { Form, Formik, Field, ErrorMessage, useFormikContext } from "formik"
-import { useEffect, useState } from "react";
+import { Form, Formik, FormikHelpers } from "formik"
 import * as Yup from 'yup'
-import styles from "./_loginForm.module.scss"
+import styles from "./_authForm.module.scss"
 import { Link } from "react-router";
 import { FormField } from './../../../shared/ui/components/formField/FormField';
 import { useLoginMutation } from "@/pages/authPage/model/authSlice";
+import { FormValues } from "./types";
 
 export const LoginForm: React.FC = () => {
 	const [login] = useLoginMutation()
 
-	const initialValues = {
+	const initialValues: FormValues = {
 		username: "",
 		password: "",
 		// remember: false,
 	}
 
-	const [formValues, setFormValues] = useState(initialValues)
-	const [formError, setFormError] = useState<string | null>(null)
-
-	const handleSubmit = async () => {
-		try {  
-            await login(formValues).unwrap();  
-        } catch (err) {  
-			if (err.status === 400) {  
-				setFormError(err.data.message || "Неправильный ник или пароль");	  
-			} else {  
-				setFormError("Произошла ошибка. Попробуйте снова");
-			}  
-        }
+	const handleSubmit = async (values: typeof initialValues, { setErrors, setStatus }: FormikHelpers<FormValues>) => {
+		try {
+			await login(values).unwrap();
+		} catch (err) {
+			if (err.status === 400) {
+				setStatus("Неправильный ник или пароль")
+			} else {
+				setStatus("Произошла ошибка. Попробуйте снова");
+			}
+		}
 	}
 
 	const validationSchema = Yup.object({
@@ -43,8 +40,7 @@ export const LoginForm: React.FC = () => {
 			validationSchema={validationSchema}
 			onSubmit={handleSubmit}
 		>
-			{({ errors, values }) => {
-				useEffect(() => {setFormValues(values)}, [values]);
+			{({ errors, status }) => {
 
 				return (
 					<Form className={styles.form}>
@@ -53,13 +49,13 @@ export const LoginForm: React.FC = () => {
 						<FormField name="username" placeholder="" title="Ник" errors={errors} />
 						<FormField name="password" placeholder="" title="Пароль" errors={errors} type="password" />
 
-						{formError && <div className={styles.form_errorMessage}>{formError}</div>} 
+						{status && <div className={styles.form_errorMessage}>{status}</div>}
 
 						<div className={styles.form_passwordRemember}>
 							<input
 								type="checkbox"
-								// checked={formValues.remember}
-								// onChange={() => setFormValues((prev) => ({ ...prev, remember: !prev.remember, }))}
+							// checked={formValues.remember}
+							// onChange={() => setFormValues((prev) => ({ ...prev, remember: !prev.remember, }))}
 							/>
 							Запомнить пароль
 						</div>
