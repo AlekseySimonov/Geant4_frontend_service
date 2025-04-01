@@ -19,6 +19,7 @@ export const FormField: React.FC<FormFieldProps> =
 					name={name}
 					type={type}
 					placeholder={placeholder}
+					data-testid={name}
 				/>
 				<ErrorMessage
 					name={name}

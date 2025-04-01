@@ -20,12 +20,20 @@ export const RegistrationForm: React.FC = () => {
 	const handleSubmit = async (values: typeof initialValues, { setErrors, setStatus }: FormikHelpers<FormValues>) => {
 		try {
 			await registration(values).unwrap();
-		} catch (err) {
-			if (err.status === 400) {
-				setErrors({
-					email: "Эта почта уже используется",
-					username: "Этот ник уже занят",
-				})
+		} catch (error) {
+			console.log('error', error)
+			if (error.status === 400) {
+				const errors: Record<string, string> = {};
+				if (error.data.username) {
+					errors.username = "Этот ник уже занят";
+				}
+				if (error.data.email) {
+					errors.email = "Эта почта уже используется";
+				}
+				setErrors(errors);
+				if (!error.data.email || !error.data.username) {
+					setStatus("Произошла ошибка. Попробуйте снова.")
+				}
 			} else {
 				setStatus("Произошла ошибка. Попробуйте снова.")
 			}
@@ -44,7 +52,9 @@ export const RegistrationForm: React.FC = () => {
 			.required('Email обязателен'),
 		password: Yup.string()
 			.required('Пароль обязателен')
-			.min(6, 'Пароль должен содержать минимум 6 символов'),
+			.min(6, 'Пароль должен содержать минимум 6 символов')
+			.matches(/[A-Z]/, 'Пароль должен содержать хотя бы одну заглавную букву')
+			.matches(/\d/, 'Пароль должен содержать хотя бы одну цифру'),
 		password2: Yup.string()
 			.oneOf([Yup.ref('password'), null], 'Пароли должны совпадать')
 			.required('Подтверждение пароля обязательно'),
@@ -71,7 +81,7 @@ export const RegistrationForm: React.FC = () => {
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 
-						<button className={styles.form_submit} type="submit">Зарегистрироваться</button>
+						<button className={styles.form_submit} type="submit" data-testid='submit'>Зарегистрироваться</button>
 
 						<div className={styles.form_regitration}>
 							Уже зарегистрированы?
