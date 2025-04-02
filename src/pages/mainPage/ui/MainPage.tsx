@@ -1,6 +1,6 @@
 const MainPage = () => {
 	return (
-		<div>MainPage</div>
+		<div data-testid = "mainPage">MainPage</div>
 	)
 }
 

@@ -1,7 +1,11 @@
 import '@/shared/styles/_globals.scss'
 import { RouterProvider } from 'react-router';
-import { appRouter } from './providers';
+import { appRouter, AuthProvider } from './providers';
 
 export const App = () => {
-	return ( (<RouterProvider router={appRouter}/>))
+	return ((
+		<AuthProvider>
+			<RouterProvider router={appRouter} />
+		</AuthProvider>
+	))
 }

@@ -1,5 +1,5 @@
 import { RegistrationForm } from "@/features";
-import { useRegistrationMutation } from "@/pages/authPage/model/authSlice";
+import { useRegistrationMutation } from "@/pages/authPage/api/authApi";
 import { screen, render, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router";

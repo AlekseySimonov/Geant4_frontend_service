@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import styles from "./_authForm.module.scss"
 import { Link } from "react-router";
 import { FormField } from './../../../shared/ui/components/formField/FormField';
-import { useLoginMutation } from "@/pages/authPage/model/authSlice";
+import { useLoginMutation } from "@/pages/authPage/api/authApi";
 import { FormValues } from "./types";
 
 export const LoginForm: React.FC = () => {

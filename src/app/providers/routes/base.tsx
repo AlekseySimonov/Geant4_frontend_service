@@ -1,7 +1,7 @@
 import { RequireAuth } from "./СheckAuth";
 import { lazy } from "react";
 
-const MainPage = lazy(() => import("@/pages").then(module => ({ default: module.default })))
+const MainPage = lazy(() => import("@/pages").then(module => ({ default: module.MainPage })))
 
 export const baseRoutes = {
 	path: "/",

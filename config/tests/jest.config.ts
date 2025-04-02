@@ -8,14 +8,14 @@ const config: Config = {
 		'^@/(.*)$': '<rootDir>/src/$1',
 		"\\.(css|scss)$": "identity-obj-proxy",
 	},
+	transform: {
+		".+\\.(css|scss|png|jpg|svg)$": "jest-transform-stub"
+	},
 	testMatch: [
 		'**/src/**/*.(test|spec).{ts,tsx}',
 		'**/tests/**/*.(test|spec).{ts,tsx}',
 	],
-	globals: {
-		TextEncoder: require('util').TextEncoder,
-		TextDecoder: require('util').TextDecoder,
-	},
+	setupFilesAfterEnv: ["<rootDir>/config/tests/jest.setup.ts"],
 };
 
 export default config;
