@@ -72,6 +72,14 @@ export const authApi = createApi({
 				url: URLS.LOGOUT,
 				method: 'GET',
 			}),
+			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+				try {
+					await queryFulfilled;
+					dispatch(setAuthStatus(false))
+				} catch (error) {
+					console.log(error)
+				}
+			},
 		}),
 		emailVerify: builder.query<void, void>({
 			query: () => ({
@@ -103,4 +111,5 @@ export const {
 	useEmailVerifyQuery,
 	useCheckAuthQuery,
 	useLazyCheckAuthQuery,
+	useLazyLogoutQuery,
 } = authApi
