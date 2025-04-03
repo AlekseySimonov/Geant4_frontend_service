@@ -2,16 +2,11 @@
 
 body {
 	height: 100%;
-	font-family: 'Manrope', sans-serif; 
-	line-height: 1.5;
-    font-weight: 500;
     margin: 0;
 	overflow: hidden;
 	scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
 	min-height: 100vh;
-	color: get-color("foreground");
-	font-size: get-font-size(body-large);
 }
 
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
