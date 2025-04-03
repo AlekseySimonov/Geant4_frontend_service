@@ -1,0 +1,21 @@
+.menu{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	background: var(--background-color1);
+	height: 80px;
+	&__logo{
+		font-family: 'Manrope', sans-serif;
+		font-size: 28px;
+		font-weight: 700;
+	}
+	&__navigation{
+		display: flex;
+		flex-direction: row;
+		gap: 36px;
+		align-items: center;
+		font-size: 1rem;
+	}
+}

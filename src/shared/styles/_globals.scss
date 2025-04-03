@@ -17,6 +17,10 @@ $colors: (
 	--modal-floor-color: #FCFDFF;
 }
 
+:root{
+
+}
+
 $font-sizes: (
 	body-large: 16px,
 	body-small: 13px,
@@ -28,7 +32,10 @@ $font-sizes: (
 body{
 	background: var(--background-color1);
 	color: var(--primary-color);
-	font-family: 'Inter', sans-serif; 
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	line-height: 16px;
+	font-weight: 500;
 }
 
 h1{
@@ -48,12 +55,6 @@ h2{
 h3{
 	font-size: 24px;
 	line-height: 32px;
-	font-weight: 500;
-}
-
-p{
-	font-size: 16px;
-	line-height: 16px;
 	font-weight: 500;
 }
 
