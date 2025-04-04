@@ -50,6 +50,9 @@
     "webpack-dev-server": "^5.2.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.0.1",
     "@reduxjs/toolkit": "^2.5.1",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",

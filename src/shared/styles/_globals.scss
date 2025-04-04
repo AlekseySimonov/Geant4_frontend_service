@@ -1,5 +1,6 @@
 @use "sass:map";
 
+
 $colors: (
 	"primary": #243160,
 	"secondary": #F45725,
@@ -9,18 +10,6 @@ $colors: (
 	"info": #A4A5B1,
 );
 
-:root{
-	--primary-color: #1D2B64;
-	--background-color1: #F1F6FF;
-	--background-color2: #FCFDFF;
-	--modal-floor-color: rgba(29, 43, 100, 0.5);
-	--modal-floor-color: #FCFDFF;
-}
-
-:root{
-
-}
-
 $font-sizes: (
 	body-large: 16px,
 	body-small: 13px,
@@ -28,44 +17,6 @@ $font-sizes: (
 	h2: 28px,
 	h3: 24px
 );
-
-body{
-	background: var(--background-color1);
-	color: var(--primary-color);
-	font-family: 'Inter', sans-serif;
-	font-size: 16px;
-	line-height: 16px;
-	font-weight: 500;
-}
-
-h1{
-	font-family: 'Manrope', sans-serif; 
-	font-size: 64px;
-	line-height: 64px;
-	font-weight: 600;
-}
-
-h2{
-	font-family: 'Manrope', sans-serif; 
-	font-size: 32px;
-	line-height: 32px;
-	font-weight: 600;
-}
-
-h3{
-	font-size: 24px;
-	line-height: 32px;
-	font-weight: 500;
-}
-
-a{
-	font-size: 16px;
-	line-height: 16px;
-	font-weight: 600;
-}
-
-
-
 
 @function get-color($key) {
 	@return map.get($colors, $key);

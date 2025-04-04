@@ -1,20 +1,11 @@
 @import url('./shared/styles/fonts.scss');
 
-body {
-	height: 100%;
-    margin: 0;
-	overflow: hidden;
-	scroll-behavior: smooth;
-    text-rendering: optimizeSpeed;
-	min-height: 100vh;
-}
-
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,progress,video{display:inline-block;vertical-align:baseline}
 audio:not([controls]){display:none;height:0}
 [hidden],template{display:none}
 a{background:transparent; text-decoration: none;}
-a:active,a:hover{outline:0; text-decoration: none;}
+a:active,a:hover,a:visited{outline:0; text-decoration: none;}
 abbr[title]{border-bottom:1px dotted}
 b,strong{font-weight:bold}
 dfn{font-style:italic}
