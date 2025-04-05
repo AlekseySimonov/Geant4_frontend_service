@@ -3,11 +3,13 @@ const REGISTRATION = 'registration/'
 const LOGOUT = 'logout/'
 const REFRESH = 'token/refresh/'
 const EMAIL_VERIFY = 'email-verify/'
+const CHECK_AUTH = 'is_authorized/'
 
 export const URLS = {
 	LOGIN,
 	REGISTRATION,
 	REFRESH,
 	LOGOUT,
-	EMAIL_VERIFY
+	EMAIL_VERIFY,
+	CHECK_AUTH
 }

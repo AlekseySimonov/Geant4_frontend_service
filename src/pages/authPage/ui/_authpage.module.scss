@@ -21,7 +21,6 @@
 		flex-direction: column;
 		position: absolute;
 		align-items: center;
-		padding-top: 50px;
 		padding-bottom: 70px;
 		padding-inline: 80px;
 		height: max-content;
@@ -36,6 +35,7 @@
 			justify-content: center;
 			align-items: center;
 			font-weight: 800;
+			margin-top: 50px;
 			span{
 				color:  globals.get-color("primary") ;
 				font-size: 44px ;

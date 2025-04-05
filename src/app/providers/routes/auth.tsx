@@ -4,7 +4,7 @@ import { Navigate } from 'react-router';
 import { IsAuth } from './СheckAuth';
 import { lazy } from 'react';
 
-const AuthPage = lazy(() => import("@/pages/authPage").then(module => ({ default: module.default })))
+const AuthPage = lazy(() => import("@/pages").then(module => ({ default: module.AuthPage })))
 
 export const authRoutes = {
 	path: "/auth",
