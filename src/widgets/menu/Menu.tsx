@@ -1,16 +1,16 @@
-import { Link, Navigate } from "react-router"
+import { Link } from "react-router"
 import styles from "./_menu.module.scss"
-import { Button, Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme } from "@mui/material"
+import { Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme } from "@mui/material"
 import { useState } from "react";
 import arrow from "@/shared/ui/assets/icons/arrow.svg"
 import burger from "@/shared/ui/assets/icons/burger.svg"
 
 
-export const Menu = () => {
+export const Menu: React.FC = () => {
 
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("md"))
-	const [toggleDrawer, setToggleDrawer] = useState(true)
+	const [toggleDrawer, setToggleDrawer] = useState(false)
 
 	const menuItems = [
 		{ label: "Документация", to: "/" },
@@ -22,7 +22,7 @@ export const Menu = () => {
 
 	return (
 		<div className={styles.menu}>
-			<div className={styles.menu__background} style={{ boxShadow: theme.shadows[1] }}></div>
+			<div className={styles.menu__background}></div>
 			<div className={styles.menu__logo}>
 				Geant4ru
 			</div>
