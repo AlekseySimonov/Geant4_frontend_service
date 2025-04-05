@@ -1,0 +1,19 @@
+.card{
+	width: 420px;
+	height: 240px;
+	padding-inline: 40px;
+	padding-block: 24px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background: var(--mui-palette-background-paper);
+	border-radius: 8px;
+	box-shadow: var(--mui-shadows-2);
+}
+
+@media (max-width: 900px){
+	.card{
+		width: 100%;
+	}
+	
+}
