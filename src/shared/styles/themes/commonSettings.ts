@@ -29,6 +29,15 @@ const commonSettings = createTheme({
 				'#root': { height: '100vh' },
 			},
 		},
+		MuiTypography: {
+			styleOverrides: {
+				root: {
+					fontFamily: '"Inter", sans-serif',
+					fontSize: '1rem',
+					color: '#1D2B64',
+				},
+			},
+		},
 	},
 });
 

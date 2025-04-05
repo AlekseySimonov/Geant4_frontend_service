@@ -2,20 +2,60 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	// width: 100%;
 	align-items: center;
 	background: var(--background-color1);
 	height: 80px;
+	&__background{
+		position: absolute;
+		width: 100vw;
+		height: 80px;
+		left: 0;
+		z-index: 0;
+	}
 	&__logo{
 		font-family: 'Manrope', sans-serif;
 		font-size: 1.8rem;
 		font-weight: 700;
+		cursor: pointer;
+		z-index: 1;
 	}
 	&__navigation{
+		z-index: 1;
 		display: flex;
 		flex-direction: row;
 		gap: 2rem;
 		align-items: center;
 		font-size: 1rem;
-	}
+		&__img{
+			width: 25px;
+		}
+		a, a:visited, a:hover, a:active {
+			color: inherit;
+		}
+		&__drawer{
+			padding-block: 20px;
+			padding-bottom: 24px;
+			width: 227px ;
+			height: 354px!important;
+			text-align: end;
+			border-radius: 8px;
+			margin-top: 40px;
+			margin-right: 40px;
+			font-size: 20px;
+			font-weight: 700;
+			overflow-y: hidden !important;
+			img{
+				margin-right: 24px;
+			}
+			.listItem{
+				padding-block: 10px;
+				text-align: end;
+				&__text{
+					font-size: 1.2rem;
+					font-weight: 600;
+				}
+			}
+		}
+		}
+		
 }
