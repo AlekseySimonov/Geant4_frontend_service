@@ -4,6 +4,9 @@ import mainBack from "@/shared/ui/assets/mainBack.jpg"
 import { useMediaQuery, useTheme } from "@mui/material"
 import { PrimaryButton } from '@/shared/ui/components/buttons/PrimaryButton';
 import { Card } from "@/shared/ui/components/card";
+import { SecondaryButton } from "@/shared/ui/components/buttons";
+import logoWithText from "@/shared/ui/assets/logoWithText.jpg"
+import logo from "@/shared/ui/assets/logo.jpg"
 
 const MainPage: React.FC = () => {
 	const [triggerLogout] = useLazyLogoutQuery()
@@ -26,17 +29,23 @@ const MainPage: React.FC = () => {
 					{isMobile ? (<h3 >Читать подробнее о всех возможностях</h3>) :
 						(
 							<h3>
-							Набор инструментов для моделирования прохождения частиц через вещество.
-							Области применения включают физику высоких энергий, ядерную и ускорительную
-							физику, а также исследования в медицинских и космических приложениях.
+								Набор инструментов для моделирования прохождения частиц через вещество.
+								Области применения включают физику высоких энергий, ядерную и ускорительную
+								физику, а также исследования в медицинских и космических приложениях.
 							</h3>
 						)
 					}
-					<PrimaryButton label="Начать" link = "/" /> 
+					<PrimaryButton label="Начать" link="/" />
 				</div>
 				<img src={mainBack} alt="#" />
 			</div>
 			<div className={styles.main__cards}>
+				<div className={styles.main__cards__company}>
+					<img src={logoWithText} alt="#" />
+					<h2>Лаборатория ТГУ</h2>
+					<p>Узнайте больше о лаборатории, занимающейся разработкой этого сайта</p>
+					<SecondaryButton label='Читать больше' link='/' />
+				</div>
 				<Card
 					title="Загрузка"
 					text="Исходный код Geant4 и установочные файлы доступны для загрузки."
@@ -61,6 +70,7 @@ const MainPage: React.FC = () => {
 					link="/"
 					btnLabel="Начать моделирование"
 				/>
+
 			</div>
 			<div className={styles.main__footer}></div>
 			{/* <button onClick={handleLogout}>logout</button> */}
