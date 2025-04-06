@@ -1,62 +1,22 @@
-import { URLS } from "./urls";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface AuthRequest {
-	first_name?: string;
-	last_name?: string;
-	email?: string;
-	username?: string;
-	password?: string;
-	password2?: string;
+interface AuthState {
+	isAuthenticated: boolean;
 }
 
-export interface AuthResponse {
-	token: string;
-}
+const initialState: AuthState = {
+	isAuthenticated: false,
+};
 
-export const authApi = createApi({
-	reducerPath: 'authApi',
-	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://92.63.76.159:444/api/v1',
-		headers: {
-			"Content-Type": "application/json",
+const authSlice = createSlice({
+	name: "auth",
+	initialState,
+	reducers: {
+		setAuthStatus: (state, action: PayloadAction<boolean>) => {
+			state.isAuthenticated = action.payload;
 		},
-		credentials:"include"
-	}),
-	tagTypes: ['Auth'],
-	endpoints: (builder) => ({
-		login: builder.mutation<AuthResponse, AuthRequest>({
-			query: (body) => ({
-				url: URLS.LOGIN,
-				method: 'POST',
-				body,
-			}),
-		}),
-		registration: builder.mutation<AuthResponse, AuthRequest>({
-			query: (body) => ({
-				url: URLS.REGISTRATION,
-				method: 'POST',
-				body,
-			}),
-		}),
-		logout: builder.mutation<void, void>({
-			query: () => ({
-				url: URLS.LOGOUT,
-				method: 'POST',
-			}),
-		}),
-		emailVerify: builder.query<void, void>({
-			query: () => ({
-				url: URLS.EMAIL_VERIFY,
-				method: 'GET',
-			}),
-		}),
-	})
-})
+	},
+});
 
-export const {
-	useLoginMutation,
-	useRegistrationMutation,
-	useLogoutMutation,
-	useEmailVerifyQuery,
-} = authApi
+export const { setAuthStatus } = authSlice.actions;
+export default authSlice.reducer;

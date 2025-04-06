@@ -1,7 +1,6 @@
 @use '../../../shared/styles/globals' as globals;
 
 .form{
-	z-index: 2;
 	display: flex;
 	align-items: stretch;
     align-content: stretch;
@@ -44,6 +43,5 @@
 	&_errorMessage{
 		color: globals.get-color("secondary");
 		font-size: globals.get-font-size(body-small);
-		margin-top: 4px;
 	}
 }

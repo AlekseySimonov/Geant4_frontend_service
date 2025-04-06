@@ -1,22 +1,15 @@
-import { WithChildren } from "@/shared/types/generalTypes";
-import Cookies from "js-cookie";
-import { Navigate, useLocation } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
+import { Navigate } from "react-router";
 
+export const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
-export const RequireAuth: React.FC<WithChildren> = ({ children }) => {
+	return !isAuthenticated ? <Navigate to="/auth/login" replace /> : <>{children}</>;
+};
 
-	let location = useLocation()
-	if (!Cookies.get("access")) {
-		return <Navigate to="/auth/login" state={{ from: location }} replace />
-	}
+export const IsAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+	const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
-	return children
-}
-
-export const IsAuth: React.FC<WithChildren> = ({ children }) => {
-	if (Cookies.get("access")) {
-		return <Navigate to="/" replace />
-	}
-
-	return children
-}
+	return isAuthenticated ? <Navigate to="/" replace /> : <>{children}</>;
+};
