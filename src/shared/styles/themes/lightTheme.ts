@@ -8,6 +8,7 @@ const lightTheme = createTheme({
 		mode: 'light',
 		primary: {
 			main: '#1D2B64',
+			light: '#7889C4'
 		},
 		secondary: {
 			main: "#FCFDFF"
@@ -19,10 +20,11 @@ const lightTheme = createTheme({
 	},
 	shadows: [
 		"none",
-		"0px 10px 30px rgba(29, 43, 100, 0.2)",
-		"0px 4px 4px rgba(0, 0, 0, 0.25)",
-		"0px -10px 30px rgba(29, 43, 100, 0.2)",
-		...Array(21).fill("0px 6px 20px rgba(0,0,0,0.1)"),
+		"4px 4px 16px rgba(29, 43, 100, 0.25)",
+		"4px 4px 8px rgba(0, 0, 0, 0.25)",
+		"4px -4px 16px rgba(29, 43, 100, 0.25)",
+		"4px 4px 8px rgba(29, 43, 100, 0.5)",
+		...Array(20).fill("0px 6px 20px rgba(0,0,0,0.1)"),
 	] as Shadows,
 	components: {
 		...commonSettings.components, 

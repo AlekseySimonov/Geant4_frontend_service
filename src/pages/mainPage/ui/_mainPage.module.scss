@@ -84,12 +84,15 @@
 		}
 	}
 	&__footer{
-		position: absolute;
-		left: 0;
-		width: 100vw;
-		background: var(--mui-palette-background-paper);
-		height: -webkit-fill-available;
+		height: 150px;
 		margin-top: 80px;
-		box-shadow: var(--mui-shadows-3);
+		&__background{
+			position: absolute;
+			left: 0;
+			width: 100vw;
+			height: 150px;
+			background: var(--mui-palette-background-paper);
+			box-shadow: var(--mui-shadows-3);
+		}
 	}
 }

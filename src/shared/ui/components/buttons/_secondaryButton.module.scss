@@ -1,7 +1,6 @@
 .button{
 	padding-inline: 32px;
 	padding-block: 10px;
-	box-shadow: var(--mui-shadows-1);
 	background-color: var(--mui-palette-background-paper);
 	color: var(--mui-palette-primary-main);
 	width: max-content;
@@ -9,6 +8,13 @@
 	margin-top: 10px;
 	border-color: var(--mui-palette-primary-main);
 	border: solid 1px;
+	transition: 0.3s ease;
+	&:hover{
+		background-color: var(--mui-palette-primary-light);
+		color: var(--mui-palette-secondary-main);
+		border: solid 1px;
+		border-color: var(--mui-palette-primary-main);
+	}
 }
 
 @media (max-width: 900px){
