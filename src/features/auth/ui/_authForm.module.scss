@@ -8,6 +8,7 @@
 	flex-direction: column;
 	gap: 16px;
 	width: 100%;
+	min-width: 330px;
 	@media (max-width:550px) {
 		.form{
 			width: 400px;
