@@ -7,7 +7,12 @@
 	justify-content: center;
 	flex-direction: column;
 	gap: 16px;
-	width: 400px;
+	width: 100%;
+	@media (max-width:550px) {
+		.form{
+			width: 400px;
+		}
+	}
 
 	&_title{
 		margin-top: 22px;
@@ -16,12 +21,18 @@
 		text-align: center;
 	}
 	&_submit{
-		padding-block: 6px;
-		background: globals.get-color("primary");
+		padding-block: 7px;
+		background: var(--mui-palette-primary-main);
 		width: 100%;
-		color: globals.get-color("background");
-		border-radius: 20px;
+		color: var(--mui-palette-background-paper);
+		border-radius: 8px;
 		margin-top: 10px;
+		transition: 0.3s ease;
+		&:disabled {
+			background-color: var(--mui-palette-action-disabled);
+			color:var(--mui-palette-primary-main);
+			cursor: not-allowed; 
+		}  
 	}
 	&_passwordRemember{
 		font-size: globals.get-font-size(body-small);
@@ -32,16 +43,27 @@
 			height: 15px;
 		}
 	}
-	&_regitration{
+	&_link{
+		border: solid 1px;
+		padding-block: 6px;
+		border-color: var(--mui-palette-primary-main);
+		background: var(--mui-palette-background-paper);
+		width: 100%;
 		text-align: center;
-		a{
-			text-decoration: none;
-			color: globals.get-color("primary");
-			font-weight: 500;
+		color: var(--mui-palette-primary-main);
+		border-radius: 8px;
+		margin-top: 10px;
+		transition: 0.3s ease;
+		&:hover{
+			background-color: var(--mui-palette-primary-light);
+			color: var(--mui-palette-secondary-main);
+			border: solid 1px;
+			border-color: var(--mui-palette-primary-main);
 		}
 	}
 	&_errorMessage{
-		color: globals.get-color("secondary");
-		font-size: globals.get-font-size(body-small);
+		color: var(--mui-palette-error-main);
+		font-size: 0.9rem;
+		padding-left: 21px;
 	}
 }

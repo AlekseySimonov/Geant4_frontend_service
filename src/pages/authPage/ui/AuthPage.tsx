@@ -11,7 +11,7 @@ const AuthPage: React.FC = () => {
 
 	return (
 		<div className={styles.container} data-testid = 'authPage'>
-			<img className={styles.container__background} src={backgroundImg} alt="" />
+			{/* <img className={styles.container__background} src={backgroundImg} alt="" /> */}
 			<div className={styles.container__content}>
 				<div className={styles.container__content_header}>
 					<span>Geant4</span>

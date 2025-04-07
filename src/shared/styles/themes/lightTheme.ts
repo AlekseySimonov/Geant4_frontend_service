@@ -17,6 +17,15 @@ const lightTheme = createTheme({
 			default: '#F1F6FF',
 			paper: '#FCFDFF',
 		},
+		info: {
+			main: 'rgba(74,85,131, 0.8)'
+		},
+		error: {
+			main: '#B5003F'
+		},
+		action: {
+			disabled: '#DEE3ED'
+		}
 	},
 	shadows: [
 		"none",
