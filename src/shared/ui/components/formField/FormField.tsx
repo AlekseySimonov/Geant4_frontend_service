@@ -5,12 +5,13 @@ interface FormFieldProps {
 	name: string;
 	type?: string;
 	placeholder: string;
-	title: string;
+	title?: string;
 	errors: Record<string, string | undefined>;
+	hint?: string;
 }
 
 export const FormField: React.FC<FormFieldProps> =
-	({ name, type = 'text', placeholder, title, errors }) => {
+	({ name, type = 'text', placeholder, title, errors, hint }) => {
 		return (
 			<div className={`${styles.form_field} ${errors[name] ? styles.error : ''}`}>
 				<div className={styles.form_field__title}>{title}</div>
@@ -21,9 +22,10 @@ export const FormField: React.FC<FormFieldProps> =
 					placeholder={placeholder}
 					data-testid={name}
 				/>
+				{!Boolean(errors[name]) && hint && <div className={styles.form_field__hint}>{hint}</div>}
 				<ErrorMessage
 					name={name}
-					component="div"
+					component="p"
 					className={styles.form_field__errorMessage}
 				/>
 			</div>

@@ -39,3 +39,6 @@ optgroup{font-weight:bold}
 table{border-collapse:collapse;border-spacing:0}
 td,th{padding:0}
 :active, :hover, :focus {outline: 0;outline-offset: 0;}
+.input{  
+    outline: none; /* Удаляем стандартный стиль фокуса */  
+}  

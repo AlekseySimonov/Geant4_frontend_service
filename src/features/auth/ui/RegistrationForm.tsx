@@ -50,9 +50,12 @@ export const RegistrationForm: React.FC = () => {
 		email: Yup.string()
 			.email('Неправильно указана Электронная почта. Пример: geant4@mail.com')
 			.required('Email обязателен'),
+		username: Yup.string()
+			.required('Логин обязателен')
+			.matches(/^[a-zA-Z0-9]+$/, 'Логин должен содержать только латинские буквы и цифры'),
 		password: Yup.string()
 			.required('Пароль обязателен')
-			.min(6, 'Пароль должен содержать минимум 6 символов')
+			.min(8, 'Пароль должен быть не менее 8 символов')
 			.matches(/[A-Z]/, 'Пароль должен содержать хотя бы одну заглавную букву')
 			.matches(/\d/, 'Пароль должен содержать хотя бы одну цифру'),
 		password2: Yup.string()
@@ -66,27 +69,34 @@ export const RegistrationForm: React.FC = () => {
 			validationSchema={validationSchema}
 			onSubmit={handleSubmit}
 		>
-			{({ errors, status }) => {
+			{({ errors, status, isValid, dirty }) => {
 
 				return (
 					<Form className={styles.form}>
 						<div className={styles.form_title}>Регистрация</div>
 
-						<FormField name="first_name" placeholder="" title="Имя" errors={errors} />
-						<FormField name="last_name" placeholder="" title="Фамилия" errors={errors} />
-						<FormField name="email" placeholder="" title="Электронная почта" errors={errors} />
-						<FormField name="username" placeholder="" title="Ник" errors={errors} />
-						<FormField name="password" placeholder="" title="Пароль" errors={errors} type="password" />
-						<FormField name="password2" placeholder="" title="Повторите пароль" errors={errors} type="password" />
+						<FormField name="first_name" placeholder="Имя" errors={errors} />
+						<FormField name="last_name" placeholder="Фамилия" errors={errors} />
+						<FormField name="email" placeholder="Электронная почта" errors={errors} />
+						<FormField name="username" placeholder="Логин" errors={errors} hint="Логин должен состоять из латинских букв, например “geant123”"/>
+						<FormField name="password" placeholder="Пароль" errors={errors} type="password" />
+						<FormField name="password2" placeholder="Повторите пароль" errors={errors} type="password" />
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 
-						<button className={styles.form_submit} type="submit" data-testid='submit'>Зарегистрироваться</button>
+						<button
+							className={styles.form_submit}
+							type="submit"
+							data-testid='submit'
+							disabled={!(isValid && dirty)}>
+							Зарегистрироваться
+						</button>
 
-						<div className={styles.form_regitration}>
-							Уже зарегистрированы?
-							<Link to="/auth/login"> Войти в аккаунт</Link>
-						</div>
+						<Link
+							className={styles.form_link}
+							to="/auth/login">
+							У меня уже есть аккаунт
+						</Link>
 					</Form>
 				);
 			}}

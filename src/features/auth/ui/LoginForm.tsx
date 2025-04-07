@@ -31,7 +31,8 @@ export const LoginForm: React.FC = () => {
 		username: Yup.string()
 			.matches(/^[a-zA-Z0-9._-]+$/, "Некорректный ник")
 			.required("Ник обязателен"),
-		password: Yup.string().required("Пароль обязателен"),
+		password: Yup.string()
+			.min(8, 'Пароль должен быть не менее 8 символов'),
 	});
 
 	return (
@@ -40,14 +41,13 @@ export const LoginForm: React.FC = () => {
 			validationSchema={validationSchema}
 			onSubmit={handleSubmit}
 		>
-			{({ errors, status }) => {
-
+			{({ errors, status, isValid, dirty }) => {
 				return (
 					<Form className={styles.form}>
 						<div className={styles.form_title}>Вход в аккаунт</div>
 
-						<FormField name="username" placeholder="" title="Ник" errors={errors} />
-						<FormField name="password" placeholder="" title="Пароль" errors={errors} type="password" />
+						<FormField name="username" placeholder="Логин" errors={errors} />
+						<FormField name="password" placeholder="Пароль" errors={errors} type="password" hint="Пароль должен быть не менее 8 символов"/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 
@@ -60,12 +60,18 @@ export const LoginForm: React.FC = () => {
 							Запомнить пароль
 						</div>
 
-						<button className={styles.form_submit} type="submit">Войти</button>
+						<button
+							className={styles.form_submit}
+							type="submit"
+							disabled={!(isValid && dirty)}>
+							Войти
+						</button>
 
-						<div className={styles.form_regitration}>
-							Еще нет аккаунта?
-							<Link to="/auth/registration"> Зарегистрируйтесь</Link>
-						</div>
+						<Link
+							className={styles.form_link}
+							to="/auth/registration">
+							У меня ещё нет аккаунта
+						</Link>
 					</Form>
 				);
 			}}
