@@ -44,10 +44,10 @@ export const LoginForm: React.FC = () => {
 			{({ errors, status, isValid, dirty }) => {
 				return (
 					<Form className={styles.form}>
-						<div className={styles.form_title}>Вход в аккаунт</div>
+						<h3>Вход в аккаунт</h3>
 
 						<FormField name="username" placeholder="Логин" errors={errors} />
-						<FormField name="password" placeholder="Пароль" errors={errors} type="password" hint="Пароль должен быть не менее 8 символов"/>
+						<FormField name="password" placeholder="Пароль" errors={errors} type="password"/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 

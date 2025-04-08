@@ -73,12 +73,12 @@ export const RegistrationForm: React.FC = () => {
 
 				return (
 					<Form className={styles.form}>
-						<div className={styles.form_title}>Регистрация</div>
+						<h3>Регистрация</h3>
 
 						<FormField name="first_name" placeholder="Имя" errors={errors} />
 						<FormField name="last_name" placeholder="Фамилия" errors={errors} />
 						<FormField name="email" placeholder="Электронная почта" errors={errors} />
-						<FormField name="username" placeholder="Логин" errors={errors} hint="Логин должен состоять из латинских букв, например “geant123”"/>
+						<FormField name="username" placeholder="Логин" errors={errors}/>
 						<FormField name="password" placeholder="Пароль" errors={errors} type="password" />
 						<FormField name="password2" placeholder="Повторите пароль" errors={errors} type="password" />
 

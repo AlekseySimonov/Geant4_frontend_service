@@ -1,34 +1,14 @@
-@use '../../../styles/globals' as globals;
-
-.form_field{
+.form_field {
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
-	& .input, .input:focus{
-		border-width: 1px;
-		border-style: solid;
-		border-radius: 8px;
-		width: -webkit-fill-available;
-		padding-inline: 20px;
-		padding-block: 16px;
-		border-color: var(--mui-palette-primary-main);
-	}
-	& .input::placeholder{
-		color: var(--mui-palette-info-main);
-	}
-	&__errorMessage{
+	&__errorMessage {
 		color: var(--mui-palette-error-main);
 		padding-left: 21px;
 		font-size: 0.9rem;
 	}
-	.error{
-		border-width: 1px;
+	.error {
 		border-color: var(--mui-palette-error-main);
-	}
-	&__hint{
-		color: var(--mui-palette-info-main);
-		padding-left: 21px;
-		font-size: 0.9rem;
 	}
 }
 
