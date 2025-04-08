@@ -6,18 +6,21 @@
 	flex-direction: column;
 	gap: 16px;
 	width: 100%;
-	min-width: 330px;
-	@media (max-width:550px) {
-		.form{
-			width: 400px;
-		}
-	}
 
 	h3{
 		margin-top: 22px;
 		font-weight: 700;
 		text-align: center;
 	}
+	@media (max-width:550px) {
+		.form{
+			width: 400px;
+		}
+		h3{
+			font-size: 1.3rem;
+		}
+	}
+	
 	&_submit{
 		padding-block: 7px;
 		background: var(--mui-palette-primary-main);
