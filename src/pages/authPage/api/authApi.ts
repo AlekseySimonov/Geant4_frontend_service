@@ -10,20 +10,14 @@ export interface AuthRequest {
 	username?: string;
 	password?: string;
 	password2?: string;
+	new_password?: string;
+	new_password2?: string;
 }
-
-interface AuthState {
-	isAuthenticated: boolean;
-}
-
-const initialState: AuthState = {
-	isAuthenticated: false,
-};
 
 export const authApi = createApi({
 	reducerPath: 'authApi',
 	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://92.63.76.159:444/api/v1',
+		baseUrl: process.env.API_BASE_URL,
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -101,23 +95,25 @@ export const authApi = createApi({
 				}
 			},
 		}),
-		passwordRecovery: builder.mutation<void, AuthRequest>({
-			query: (body) => ({
-				url: URLS.REGISTRATION,
+		passwordRecovery: builder.mutation<void, AuthRequest >({
+			query: ( body ) => ({
+				url: `${URLS.PASSWORD_RECOVERY}`,
 				method: 'POST',
 				body,
 			}),
-			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-
-				dispatch(setLoading(true));
-				try {
-					await queryFulfilled
-				} catch (error) {
-					console.log(error)
-				} finally {
-					dispatch(setLoading(false));
-				}
-			},
+		}),
+		passwordRecoveryConfirm: builder.mutation<void, { token?: string; body: AuthRequest }>({
+			query: ({ token, body }) => ({
+				url: `${URLS.PASSWORD_RECOVERY}/${token}`,
+				method: 'POST',
+				body,
+			}),
+		}),
+		emailVerifyConfirm: builder.query<void, string>({
+			query: (token) => ({
+				url: `/email_verify_confirm/${token}`,
+				method: 'GET',
+			}),
 		}),
 	})
 })
@@ -130,4 +126,7 @@ export const {
 	useCheckAuthQuery,
 	useLazyCheckAuthQuery,
 	useLazyLogoutQuery,
+	usePasswordRecoveryMutation,
+	useEmailVerifyConfirmQuery,
+	usePasswordRecoveryConfirmMutation,
 } = authApi

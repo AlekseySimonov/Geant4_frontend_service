@@ -1,1 +1,1 @@
-export { LoginForm, RegistrationForm, ForgotPasswordForm } from "./auth";
+export { LoginForm, RegistrationForm, ResetPasswordForm } from "./auth";

@@ -75,7 +75,7 @@ export const LoginForm: React.FC = () => {
 
 						<Link
 							className={styles.form_link}
-							to="/auth/forgot_password">
+							to="/auth/resetPassword">
 							Забыли пароль?
 						</Link>
 

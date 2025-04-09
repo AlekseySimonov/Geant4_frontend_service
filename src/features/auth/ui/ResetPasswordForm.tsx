@@ -1,13 +1,13 @@
-import { Field, Form, Formik, FormikHelpers } from "formik"
+import { Form, Formik, FormikHelpers } from "formik"
 import * as Yup from 'yup'
 import styles from "./_authForm.module.scss"
 import { Link } from "react-router";
-import { FormField } from './../../../shared/ui/components/formField/FormField';
-import { useLoginMutation } from "@/pages/authPage/api/authApi";
+import { FormField } from '../../../shared/ui/components/formField/FormField';
+import { usePasswordRecoveryMutation } from "@/pages/authPage/api/authApi";
 import { FormValues } from "./types";
 
-export const ForgotPasswordForm: React.FC = () => {
-	const [login] = useLoginMutation()
+export const ResetPasswordForm: React.FC = () => {
+	const [recovery] = usePasswordRecoveryMutation()
 
 	const initialValues: FormValues = {
 		email: ''
@@ -15,7 +15,7 @@ export const ForgotPasswordForm: React.FC = () => {
 
 	const handleSubmit = async (values: typeof initialValues, { setStatus }: FormikHelpers<FormValues>) => {
 		try {
-			await login(values).unwrap();
+			await recovery(values).unwrap();
 		} catch (err) {
 			if (err.status === 400) {
 				setStatus("Неправильно указана Электронная почта")

@@ -2,9 +2,9 @@ const LOGIN = 'login/'
 const REGISTRATION = 'registration/'
 const LOGOUT = 'logout/'
 const REFRESH = 'token/refresh/'
-const EMAIL_VERIFY = 'email-verify/'
+const EMAIL_VERIFY = '/email_verify_confirm/'
 const CHECK_AUTH = 'is_authorized/'
-const PASSWORD_RECOVERY = 'password_recovery'
+const PASSWORD_RECOVERY = 'password_recovery/'
 
 export const URLS = {
 	LOGIN,
