@@ -1,5 +1,6 @@
 import { createTheme, Shadows } from "@mui/material";
 import commonSettings from "./commonSettings";
+import { backdropOverride, outlinedInputOverride, paperOverride } from "./overrides";
 
 const lightTheme = createTheme({
 	...commonSettings,
@@ -20,6 +21,10 @@ const lightTheme = createTheme({
 		info: {
 			main: 'rgba(74,85,131, 0.8)'
 		},
+		text: {
+			primary: "#FCFDFF",
+			secondary: "rgba(74,85,131, 0.8)"
+		},
 		error: {
 			main: '#B5003F'
 		},
@@ -35,22 +40,14 @@ const lightTheme = createTheme({
 		"4px 4px 8px rgba(29, 43, 100, 0.5)",
 		...Array(20).fill("0px 6px 20px rgba(0,0,0,0.1)"),
 	] as Shadows,
+	shape: {
+		borderRadius: 8,
+	},
 	components: {
-		...commonSettings.components, 
-		MuiBackdrop: {
-			styleOverrides: {
-				root: {
-					backgroundColor: 'rgba(29, 43, 100, 0.5)',
-				},
-			},
-		},
-		MuiPaper: {
-			styleOverrides: {
-				root: {
-					boxShadow: '0px 10px 30px rgba(29, 43, 100, 0.2)',
-				},
-			},
-		},
+		...commonSettings.components,
+		MuiBackdrop: backdropOverride,
+		MuiPaper: paperOverride,
+		MuiOutlinedInput: outlinedInputOverride,
 	}
 })
 

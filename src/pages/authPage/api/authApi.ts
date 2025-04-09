@@ -12,18 +12,10 @@ export interface AuthRequest {
 	password2?: string;
 }
 
-interface AuthState {
-	isAuthenticated: boolean;
-}
-
-const initialState: AuthState = {
-	isAuthenticated: false,
-};
-
 export const authApi = createApi({
 	reducerPath: 'authApi',
 	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://92.63.76.159:444/api/v1',
+		baseUrl: process.env.API_BASE_URL,
 		headers: {
 			"Content-Type": "application/json",
 		},

@@ -1,5 +1,3 @@
-@use '../../../styles/globals' as globals;
-
 .overlay{
 	position: absolute;
 	width: 100%;
@@ -24,7 +22,7 @@
 		z-index: 2000;
 		border: 8px solid #f3f3f3;
 		border-radius: 50%;
-		border-top: 8px solid globals.get-color("primary");;
+		border-top: 8px solid var(--mui-palette-primary-main);
 		width: 60px;
 		height: 60px;
 		-webkit-animation: spin 1s linear infinite;

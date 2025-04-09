@@ -5,4 +5,5 @@ export interface FormValues {
     username?: string;
     password?: string;
     password2?: string;
+    remember_me?: boolean;
 }
