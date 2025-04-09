@@ -1,5 +1,6 @@
 docker/ssl/*
 build/*
+.env
 
 # Logs
 logs

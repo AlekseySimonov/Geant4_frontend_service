@@ -1,10 +1,11 @@
-import { Form, Formik, FormikHelpers } from "formik"
+import { Field, Form, Formik, FormikHelpers } from "formik"
 import * as Yup from 'yup'
 import styles from "./_authForm.module.scss"
 import { Link } from "react-router";
 import { FormField } from './../../../shared/ui/components/formField/FormField';
 import { useLoginMutation } from "@/pages/authPage/api/authApi";
 import { FormValues } from "./types";
+import { Checkbox } from "@mui/material";
 
 export const LoginForm: React.FC = () => {
 	const [login] = useLoginMutation()
@@ -12,7 +13,7 @@ export const LoginForm: React.FC = () => {
 	const initialValues: FormValues = {
 		username: "",
 		password: "",
-		// remember: false,
+		remember_me: false,
 	}
 
 	const handleSubmit = async (values: typeof initialValues, { setErrors, setStatus }: FormikHelpers<FormValues>) => {
@@ -47,19 +48,18 @@ export const LoginForm: React.FC = () => {
 						<h3>Вход в аккаунт</h3>
 
 						<FormField name="username" placeholder="Логин" errors={errors} />
-						<FormField name="password" placeholder="Пароль" errors={errors} type="password"/>
+						<FormField name="password" placeholder="Пароль" errors={errors} type="password" />
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 
-						<div className={styles.form_passwordRemember}>
-							<input
-								type="checkbox"
-							// checked={formValues.remember}
-							// onChange={() => setFormValues((prev) => ({ ...prev, remember: !prev.remember, }))}
-							/>
-							Запомнить пароль
-						</div>
-
+						<Field name="remember_me" type="checkbox">
+							{({ field }: any) => (
+								<label className={styles.form_passwordRemember}>
+									<Checkbox {...field} checked={field.value}/>
+									<p>Запомнить пароль</p>
+								</label>
+							)}
+						</Field>
 						<button
 							className={styles.form_submit}
 							type="submit"
@@ -72,6 +72,13 @@ export const LoginForm: React.FC = () => {
 							to="/auth/registration">
 							У меня ещё нет аккаунта
 						</Link>
+
+						<Link
+							className={styles.form_link}
+							to="/auth/forgot_password">
+							Забыли пароль?
+						</Link>
+
 					</Form>
 				);
 			}}

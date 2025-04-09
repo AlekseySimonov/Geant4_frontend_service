@@ -37,11 +37,8 @@
 	}
 	&_passwordRemember{
 		display: flex;
-		gap: 5px;
-		input{
-			width: 15px;
-			height: 15px;
-		}
+		flex-direction: row;
+		align-items: center;
 	}
 	&_link{
 		border: solid 1px;
@@ -52,7 +49,6 @@
 		text-align: center;
 		color: var(--mui-palette-primary-main);
 		border-radius: 8px;
-		margin-top: 10px;
 		transition: 0.3s ease;
 		&:hover{
 			background-color: var(--mui-palette-primary-light);

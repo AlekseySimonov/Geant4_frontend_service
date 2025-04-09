@@ -10,6 +10,6 @@ export const SecondaryButton: React.FC<SecondaryButtonProps> = ({ label, link })
 	return (  
 		<Link to={link} className={styles.button}>  
 			<p>{label}</p>  
-		</Link>  
+		</Link> 
 	);  
 };  
