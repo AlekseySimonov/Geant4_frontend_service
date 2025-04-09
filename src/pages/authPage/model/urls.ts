@@ -4,6 +4,7 @@ const LOGOUT = 'logout/'
 const REFRESH = 'token/refresh/'
 const EMAIL_VERIFY = 'email-verify/'
 const CHECK_AUTH = 'is_authorized/'
+const PASSWORD_RECOVERY = 'password_recovery'
 
 export const URLS = {
 	LOGIN,
@@ -11,5 +12,6 @@ export const URLS = {
 	REFRESH,
 	LOGOUT,
 	EMAIL_VERIFY,
-	CHECK_AUTH
+	CHECK_AUTH,
+	PASSWORD_RECOVERY,
 }

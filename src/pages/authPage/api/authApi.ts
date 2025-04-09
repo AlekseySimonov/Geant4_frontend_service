@@ -12,10 +12,18 @@ export interface AuthRequest {
 	password2?: string;
 }
 
+interface AuthState {
+	isAuthenticated: boolean;
+}
+
+const initialState: AuthState = {
+	isAuthenticated: false,
+};
+
 export const authApi = createApi({
 	reducerPath: 'authApi',
 	baseQuery: fetchBaseQuery({
-		baseUrl: process.env.API_BASE_URL,
+		baseUrl: 'https://92.63.76.159:444/api/v1',
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -90,6 +98,24 @@ export const authApi = createApi({
 					dispatch(setAuthStatus(true))
 				} catch (error) {
 					dispatch(setAuthStatus(false))
+				}
+			},
+		}),
+		passwordRecovery: builder.mutation<void, AuthRequest>({
+			query: (body) => ({
+				url: URLS.REGISTRATION,
+				method: 'POST',
+				body,
+			}),
+			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+
+				dispatch(setLoading(true));
+				try {
+					await queryFulfilled
+				} catch (error) {
+					console.log(error)
+				} finally {
+					dispatch(setLoading(false));
 				}
 			},
 		}),
