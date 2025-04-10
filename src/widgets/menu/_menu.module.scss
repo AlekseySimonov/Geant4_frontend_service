@@ -5,6 +5,9 @@
 	align-items: center;
 	background: var(--background-color1);
 	height: 80px;
+	a, a:visited, a:hover, a:active {
+		color: inherit;
+	}
 	&__background{
 		position: absolute;
 		width: 100vw;
@@ -29,9 +32,6 @@
 		font-size: 1rem;
 		&__img{
 			width: 25px;
-		}
-		a, a:visited, a:hover, a:active {
-			color: inherit;
 		}
 		&__drawer{
 			padding-block: 20px;
