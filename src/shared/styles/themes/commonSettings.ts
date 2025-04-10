@@ -31,6 +31,7 @@ const commonSettings = createTheme({
 				h1: { fontFamily: '"Manrope", sans-serif', fontSize: '4rem', lineHeight: '4rem', fontWeight: 600, },
 				h2: { fontFamily: '"Manrope", sans-serif', fontSize: '2rem', lineHeight: '2rem', fontWeight: 600, },
 				h3: { fontSize: '1.5rem', lineHeight: '2rem', fontWeight: 400 },
+				h4: { fontSize: '1.5rem', lineHeight: '2rem', fontWeight: 700 },
 				p: { fontSize: '1rem', lineHeight: '1.2rem', fontWeight: 400, },
 				'#root': { height: '100vh' },
 			},

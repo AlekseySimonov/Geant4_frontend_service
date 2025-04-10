@@ -1,0 +1,32 @@
+.card{
+	width: 100%;
+	box-shadow: var(--mui-shadows-2);
+	border-radius: 8px;
+	padding-inline: 40px;
+	padding-block: 24px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	&__personal{
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		.avatar{
+			width: 120px;
+			height: 120px;
+			border-radius: 8px;
+			background-color: aqua;
+		}
+		.data{
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin-inline: 14px;
+		}
+	}
+	&__settings{
+		img{
+			cursor: pointer;
+		}
+	}
+}

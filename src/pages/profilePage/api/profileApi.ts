@@ -1,3 +1,4 @@
+import { ProfileTypes } from "@/shared/types";
 import { URLS } from "./urls";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -12,7 +13,7 @@ export const profileApi = createApi({
 	}),
 	tagTypes: ['Profile'],
 	endpoints: (builder) => ({
-		getProfile: builder.query<void, void>({
+		getProfile: builder.query<ProfileTypes, void>({
 			query: () => ({
 				url: URLS.PROFILE,
 				method: 'GET',
