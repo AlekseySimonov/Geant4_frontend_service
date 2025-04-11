@@ -8,9 +8,10 @@ export const primaryButtonStyles: SxProps<Theme> = {
 	color: "var(--mui-palette-secondary-main)",
 	width: "max-content",
 	borderRadius: "8px",
-	marginTop: "10px",
 	transition: "0.2s ease",
 	fontWeight: 500,
+	height: "max-content",
+	boxShadow: "none",
 	"&:hover": {
 		boxShadow: "var(--mui-shadows-4)",
 	},
@@ -18,4 +19,9 @@ export const primaryButtonStyles: SxProps<Theme> = {
 		paddingInline: "40px",
 		paddingBlock: "16px",
 	},
+	"&:disabled": {
+	backgroundColor: "var(--mui-palette-action-disabled)",
+	color: "var(--mui-palette-primary-main)",
+	cursor: "not-allowed",
+},
 };
