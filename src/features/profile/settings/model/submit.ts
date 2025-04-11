@@ -1,19 +1,24 @@
+import { profileApi } from "@/pages/profilePage/api";
 import { ProfileTypes } from "@/shared/types";
 import { FormikHelpers } from "formik";
 
-export const handleSubmit = async (
-	values: ProfileTypes,
-	{ setErrors, setStatus }: FormikHelpers<ProfileTypes>
-) => {
+type PatchProfileFn = ReturnType<typeof profileApi.endpoints.patchProfile.initiate>;
+
+export const handleSubmit =
+	(patchProfile:  (values: ProfileTypes) => ReturnType<PatchProfileFn>) =>
+	async (
+		values: ProfileTypes,
+		{ setErrors, setStatus }: FormikHelpers<ProfileTypes>
+	) => {
 	try {
-		await console.log('Success');
+		await patchProfile(values).unwrap();
 	} catch (error: any) {
 
 		if (error.status === 400) {
 			const errors: Record<string, string> = {};
 
 			if (error.data?.username) {
-				errors.username = "Этот ник уже занят";
+				errors.username = "Этот логин уже занят";
 			}
 			if (error.data?.email) {
 				errors.email = "Эта почта уже используется";
@@ -21,7 +26,7 @@ export const handleSubmit = async (
 
 			setErrors(errors);
 
-			if (!error.data?.email || !error.data?.username) {
+			if (!error.data?.email && !error.data?.username) {
 				setStatus("Произошла ошибка. Попробуйте снова.");
 			}
 		} else {

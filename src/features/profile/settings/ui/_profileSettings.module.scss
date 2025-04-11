@@ -8,6 +8,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	position: relative;
 	gap: 40px;
 	&__title{
 		display: flex;

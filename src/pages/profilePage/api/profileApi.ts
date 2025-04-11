@@ -9,7 +9,7 @@ export const profileApi = createApi({
 		headers: {
 			"Content-Type": "application/json",
 		},
-		credentials: "include"
+		credentials: "include",
 	}),
 	tagTypes: ['Profile'],
 	endpoints: (builder) => ({
@@ -18,10 +18,20 @@ export const profileApi = createApi({
 				url: URLS.PROFILE,
 				method: 'GET',
 			}),
+			providesTags: ['Profile'],
 		}),
-	})
-})
+		patchProfile: builder.mutation<ProfileTypes, ProfileTypes>({
+			query: (body) => ({
+				url: URLS.PROFILE,
+				method: 'PATCH',
+				body,
+			}),
+			invalidatesTags: ['Profile'],
+		}),
+	}),
+});
 
 export const {
 	useGetProfileQuery,
+	usePatchProfileMutation,
 } = profileApi

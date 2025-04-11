@@ -1,5 +1,4 @@
 import { ForgotPasswordForm, LoginForm, RegistrationForm } from '@/features';
-import { NotFoundPage } from '@/pages';
 import { Navigate } from 'react-router';
 import { IsAuth } from './СheckAuth';
 import { lazy } from 'react';
@@ -12,7 +11,6 @@ export const authRoutes = {
 		<IsAuth>
 			<AuthPage />
 		</IsAuth>,
-	errorElement: <NotFoundPage />,
 	children: [
 		{ index: true, element: <Navigate to="login" replace /> },
 		{ path: "login", element: <LoginForm /> },

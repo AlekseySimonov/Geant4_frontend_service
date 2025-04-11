@@ -4,12 +4,20 @@ import { validationSchema } from "../model/validation";
 import { handleSubmit } from "../model/submit";
 import styles from "./_profileSettings.module.scss";
 import { ProfileTypes } from "@/shared/types";
-import { FormField } from "@/shared";
-import { useGetProfileQuery } from "@/pages/profilePage/api/profileApi";
+import { FormField, Loader } from "@/shared";
+import { useGetProfileQuery, usePatchProfileMutation } from "@/pages/profilePage/api/profileApi";
+import { useErrorHandler } from "@/shared/hooks";
 
 const ProfileSettings: React.FC = () => {
 
-	const { data } = useGetProfileQuery()
+	const { data, isFetching,  isError } = useGetProfileQuery();
+	const [patchProfile, { isLoading: isPatchLoading }] = usePatchProfileMutation();
+
+	useErrorHandler(isError)
+
+	if (isFetching || !data) {
+		return <Loader />;
+	}
 
 	const initialValues: ProfileTypes = {
 		first_name: data.first_name,
@@ -37,7 +45,7 @@ const ProfileSettings: React.FC = () => {
 				<Formik
 					initialValues={initialValues}
 					validationSchema={validationSchema}
-					onSubmit={handleSubmit}
+					onSubmit={handleSubmit(patchProfile)}
 				>
 					{({ errors, status, isValid, dirty }) => (
 						<Form className={styles.settings__form}>
@@ -70,6 +78,7 @@ const ProfileSettings: React.FC = () => {
 					)}
 				</Formik>
 			</div>
+			{(isPatchLoading || isFetching) && <Loader/>}
 		</div>
 	);
 };
