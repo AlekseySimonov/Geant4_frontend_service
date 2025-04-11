@@ -7,6 +7,5 @@ export const Loader: React.FC = ()=>{
             <div className={styles.background}></div>
             <div className={styles.loader}></div>
         </div>
-        
     )
 }
