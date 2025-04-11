@@ -11,6 +11,10 @@ const commonSettings = createTheme({
 			xl: 1368,
 		}
 	},
+	typography: {
+		fontFamily: '"Inter", "Manrope", sans-serif',
+		fontSize: 16,
+	},
 	components: {
 		MuiCssBaseline: {
 			styleOverrides: {
@@ -24,9 +28,9 @@ const commonSettings = createTheme({
 					overflowX: 'hidden',
 					height: 'auto',
 					scrollbarWidth: 'thin',
-					'&::-webkit-scrollbar-thumb': {  
-						backgroundColor: '#1D2B64', 
-					},  
+					'&::-webkit-scrollbar-thumb': {
+						backgroundColor: '#1D2B64',
+					},
 				},
 				h1: { fontFamily: '"Manrope", sans-serif', fontSize: '4rem', lineHeight: '4rem', fontWeight: 600, },
 				h2: { fontFamily: '"Manrope", sans-serif', fontSize: '2rem', lineHeight: '2rem', fontWeight: 600, },
