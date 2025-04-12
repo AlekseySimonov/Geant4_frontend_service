@@ -7,16 +7,23 @@
 	gap: 16px;
 	width: 100%;
 
+	span{
+		font-size: 1.6rem;
+		text-align: center;
+		font-weight: 700;
+	}
+
 	h3{
-		margin-top: 22px;
+		margin-block: 12px;
 		font-weight: 700;
 		text-align: center;
 	}
 	@media (max-width:550px) {
-		.form{
-			width: 400px;
-		}
+		width: 400px;
 		h3{
+			font-size: 1.3rem;
+		}
+		span{
 			font-size: 1.3rem;
 		}
 	}

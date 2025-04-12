@@ -26,17 +26,14 @@
 			height: none; 
 		}
 		&_header{
-			font-size: 1.6rem;
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
 			justify-content: center;
 			align-items: center;
 			font-weight: 800;
-			span{
-				font-size: 44px ;
-				font-weight: 700;
-			}
+			font-size: 44px ;
+			font-weight: 700;
 		}
 		@media (max-width:550px){
 			&_header{

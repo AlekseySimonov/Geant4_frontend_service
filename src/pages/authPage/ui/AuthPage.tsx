@@ -12,8 +12,7 @@ const AuthPage: React.FC = () => {
 			<div className={styles.container}>
 			<div className={styles.container__content}>
 				<div className={styles.container__content_header}>
-					<span>Geant4ru</span>
-					Добро пожаловать
+					Geant4ru
 				</div>
 				<Outlet />
 				{isLoading && <Loader /> }

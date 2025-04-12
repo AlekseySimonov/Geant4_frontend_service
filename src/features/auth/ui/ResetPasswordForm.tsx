@@ -4,7 +4,7 @@ import styles from "./_authForm.module.scss"
 import { Link } from "react-router";
 import { FormField } from '../../../shared/ui/components/formField/FormField';
 import { usePasswordRecoveryMutation } from "@/pages/authPage/api/authApi";
-import { FormValues } from "./types";
+import { FormValues } from "../types/types";
 
 export const ResetPasswordForm: React.FC = () => {
 	const [recovery] = usePasswordRecoveryMutation()
