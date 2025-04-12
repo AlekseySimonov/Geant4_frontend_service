@@ -16,7 +16,7 @@ export const Menu: React.FC = () => {
 		{ label: "Документация", to: "/" },
 		{ label: "Форум", to: "/" },
 		{ label: "Моделирование", to: "/" },
-		{ label: "Профиль", to: "/" },
+		{ label: "Профиль", to: "/profile" },
 		{ label: "Хранилище", to: "/" },
 	];
 
@@ -24,7 +24,9 @@ export const Menu: React.FC = () => {
 		<div className={styles.menu}>
 			<div className={styles.menu__background}></div>
 			<div className={styles.menu__logo}>
-				Geant4ru
+				<Link  to={'/main'}>
+					Geant4ru
+				</Link>
 			</div>
 			<div className={styles.menu__navigation}>
 				{!isMobile ? (

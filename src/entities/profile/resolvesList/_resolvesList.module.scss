@@ -1,0 +1,13 @@
+.resolves{
+	padding: 40px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	border-radius: 8px;
+	box-shadow: var(--mui-shadows-2);
+	&__list{
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+}

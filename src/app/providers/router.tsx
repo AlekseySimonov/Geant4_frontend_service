@@ -3,6 +3,7 @@ import { authRoutes } from "./routes/auth";
 import { baseRoutes } from "./routes/base";
 import { Suspense } from "react";
 import { Loader } from "@/shared";
+import { ErrorPage } from "@/pages";
 
 export const appRouter = createBrowserRouter([
 	baseRoutes,
@@ -15,5 +16,11 @@ export const appRouter = createBrowserRouter([
 			</Suspense>
 		),
 	},
+	{
+		path: "/error",
+		element: (
+			<ErrorPage />
+		),
+	}
 ]
 );

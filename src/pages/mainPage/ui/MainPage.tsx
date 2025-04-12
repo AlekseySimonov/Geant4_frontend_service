@@ -35,7 +35,7 @@ const MainPage: React.FC = () => {
 							</h3>
 						)
 					}
-					<PrimaryButton label="Начать" link="/" />
+					<PrimaryButton label="Начать" link="/" size="m"/>
 				</div>
 				<img src={mainBack} alt="#" />
 			</div>

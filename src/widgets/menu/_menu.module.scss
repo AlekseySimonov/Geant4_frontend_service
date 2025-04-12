@@ -3,8 +3,12 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	background: var(--background-color1);
+	background: var(--mui-palette-background-paper);
 	height: 80px;
+	z-index: 500;
+	a, a:visited, a:hover, a:active {
+		color: inherit;
+	}
 	&__background{
 		position: absolute;
 		width: 100vw;
@@ -29,9 +33,6 @@
 		font-size: 1rem;
 		&__img{
 			width: 25px;
-		}
-		a, a:visited, a:hover, a:active {
-			color: inherit;
 		}
 		&__drawer{
 			padding-block: 20px;
