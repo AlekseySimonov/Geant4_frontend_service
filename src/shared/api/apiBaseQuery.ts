@@ -1,5 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosError, AxiosHeaders } from 'axios';
+import { AxiosRequestConfig, AxiosError} from 'axios';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
+import axiosClient from './axiosClient';
 
 interface AxiosBaseQueryParams {
 	url: string;
@@ -14,7 +15,7 @@ export const apiBaseQuery =
 		async ({ url, method, body: data, params, ...rest }, api) => {
 			try {
 
-				const result = await axios({
+				const result = await axiosClient({
 					url,
 					baseURL: baseUrl,
 					method,
@@ -40,7 +41,6 @@ export const apiBaseQuery =
 					error: {
 						status: err.response?.status,
 						data: err.response?.data || err.message,
-						headers: err.response?.headers,
 					},
 				};
 			}

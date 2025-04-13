@@ -1,15 +1,15 @@
 import { RouterProvider } from 'react-router';
-import { appRouter, AuthProvider } from './providers';
+import { appRouter } from './providers';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { lightTheme } from '@/shared/styles/themes';
 
 export const App = () => {
 	return ((
-		<AuthProvider>
+		// <AuthProvider>
 			<ThemeProvider theme={lightTheme}>
 				<CssBaseline />
 				<RouterProvider router={appRouter} />
 			</ThemeProvider>
-		</AuthProvider>
+		// </AuthProvider>
 	))
 }

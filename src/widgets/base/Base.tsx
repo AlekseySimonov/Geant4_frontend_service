@@ -2,12 +2,13 @@ import { Menu } from '../menu/Menu';
 import { Outlet } from 'react-router';
 import { Container } from '@mui/material';
 import styles from "./_base.module.scss";
-import { useGlobalLoading } from '@/shared/hooks';
 import { Loader } from '@/shared';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/store';
 
 
 export const Base = () => {
-	const isLoading = useGlobalLoading();
+	const { isLoading } = useSelector((state: RootState) => state.globalLoading)
 
 	return (
 		<Container maxWidth='xl'>

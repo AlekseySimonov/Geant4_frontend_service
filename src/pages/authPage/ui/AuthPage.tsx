@@ -6,7 +6,7 @@ import { RootState } from '@/app/store'
 
 const AuthPage: React.FC = () => {
 
-	const { isLoading} = useSelector((state: RootState) => state.mutationStatus)
+	const { isLoading} = useSelector((state: RootState) => state.globalLoading)
 
 	return (
 			<div className={styles.container}>

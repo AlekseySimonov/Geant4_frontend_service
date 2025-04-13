@@ -1,9 +1,7 @@
-import { setLoading } from "@/shared/model";
 import { URLS } from "../model/urls";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setAuthStatus } from "../model";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { apiBaseQuery } from "@/shared/api";
-
+import { globalLoading } from "@/shared/model";
 
 export interface AuthRequest {
 	first_name?: string;
@@ -20,99 +18,83 @@ export const authApi = createApi({
 	reducerPath: 'authApi',
 	baseQuery: apiBaseQuery(process.env.API_BASE_URL),
 	tagTypes: ['Auth'],
-	endpoints: (builder) => ({
-		login: builder.mutation<void, AuthRequest>({
-			query: (body) => ({
-				url: URLS.LOGIN,
-				method: 'POST',
-				body,
-			}),
-			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-				dispatch(setLoading(true));
-				try {
-					await queryFulfilled;
-					dispatch(setAuthStatus(true))
-				} catch (error) {
-					console.log(error)
-				} finally {
-					dispatch(setLoading(false));
-				}
-			},
-		}),
-		registration: builder.mutation<void, AuthRequest>({
-			query: (body) => ({
-				url: URLS.REGISTRATION,
-				method: 'POST',
-				body,
-			}),
-			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+	endpoints: (builder) => {
+		const mutation = (options: any) =>
+			builder.mutation({
+				...options,
+				onQueryStarted: globalLoading,
+			});
 
-				dispatch(setLoading(true));
-				try {
-					await queryFulfilled
-				} catch (error) {
-					console.log(error)
-				} finally {
-					dispatch(setLoading(false));
-				}
-			},
-		}),
-		logout: builder.query<void, void>({
-			query: () => ({
-				url: URLS.LOGOUT,
-				method: 'GET',
+		const query = <TData, TArgs>(options: any) =>
+			builder.query<TData, TArgs>({
+				...options,
+				onQueryStarted: globalLoading,
+			});
+
+		return {
+			login: mutation({
+				query: (body: AuthRequest) => ({
+					url: URLS.LOGIN,
+					method: 'POST',
+					body,
+				}),
 			}),
-			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-				try {
-					await queryFulfilled;
-					dispatch(setAuthStatus(false))
-				} catch (error) {
-					console.log(error)
-				}
-			},
-		}),
-		emailVerify: builder.query<void, void>({
-			query: () => ({
-				url: URLS.EMAIL_VERIFY,
-				method: 'GET',
+
+			registration: mutation({
+				query: (body: AuthRequest) => ({
+					url: URLS.REGISTRATION,
+					method: 'POST',
+					body,
+				}),
 			}),
-		}),
-		checkAuth: builder.query<void, void>({
-			query: () => ({
-				url: URLS.CHECK_AUTH,
-				method: 'GET',
+
+			logout: query({
+				query: () => ({
+					url: URLS.LOGOUT,
+					method: 'GET',
+				}),
 			}),
-			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-				try {
-					await queryFulfilled;
-					dispatch(setAuthStatus(true))
-				} catch (error) {
-					dispatch(setAuthStatus(false))
-				}
-			},
-		}),
-		passwordRecovery: builder.mutation<void, AuthRequest >({
-			query: ( body ) => ({
-				url: `${URLS.PASSWORD_RECOVERY}`,
-				method: 'POST',
-				body,
+
+			emailVerify: query({
+				query: () => ({
+					url: URLS.EMAIL_VERIFY,
+					method: 'GET',
+				}),
 			}),
-		}),
-		passwordRecoveryConfirm: builder.mutation<void, { token?: string; body: AuthRequest }>({
-			query: ({ token, body }) => ({
-				url: `${URLS.PASSWORD_RECOVERY}/${token}`,
-				method: 'POST',
-				body,
+
+			checkAuth: query({
+				query: () => ({
+					url: URLS.CHECK_AUTH,
+					method: 'GET',
+				}),
 			}),
-		}),
-		emailVerifyConfirm: builder.query<void, string>({
-			query: (token) => ({
-				url: `${URLS.EMAIL_VERIFY}/${token}`,
-				method: 'GET',
+
+			passwordRecovery: mutation({
+				query: (body: AuthRequest) => ({
+					url: `${URLS.PASSWORD_RECOVERY}`,
+					method: 'POST',
+					body,
+				}),
 			}),
-		}),
-	})
-})
+
+			passwordRecoveryConfirm: mutation({
+				query: ({ token, body }: { token?: string; body: AuthRequest }) => ({
+					url: `${URLS.PASSWORD_RECOVERY}/${token}`,
+					method: 'POST',
+					body,
+				}),
+			}),
+
+			emailVerifyConfirm: query({
+				query: (token: string) => ({
+					url: `${URLS.EMAIL_VERIFY}/${token}`,
+					method: 'GET',
+				}),
+			}),
+		};
+	},
+});
+
 
 export const {
 	useLoginMutation,
