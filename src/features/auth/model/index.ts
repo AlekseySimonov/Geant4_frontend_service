@@ -1,3 +1,12 @@
-export { loginSubmit } from "./loginSubmit";
-export { registrationSubmit } from "./registrationSubmit";
-export { loginValidationSchema, registrationValidationSchema } from "./validationSchemas";
+export {
+	loginSubmit,
+	registrationSubmit,
+	resetPasswordSubmit
+} from "./submits";
+
+export {
+	loginValidationSchema,
+	registrationValidationSchema,
+	resetPasswordValidationSchema,
+	passwordConfirmValidationSchema
+} from "./validationSchemas";

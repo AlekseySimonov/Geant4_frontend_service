@@ -27,42 +27,11 @@
 			font-size: 1.3rem;
 		}
 	}
-	
-	&_submit{
-		padding-block: 7px;
-		background: var(--mui-palette-primary-main);
-		width: 100%;
-		color: var(--mui-palette-background-paper);
-		border-radius: 8px;
-		margin-top: 10px;
-		transition: 0.3s ease;
-		&:disabled {
-			background-color: var(--mui-palette-action-disabled);
-			color:var(--mui-palette-primary-main);
-			cursor: not-allowed; 
-		}  
-	}
+
 	&_passwordRemember{
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-	}
-	&_link{
-		border: solid 1px;
-		padding-block: 6px;
-		border-color: var(--mui-palette-primary-main);
-		background: var(--mui-palette-background-paper);
-		width: 100%;
-		text-align: center;
-		color: var(--mui-palette-primary-main);
-		border-radius: 8px;
-		transition: 0.3s ease;
-		&:hover{
-			background-color: var(--mui-palette-primary-light);
-			color: var(--mui-palette-secondary-main);
-			border: solid 1px;
-			border-color: var(--mui-palette-primary-main);
-		}
 	}
 	&_errorMessage{
 		color: var(--mui-palette-error-main);

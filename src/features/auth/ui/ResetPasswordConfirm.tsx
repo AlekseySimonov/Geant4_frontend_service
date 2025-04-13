@@ -1,10 +1,10 @@
 import { Form, Formik, FormikHelpers } from "formik"
-import * as Yup from 'yup'
 import styles from "./_authForm.module.scss"
 import { Link, useNavigate, useParams } from "react-router";
 import { FormField } from '../../../shared/ui/components/formField/FormField';
 import { usePasswordRecoveryConfirmMutation } from "@/pages/authPage/api/authApi";
 import { FormValues } from "../types/types";
+import { passwordConfirmValidationSchema } from "../model";
 
 export const ResetPasswordConfirm: React.FC = () => {
 	const [recoveryConfirm] = usePasswordRecoveryConfirmMutation()
@@ -36,21 +36,10 @@ export const ResetPasswordConfirm: React.FC = () => {
 		}
 	}
 
-	const validationSchema = Yup.object({
-		new_password: Yup.string()
-			.required('Пароль обязателен')
-			.min(8, 'Пароль должен быть не менее 8 символов')
-			.matches(/[A-Z]/, 'Пароль должен содержать хотя бы одну заглавную букву')
-			.matches(/\d/, 'Пароль должен содержать хотя бы одну цифру'),
-		new_password2: Yup.string()
-			.oneOf([Yup.ref('new_password'), null], 'Пароли должны совпадать')
-			.required('Подтверждение пароля обязательно'),
-	});
-
 	return (
 		<Formik
 			initialValues={initialValues}
-			validationSchema={validationSchema}
+			validationSchema={passwordConfirmValidationSchema}
 			onSubmit={handleSubmit}
 		>
 			{({ errors, status, isValid, dirty }) => {

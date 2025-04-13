@@ -1,7 +1,2 @@
-<<<<<<< HEAD
-export { LoginForm, RegistrationForm, ResetPasswordForm } from "./auth";
-=======
+export { LoginForm, RegistrationForm, ResetPasswordForm, EmailVerifyConfirmPage, ResetPasswordConfirm, } from "./auth";
 export { ProfileSettings } from "./profile/settings";
-
-export { LoginForm, RegistrationForm, ForgotPasswordForm } from "./auth";
->>>>>>> develop

@@ -2,6 +2,8 @@ import { setLoading } from "@/shared/model";
 import { URLS } from "../model/urls";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setAuthStatus } from "../model";
+import { apiBaseQuery } from "@/shared/api";
+
 
 export interface AuthRequest {
 	first_name?: string;
@@ -16,13 +18,7 @@ export interface AuthRequest {
 
 export const authApi = createApi({
 	reducerPath: 'authApi',
-	baseQuery: fetchBaseQuery({
-		baseUrl: process.env.API_BASE_URL,
-		headers: {
-			"Content-Type": "application/json",
-		},
-		credentials: "include"
-	}),
+	baseQuery: apiBaseQuery(process.env.API_BASE_URL),
 	tagTypes: ['Auth'],
 	endpoints: (builder) => ({
 		login: builder.mutation<void, AuthRequest>({
@@ -111,7 +107,7 @@ export const authApi = createApi({
 		}),
 		emailVerifyConfirm: builder.query<void, string>({
 			query: (token) => ({
-				url: `/email_verify_confirm/${token}`,
+				url: `${URLS.EMAIL_VERIFY}/${token}`,
 				method: 'GET',
 			}),
 		}),

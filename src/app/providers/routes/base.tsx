@@ -1,8 +1,7 @@
 import { Base } from "@/widgets";
-import { RequireAuth } from "./СheckAuth";
 import { lazy } from "react";
 import { Navigate } from "react-router";
-import { ProfileSettings } from "@/features/profile/settings";
+import { ProfileSettings } from "@/features";
 
 const MainPage = lazy(() => import("@/pages").then(module => ({ default: module.MainPage })))
 const ProfilePage = lazy(() => import("@/pages").then(module => ({ default: module.ProfilePage })))
@@ -10,10 +9,7 @@ const ProfilePage = lazy(() => import("@/pages").then(module => ({ default: modu
 
 export const baseRoutes = {
 	path: "/",
-	element:
-		<RequireAuth>
-			<Base />
-		</RequireAuth>,
+	element: <Base />,
 	children: [
 		{ index: true, element: <Navigate to="main" replace /> },
 		{ path: "main", element: <MainPage /> },

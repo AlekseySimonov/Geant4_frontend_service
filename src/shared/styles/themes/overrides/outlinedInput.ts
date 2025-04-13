@@ -6,6 +6,7 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 			const { theme } = props as { theme: Theme };
 
 			return {
+				fontSize: '1rem',
 				borderRadius: theme.shape.borderRadius,
 				backgroundColor: theme.palette.secondary.main,
 				"&.Mui-error .MuiOutlinedInput-notchedOutline": {
@@ -26,9 +27,11 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 			return {
 				color: theme.palette.primary.main,
 				padding: "16px 20px",
+				fontSize: '1rem',
 				"&::placeholder": {
 					color: theme.palette.info.main,
 					opacity: 1,
+					fontSize: '1rem',
 				},
 				"&:-webkit-autofill": {
 					boxShadow: `0 0 0 100px ${theme.palette.secondary.main} inset`,
@@ -42,6 +45,7 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 			return {
 				borderColor: theme.palette.primary.main,
 				borderWidth: "1px",
+				fontSize: '1rem',
 				borderRadius: theme.shape.borderRadius,
 			};
 		},

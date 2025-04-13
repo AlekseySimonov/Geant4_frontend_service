@@ -1,11 +1,11 @@
 import { Field, Form, Formik, FormikHelpers } from "formik"
 import styles from "./_authForm.module.scss"
-import { Link } from "react-router";
 import { FormField } from './../../../shared/ui/components/formField/FormField';
 import { useLoginMutation } from "@/pages/authPage/api/authApi";
 import { FormValues } from "../types";
 import { Checkbox } from "@mui/material";
 import { loginSubmit, loginValidationSchema } from "../model";
+import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 
 export const LoginForm: React.FC = () => {
 	const [login] = useLoginMutation()
@@ -36,29 +36,33 @@ export const LoginForm: React.FC = () => {
 						<Field name="remember_me" type="checkbox">
 							{({ field }: any) => (
 								<label className={styles.form_passwordRemember}>
-									<Checkbox {...field} checked={field.value}/>
+									<Checkbox {...field} checked={field.value} />
 									<p>Запомнить пароль</p>
 								</label>
 							)}
 						</Field>
-						<button
-							className={styles.form_submit}
+
+						<PrimaryButton
+							label="Войти"
 							type="submit"
-							disabled={!(isValid && dirty)}>
-							Войти
-						</button>
+							disabled={!(isValid && dirty)}
+							fullWidth
+							size="s"
+						/>
 
-						<Link
-							className={styles.form_link}
-							to="/auth/registration">
-							У меня ещё нет аккаунта
-						</Link>
+						<SecondaryButton
+							label="У меня ещё нет аккаунта"
+							link="/auth/registration"
+							fullWidth
+							size="s"
+						/>
 
-						<Link
-							className={styles.form_link}
-							to="/auth/resetPassword">
-							Забыли пароль?
-						</Link>
+						<SecondaryButton
+							label="Забыли пароль?"
+							link="/auth/resetPassword"
+							fullWidth
+							size="s"
+						/>
 
 					</Form>
 				);

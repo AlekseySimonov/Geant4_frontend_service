@@ -12,6 +12,7 @@ export const primaryButtonStyles: SxProps<Theme> = {
 	fontWeight: 500,
 	height: "max-content",
 	boxShadow: "none",
+	textTransform: "none",
 	"&:hover": {
 		boxShadow: "var(--mui-shadows-4)",
 	},
