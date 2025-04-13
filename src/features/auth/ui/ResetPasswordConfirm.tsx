@@ -1,10 +1,11 @@
 import { Form, Formik, FormikHelpers } from "formik"
 import styles from "./_authForm.module.scss"
-import { Link, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { FormField } from '../../../shared/ui/components/formField/FormField';
 import { usePasswordRecoveryConfirmMutation } from "@/pages/authPage/api/authApi";
 import { FormValues } from "../types/types";
 import { passwordConfirmValidationSchema } from "../model";
+import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 
 export const ResetPasswordConfirm: React.FC = () => {
 	const [recoveryConfirm] = usePasswordRecoveryConfirmMutation()
@@ -31,7 +32,7 @@ export const ResetPasswordConfirm: React.FC = () => {
 			if (err.status === 400) {
 				setStatus("Неправильно указан пароль");
 			} else {
-				setStatus("Произошла ошибка. Попробуйте снова");
+				setStatus("Произошла ошибка, ссылка недействительна или устарела ");
 			}
 		}
 	}
@@ -47,23 +48,19 @@ export const ResetPasswordConfirm: React.FC = () => {
 					<Form className={styles.form}>
 						<h3>Восстановление пароля</h3>
 
-						<FormField name="new_password" placeholder="Пароль" errors={errors} />
-						<FormField name="new_password2" placeholder="Повторите пароль" errors={errors} />
+						<FormField name="new_password" placeholder="Пароль" errors={errors} type="password"/>
+						<FormField name="new_password2" placeholder="Повторите пароль" errors={errors} type = "password"/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 
-						<button
-							className={styles.form_submit}
+						<PrimaryButton
+							label="Сменить пароль"
 							type="submit"
-							disabled={!(isValid && dirty)}>
-							Сменить пароль
-						</button>
+							disabled={!(isValid && dirty)}
+							fullWidth
+						/>
 
-						<Link
-							className={styles.form_link}
-							to="/auth/login">
-							Вернуться
-						</Link>
+						<SecondaryButton label = 'Вернуться' size = 's' link="/auth/login" fullWidth/>
 
 					</Form>
 				);

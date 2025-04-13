@@ -16,6 +16,6 @@ export const authRoutes = {
 		{ path: "registration", element: <RegistrationForm /> },
 		{ path: "resetPassword", element: <ResetPasswordForm /> },
 		{ path: "registration/confirm/:token", element: <EmailVerifyConfirmPage /> },
-		{ path: "password_recovery/:token",element: <ResetPasswordConfirm />,},
+		{ path: "password_recovery/confirm/:token",element: <ResetPasswordConfirm />,},
 	],
 };

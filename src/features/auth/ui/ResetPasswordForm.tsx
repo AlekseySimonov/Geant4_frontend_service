@@ -36,12 +36,7 @@ export const ResetPasswordForm: React.FC = () => {
 							size="s"
 						/>
 
-						<SecondaryButton
-							label="Вернуться"
-							link="/auth/login"
-							fullWidth
-							size="s"
-						/>
+						<SecondaryButton label="Вернуться" link="/auth/login" fullWidth size="s"/>
 
 					</Form>
 				);

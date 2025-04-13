@@ -50,19 +50,9 @@ export const LoginForm: React.FC = () => {
 							size="s"
 						/>
 
-						<SecondaryButton
-							label="У меня ещё нет аккаунта"
-							link="/auth/registration"
-							fullWidth
-							size="s"
-						/>
+						<SecondaryButton label="У меня ещё нет аккаунта" link="/auth/registration" fullWidth size="s" />
 
-						<SecondaryButton
-							label="Забыли пароль?"
-							link="/auth/resetPassword"
-							fullWidth
-							size="s"
-						/>
+						<SecondaryButton label="Забыли пароль?" link="/auth/resetPassword" fullWidth size="s" />
 
 					</Form>
 				);

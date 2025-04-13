@@ -1,7 +1,7 @@
 import { FormikHelpers } from "formik";
 import { FormValues } from "../types";
-import { useLoginMutation, usePasswordRecoveryMutation, useRegistrationMutation } from "@/pages/authPage/api/authApi";
-import { useNavigate } from "react-router";
+import { useLoginMutation, usePasswordRecoveryConfirmMutation, usePasswordRecoveryMutation, useRegistrationMutation } from "@/pages/authPage/api/authApi";
+import { useParams } from "react-router";
 
 type RegistrationFn = ReturnType<typeof useRegistrationMutation>[0];
 
@@ -61,18 +61,20 @@ export const loginSubmit =
 type RecoveryFn = ReturnType<typeof usePasswordRecoveryMutation>[0];
 
 export const resetPasswordSubmit =
-(recovery: RecoveryFn) =>
-	async (
-		values: FormValues,
-		{ setStatus }: FormikHelpers<FormValues>
-	) => {
-		try {
-			await recovery(values).unwrap();
-		} catch (err) {
-			if (err.status === 400) {
-				setStatus("Неправильно указана Электронная почта");
-			} else {
-				setStatus("Произошла ошибка. Попробуйте снова");
+	(recovery: RecoveryFn) =>
+		async (
+			values: FormValues,
+			{ setStatus }: FormikHelpers<FormValues>
+		) => {
+			try {
+				await recovery(values).unwrap();
+				alert('Проверьте почту для сброса пароля')
+				window.location.replace('/auth/login')
+			} catch (err) {
+				if (err.status === 400) {
+					setStatus("Неправильно указана Электронная почта");
+				} else {
+					setStatus("Произошла ошибка. Попробуйте снова");
+				}
 			}
-		}
 		};

@@ -1,7 +1,7 @@
 export {
 	loginSubmit,
 	registrationSubmit,
-	resetPasswordSubmit
+	resetPasswordSubmit,
 } from "./submits";
 
 export {

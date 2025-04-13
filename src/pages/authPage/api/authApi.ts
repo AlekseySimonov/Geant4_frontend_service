@@ -72,7 +72,7 @@ export const authApi = createApi({
 
 			passwordRecoveryConfirm: mutation({
 				query: ({ token, body }: { token?: string; body: AuthRequest }) => ({
-					url: `${URLS.PASSWORD_RECOVERY}/${token}`,
+					url: `${URLS.PASSWORD_RECOVERY}confirm/${token}`,
 					method: 'POST',
 					body,
 				}),

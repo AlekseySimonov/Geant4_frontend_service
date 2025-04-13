@@ -46,11 +46,7 @@ export const RegistrationForm: React.FC = () => {
 							fullWidth
 						/>
 
-						<SecondaryButton
-							label="У меня уже есть аккаунт"
-							link="/auth/login"
-							fullWidth
-						/>
+						<SecondaryButton label="У меня уже есть аккаунт" link="/auth/login" fullWidth/>
 					</Form>
 				);
 			}}
