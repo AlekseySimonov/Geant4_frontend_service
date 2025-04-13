@@ -1,4 +1,4 @@
-import { useLazyLogoutQuery, } from "@/pages/authPage/api/authApi"
+import { useCheckAuthQuery, useLazyLogoutQuery, } from "@/pages/authPage/api/authApi"
 import styles from "./_mainPage.module.scss"
 import mainBack from "@/shared/ui/assets/mainBack.jpg"
 import { useMediaQuery, useTheme } from "@mui/material"
@@ -6,18 +6,18 @@ import { PrimaryButton } from '@/shared/ui/components/buttons/PrimaryButton';
 import { Card } from "@/shared/ui/components/card";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import logoWithText from "@/shared/ui/assets/logoWithText.jpg"
-import logo from "@/shared/ui/assets/logo.jpg"
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const MainPage: React.FC = () => {
-	const [triggerLogout] = useLazyLogoutQuery()
-
-	// const handleLogout = async () => {
-	// 	try {
-	// 		await triggerLogout().unwrap()
-	// 	} catch (error) {
-	// 		console.log("Logout failed:", error)
-	// 	}
-	// }
+	const navigate = useNavigate()
+	const { isError } = useCheckAuthQuery()
+	
+	useEffect(() => {
+		if (isError) {
+			navigate('/auth/login')
+		}
+	},[isError, navigate])
 
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("md"))
@@ -75,7 +75,6 @@ const MainPage: React.FC = () => {
 			<div className={styles.main__footer}>
 				<div className={styles.main__footer__background}></div>
 			</div>
-			{/* <button onClick={handleLogout}>logout</button> */}
 		</div>
 	)
 }

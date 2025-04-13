@@ -48,6 +48,7 @@ export const loginSubmit =
 		) => {
 			try {
 				await login(values).unwrap();
+				window.location.replace('/main')
 			} catch (error: any) {
 				if (error?.status === 400) {
 					setStatus("Неправильный ник или пароль");

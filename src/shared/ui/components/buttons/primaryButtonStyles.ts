@@ -16,10 +16,6 @@ export const primaryButtonStyles: SxProps<Theme> = {
 	"&:hover": {
 		boxShadow: "var(--mui-shadows-4)",
 	},
-	"@media (max-width: 900px)": {
-		paddingInline: "40px",
-		paddingBlock: "16px",
-	},
 	"&:disabled": {
 	backgroundColor: "var(--mui-palette-action-disabled)",
 	color: "var(--mui-palette-primary-main)",

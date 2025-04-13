@@ -1,3 +1,4 @@
+export { inputLabelOverride } from "./inputLabelOverride";
 export { backdropOverride } from "./backdrop";
 export { outlinedInputOverride } from "./outlinedInput";
-export{ paperOverride } from "./paper";
+export { paperOverride } from "./paper";

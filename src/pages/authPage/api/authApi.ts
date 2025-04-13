@@ -55,14 +55,14 @@ export const authApi = createApi({
 				}),
 			}),
 
-			emailVerify: query({
+			emailVerify: query<void, void>({
 				query: () => ({
 					url: URLS.EMAIL_VERIFY,
 					method: 'GET',
 				}),
 			}),
 
-			checkAuth: query({
+			checkAuth: query<void, void>({
 				query: () => ({
 					url: URLS.CHECK_AUTH,
 					method: 'GET',

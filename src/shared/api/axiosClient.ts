@@ -28,7 +28,8 @@ axiosClient.interceptors.response.use(
 				await axios.post(`${API_URL}/token/refresh`, {}, { withCredentials: true });
 				return axiosClient(originalRequest);
 			} catch (refreshError) {
-				return Promise.reject(refreshError);
+				window.location.replace('/auth/login');
+				return Promise.reject(error);
 			}
 		}
 

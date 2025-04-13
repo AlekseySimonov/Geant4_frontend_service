@@ -11,5 +11,8 @@ export const secondaryButtonStyles: SxProps<Theme> = {
 		backgroundColor: "var(--mui-palette-primary-light)",
 		color: "var(--mui-palette-secondary-main)",
 		borderColor: "var(--mui-palette-primary-main)",
-	}
+	},
+	"@media (max-width: 400px)": {
+		paddingInline: "10px",
+	},
 };

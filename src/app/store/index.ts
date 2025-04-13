@@ -1,5 +1,4 @@
 import { authApi } from '@/pages/authPage/api';  
-import { authReducer } from '@/pages/authPage/model';  
 import { profileApi } from '@/pages/profilePage/api';  
 import { globalLoadingReducer } from '@/shared/model';
 import { configureStore } from '@reduxjs/toolkit';  
@@ -9,7 +8,6 @@ export const store = configureStore({
 		[authApi.reducerPath]: authApi.reducer,
 		[profileApi.reducerPath]: profileApi.reducer,
 		globalLoading: globalLoadingReducer,
-		auth: authReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware()

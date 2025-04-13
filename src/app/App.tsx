@@ -5,11 +5,9 @@ import { lightTheme } from '@/shared/styles/themes';
 
 export const App = () => {
 	return ((
-		// <AuthProvider>
 			<ThemeProvider theme={lightTheme}>
 				<CssBaseline />
 				<RouterProvider router={appRouter} />
 			</ThemeProvider>
-		// </AuthProvider>
 	))
 }

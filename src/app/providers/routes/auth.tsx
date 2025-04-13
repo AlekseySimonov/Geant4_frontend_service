@@ -1,12 +1,15 @@
 import { LoginForm, RegistrationForm, ResetPasswordForm,  EmailVerifyConfirmPage, ResetPasswordConfirm  } from '@/features';
 import { Navigate } from 'react-router';
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
+import { Loader } from '@/shared';
 
 const AuthPage = lazy(() => import("@/pages").then(module => ({ default: module.AuthPage })))
 
 export const authRoutes = {
 	path: "/auth",
-	element: <AuthPage />,
+	element: <Suspense fallback={<Loader />}>
+				<AuthPage />
+			</Suspense>,
 	children: [
 		{ index: true, element: <Navigate to="login" replace /> },
 		{ path: "login", element: <LoginForm /> },

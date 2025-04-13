@@ -1,10 +1,21 @@
-import { Outlet } from 'react-router'
+import { Outlet, useNavigate } from 'react-router'
 import styles from './_authpage.module.scss'
 import { Loader } from '@/shared'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
+import { useCheckAuthQuery } from '../api/authApi'
+import { useEffect } from 'react'
 
 const AuthPage: React.FC = () => {
+
+	const navigate = useNavigate()
+	const { isSuccess } = useCheckAuthQuery();
+
+	useEffect(() => {
+		if (isSuccess) {
+			navigate('/main', { replace: true });
+		}
+	}, [isSuccess, navigate]);
 
 	const { isLoading} = useSelector((state: RootState) => state.globalLoading)
 
