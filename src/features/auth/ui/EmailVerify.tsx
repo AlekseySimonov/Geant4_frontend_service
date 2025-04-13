@@ -2,10 +2,11 @@ import { Link, useNavigate, useParams } from "react-router";
 import { useEmailVerifyConfirmQuery } from "@/pages/authPage/api/authApi";
 import { useEffect } from "react";
 import styles from "./_authForm.module.scss"
+import { SecondaryButton } from "@/shared/ui/components/buttons";
 
 export const EmailVerifyConfirmPage: React.FC = () => {
 	const { token } = useParams<{ token: string }>();
-	const { isLoading, isError, isSuccess } = useEmailVerifyConfirmQuery(token!, {
+	const { isError, isSuccess } = useEmailVerifyConfirmQuery(token!, {
 		skip: !token,
 	});
 	const navigate = useNavigate();
@@ -20,15 +21,12 @@ export const EmailVerifyConfirmPage: React.FC = () => {
 		}
 	}, [isSuccess, navigate]);
 
-	if (isLoading) return <p>Подтверждение email...</p>;
 	if (isSuccess) return <p>Email успешно подтверждён!</p>;
 	if (isError) {
 		return (
 			<div className={styles.form}>
 				<p>Ошибка подтверждения email. Возможно, ссылка недействительна или устарела.</p>
-				<Link className={styles.form_link} to="/auth/login">
-					Вернуться
-				</Link>
+				<SecondaryButton label = 'Вернуться' size = 's' link="/auth/login" fullWidth/>
 			</div>
 		);
 	}

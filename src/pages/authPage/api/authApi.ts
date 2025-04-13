@@ -55,13 +55,6 @@ export const authApi = createApi({
 				}),
 			}),
 
-			emailVerify: query<void, void>({
-				query: () => ({
-					url: URLS.EMAIL_VERIFY,
-					method: 'GET',
-				}),
-			}),
-
 			checkAuth: query<void, void>({
 				query: () => ({
 					url: URLS.CHECK_AUTH,
@@ -87,7 +80,7 @@ export const authApi = createApi({
 
 			emailVerifyConfirm: query({
 				query: (token: string) => ({
-					url: `${URLS.EMAIL_VERIFY}/${token}`,
+					url: `${URLS.REGISTRATION}confirm/${token}`,
 					method: 'GET',
 				}),
 			}),
@@ -100,7 +93,6 @@ export const {
 	useLoginMutation,
 	useRegistrationMutation,
 	useLogoutQuery,
-	useEmailVerifyQuery,
 	useCheckAuthQuery,
 	useLazyCheckAuthQuery,
 	useLazyLogoutQuery,
