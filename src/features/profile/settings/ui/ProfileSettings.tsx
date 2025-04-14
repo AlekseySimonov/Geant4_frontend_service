@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { ModalWindow } from "@/shared/ui/components/modal";
 import { ChangePassword } from "./ChangePassword";
+import { DeleteAccount } from './DeleteAccount';
 
 const ProfileSettings: React.FC = () => {
 
@@ -20,6 +21,7 @@ const ProfileSettings: React.FC = () => {
 	useErrorHandler(isError)
 
 	const changePassword = usePopup()
+	const deleteAccount = usePopup()
 
 	if (isLoading || !data) {
 		return <Loader />;
@@ -37,7 +39,7 @@ const ProfileSettings: React.FC = () => {
 		<div className={styles.settings}>
 			<div className={styles.settings__title}>
 				<h2>Редактирование профиля</h2>
-				<SecondaryButton label="Удалить аккаунт" />
+				<SecondaryButton label="Удалить аккаунт" onClick={deleteAccount.openPopup}/>
 			</div>
 			<div className={styles.settings__body}>
 				<div className={styles.settings__avatar}>
@@ -86,6 +88,9 @@ const ProfileSettings: React.FC = () => {
 				</Formik>
 			</div>
 			{isLoading && <Loader />}
+			<ModalWindow open={deleteAccount.isVisible} onClose={deleteAccount.closePopup}>
+				<DeleteAccount />
+			</ModalWindow>
 			<ModalWindow open={changePassword.isVisible} onClose={changePassword.closePopup}>
 				<ChangePassword />
 			</ModalWindow>
