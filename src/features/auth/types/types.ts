@@ -8,4 +8,5 @@ export interface FormValues {
     remember_me?: boolean;
     new_password?: string;
     new_password2?: string;
+    old_password?: string;
 }

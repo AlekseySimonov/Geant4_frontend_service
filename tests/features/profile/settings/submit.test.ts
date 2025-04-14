@@ -8,6 +8,7 @@ describe('handleSubmit', () => {
 		last_name: 'Doe',
 		email: 'john@example.com',
 		username: 'johnny',
+		is_employee: false,
 	};
 
 	const createMockHelpers = () => {

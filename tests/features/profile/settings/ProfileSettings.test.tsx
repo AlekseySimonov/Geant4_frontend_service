@@ -14,6 +14,7 @@ const mockProfile = {
 	last_name: 'Doe',
 	email: 'john.doe@example.com',
 	username: 'johndoe',
+	is_employee: false,
 };
 
 describe('ProfileSettings', () => {

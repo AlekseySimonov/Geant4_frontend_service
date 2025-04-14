@@ -1,21 +1,27 @@
 import { Formik, Form } from "formik";
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
-import { validationSchema } from "../model/validation";
+import { settingsValidationSchema } from "../model/validation";
 import { handleSubmit } from "../model/submit";
 import styles from "./_profileSettings.module.scss";
 import { ProfileTypes } from "@/shared/types";
 import { FormField, Loader } from "@/shared";
 import { useGetProfileQuery, usePatchProfileMutation } from "@/pages/profilePage/api/profileApi";
-import { useErrorHandler } from "@/shared/hooks";
+import { useErrorHandler, usePopup } from "@/shared/hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
+import { ModalWindow } from "@/shared/ui/components/modal";
+import { ChangePassword } from "./ChangePassword";
 
 const ProfileSettings: React.FC = () => {
 
-	const { data, isFetching,  isError } = useGetProfileQuery();
-	const [patchProfile, { isLoading: isPatchLoading }] = usePatchProfileMutation();
-
+	const { data, isError } = useGetProfileQuery();
+	const { isLoading } = useSelector((state: RootState) => state.globalLoading)
+	const [patchProfile] = usePatchProfileMutation();
 	useErrorHandler(isError)
 
-	if (isFetching || !data) {
+	const changePassword = usePopup()
+
+	if (isLoading || !data) {
 		return <Loader />;
 	}
 
@@ -24,6 +30,7 @@ const ProfileSettings: React.FC = () => {
 		last_name: data.last_name,
 		email: data.email,
 		username: data.username,
+		is_employee: data.is_employee,
 	};
 
 	return (
@@ -44,7 +51,7 @@ const ProfileSettings: React.FC = () => {
 
 				<Formik
 					initialValues={initialValues}
-					validationSchema={validationSchema}
+					validationSchema={settingsValidationSchema}
 					onSubmit={handleSubmit(patchProfile)}
 				>
 					{({ errors, status, isValid, dirty }) => (
@@ -62,7 +69,7 @@ const ProfileSettings: React.FC = () => {
 								<div className={styles.settings__form__errorMessage}>{status}</div>
 							)}
 
-							<SecondaryButton label="Сменить пароль" fullWidth={true} />
+							<SecondaryButton label="Сменить пароль" fullWidth={true} onClick={changePassword.openPopup}/>
 
 							<div className={styles.settings__form__buttons}>
 								<PrimaryButton
@@ -78,7 +85,10 @@ const ProfileSettings: React.FC = () => {
 					)}
 				</Formik>
 			</div>
-			{(isPatchLoading || isFetching) && <Loader/>}
+			{isLoading && <Loader />}
+			<ModalWindow open={changePassword.isVisible} onClose={changePassword.closePopup}>
+				<ChangePassword />
+			</ModalWindow>
 		</div>
 	);
 };

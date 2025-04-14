@@ -1,0 +1,14 @@
+.modal{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 8px;
+	padding-inline: 80px;
+	padding-block: 50px;
+	flex-direction: column;
+	display: flex;
+	gap: 32px;
+	background-color: var(--mui-palette-background-default);
+	align-items: center;
+}
