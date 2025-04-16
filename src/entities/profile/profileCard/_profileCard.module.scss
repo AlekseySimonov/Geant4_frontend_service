@@ -15,7 +15,12 @@
 			width: 120px;
 			height: 120px;
 			border-radius: 8px;
-			background-color: aqua;
+			background-color: (--mui-palette-text-secondary);
+			transition: opacity 0.3s ease-in-out;
+			opacity: 0;
+			&.loaded {
+				opacity: 1;
+			}
 		}
 		.data{
 			display: flex;

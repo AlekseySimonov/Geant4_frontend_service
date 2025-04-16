@@ -5,7 +5,7 @@ import { handleSubmit } from "../model/submit";
 import styles from "./_profileSettings.module.scss";
 import { ProfileTypes } from "@/shared/types";
 import { FormField, Loader } from "@/shared";
-import { useGetProfileQuery, usePatchProfileMutation } from "@/pages/profilePage/api/profileApi";
+import { useGetProfileAvatarQuery, useGetProfileQuery, usePatchProfileMutation } from "@/pages/profilePage/api/profileApi";
 import { useErrorHandler, usePopup } from "@/shared/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
@@ -21,13 +21,15 @@ const ProfileSettings: React.FC = () => {
 	const [patchProfile] = usePatchProfileMutation();
 	useErrorHandler(isError)
 
+	const { data: avatarData } = useGetProfileAvatarQuery()
+
+	if (isLoading || !data || !avatarData) {
+		return <Loader />;
+	}
+
 	const changePassword = usePopup()
 	const deleteAccount = usePopup()
 	const changeAvatar = usePopup()
-
-	if (isLoading || !data) {
-		return <Loader />;
-	}
 
 	const initialValues: ProfileTypes = {
 		first_name: data.first_name,
@@ -47,7 +49,8 @@ const ProfileSettings: React.FC = () => {
 				<div className={styles.settings__avatar}>
 					<h3>Сотрудник</h3>
 					<img
-						src="#"
+						className={`${styles.avatar} ${avatarData ? styles.loaded : ''}`}
+						src={avatarData}
 						alt="Аватар"
 					/>
 					<SecondaryButton label="Сменить фото" onClick={changeAvatar.openPopup}/>

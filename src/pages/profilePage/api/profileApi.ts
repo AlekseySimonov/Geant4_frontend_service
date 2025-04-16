@@ -39,12 +39,17 @@ export const profileApi = createApi({
 				invalidatesTags: ['Profile'],
 			}),
 
-			getProfileAvatar: query<AvatarTypes, void>({
+			getProfileAvatar: query<string, void>({
 				query: () => ({
 					url: URLS.PROFILE_IMAGE,
 					method: 'GET',
+					responseType: 'blob',
 				}),
 				providesTags: ['Profile'],
+				keepUnusedDataFor: 300,
+				transformResponse: async (response: Blob) => {
+					return URL.createObjectURL(response);
+				},
 			}),
 
 			postProfileAvatar: mutation({

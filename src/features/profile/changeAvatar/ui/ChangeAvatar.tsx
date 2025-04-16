@@ -15,7 +15,7 @@ export const ChangeAvatar: React.FC = () => {
 
 	const [postAvatar] = usePostProfileAvatarMutation()
 
-	const onCropComplete = (croppedArea: any, croppedAreaPixels: { width: number; height: number; x: number; y: number }) => {
+	const onCropComplete = ( croppedAreaPixels: { width: number; height: number; x: number; y: number }) => {
 		setCroppedAreaPixels(croppedAreaPixels);
 	};
 

@@ -27,11 +27,15 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 32px;
-		img{
+		.avatar{
 			width: 160px;
 			height: 160px;
 			border-radius: 8px;
 			background-color: var(--mui-palette-secondary-light);
+			transition: 0.3s ease-in-out;
+			&.loaded {
+				background-color: none;
+			}
 		}
 	}
 	&__form{
