@@ -1,7 +1,6 @@
 import { FormikHelpers } from "formik";
 import { FormValues } from "../types";
-import { useLoginMutation, usePasswordRecoveryConfirmMutation, usePasswordRecoveryMutation, useRegistrationMutation } from "@/pages/authPage/api/authApi";
-import { useParams } from "react-router";
+import { useLoginMutation, usePasswordRecoveryMutation, useRegistrationMutation } from "@/pages/authPage/api/authApi";
 
 type RegistrationFn = ReturnType<typeof useRegistrationMutation>[0];
 

@@ -25,6 +25,18 @@ export const apiBaseQuery =
 					signal: api.signal,
 				});
 
+				if (result.status === 202) {
+					return {
+						data: result.data,
+						meta: {
+							headers: result.headers,
+							status: result.status,
+							config: result.config,
+							request: result.request,
+						},
+					};
+				}
+
 				return {
 					data: result.data,
 					meta: {

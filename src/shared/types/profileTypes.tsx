@@ -5,3 +5,7 @@ export interface ProfileTypes {
     username: string;
     is_employee?: boolean;
 }  
+
+export type AvatarTypes = {
+	image: Blob | File | string;
+};

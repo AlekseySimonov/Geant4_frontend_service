@@ -12,6 +12,7 @@ import { RootState } from "@/app/store";
 import { ModalWindow } from "@/shared/ui/components/modal";
 import { ChangePassword } from "./ChangePassword";
 import { DeleteAccount } from './DeleteAccount';
+import { ChangeAvatar } from '../../changeAvatar/ui/ChangeAvatar';
 
 const ProfileSettings: React.FC = () => {
 
@@ -22,6 +23,7 @@ const ProfileSettings: React.FC = () => {
 
 	const changePassword = usePopup()
 	const deleteAccount = usePopup()
+	const changeAvatar = usePopup()
 
 	if (isLoading || !data) {
 		return <Loader />;
@@ -48,7 +50,7 @@ const ProfileSettings: React.FC = () => {
 						src="#"
 						alt="Аватар"
 					/>
-					<SecondaryButton label="Сменить фото" />
+					<SecondaryButton label="Сменить фото" onClick={changeAvatar.openPopup}/>
 				</div>
 
 				<Formik
@@ -93,6 +95,9 @@ const ProfileSettings: React.FC = () => {
 			</ModalWindow>
 			<ModalWindow open={changePassword.isVisible} onClose={changePassword.closePopup}>
 				<ChangePassword />
+			</ModalWindow>
+			<ModalWindow open={changeAvatar.isVisible} onClose={changeAvatar.closePopup}>
+				<ChangeAvatar />
 			</ModalWindow>
 		</div>
 	);

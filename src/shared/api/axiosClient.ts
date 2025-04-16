@@ -5,9 +5,6 @@ const API_URL = process.env.API_BASE_URL
 const axiosClient = axios.create({
 	baseURL: API_URL,
 	withCredentials: true,
-	headers: {
-		"Content-Type": "application/json",
-	}
 });
 
 axiosClient.interceptors.request.use((request) =>{

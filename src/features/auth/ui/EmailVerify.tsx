@@ -25,7 +25,7 @@ export const EmailVerifyConfirmPage: React.FC = () => {
 	if (isError) {
 		return (
 			<div className={styles.form}>
-				<p>Ошибка подтверждения email. Возможно, ссылка недействительна или устарела.</p>
+				<p className={styles.text}>Ошибка подтверждения email. Возможно, ссылка недействительна или устарела.</p>
 				<SecondaryButton label = 'Вернуться' size = 's' link="/auth/login" fullWidth/>
 			</div>
 		);

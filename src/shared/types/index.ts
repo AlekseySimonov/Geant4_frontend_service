@@ -1,1 +1,1 @@
-export { ProfileTypes } from './profileTypes';
+export { ProfileTypes, AvatarTypes } from './profileTypes';
