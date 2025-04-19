@@ -44,7 +44,6 @@ const ProfileSettings: React.FC = () => {
 				last_name: data.last_name,
 				email: data.email,
 				username: data.username,
-				is_employee: data.is_employee,
 			}
 		: null;
 
@@ -71,7 +70,7 @@ const ProfileSettings: React.FC = () => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={settingsValidationSchema}
-						onSubmit={handleSubmit(patchProfile)}
+						onSubmit={handleSubmit(patchProfile, data.email)}
 					>
 						{({ errors, status, isValid, dirty }) => (
 							<Form className={styles.settings__form}>

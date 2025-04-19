@@ -18,17 +18,36 @@ describe('handleSubmit', () => {
 		} as unknown as FormikHelpers<ProfileTypes>;
 	};
 
-	it('Successful send data ', async () => {
+	it('Successfull send data without email changes', async () => {
 		const patchProfile = jest.fn().mockReturnValue({
 			unwrap: jest.fn().mockResolvedValue({}),
 		});
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile)(mockValues, helpers);
+		const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
 
 		expect(patchProfile).toHaveBeenCalledWith(mockValues);
 		expect(helpers.setErrors).not.toHaveBeenCalled();
 		expect(helpers.setStatus).not.toHaveBeenCalled();
+		expect(alertMock).not.toHaveBeenCalled();
+	});
+
+	it('Successfull send data with email changes', async () => {
+		const patchProfile = jest.fn().mockReturnValue({
+			unwrap: jest.fn().mockResolvedValue({}),
+		});
+		const helpers = createMockHelpers();
+
+		const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+		await handleSubmit(patchProfile, 'old@example.com')(mockValues, helpers);
+
+		expect(patchProfile).toHaveBeenCalledWith(mockValues);
+		expect(alertMock).toHaveBeenCalledWith(
+			'На вашу новую почту отправлено письмо для подтверждения.'
+		);
 	});
 
 	it('username is exists', async () => {
@@ -42,7 +61,7 @@ describe('handleSubmit', () => {
 		});
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile)(mockValues, helpers);
+		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
 
 		expect(helpers.setErrors).toHaveBeenCalledWith({
 			username: 'Этот логин уже занят',
@@ -62,7 +81,7 @@ describe('handleSubmit', () => {
 		});
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile)(mockValues, helpers);
+		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
 
 		expect(helpers.setErrors).toHaveBeenCalledWith({
 			email: 'Эта почта уже используется',
@@ -80,7 +99,7 @@ describe('handleSubmit', () => {
 		});
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile)(mockValues, helpers);
+		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
 
 		expect(helpers.setStatus).toHaveBeenCalledWith('Произошла ошибка. Попробуйте снова.');
 	});
@@ -93,7 +112,7 @@ describe('handleSubmit', () => {
 		});
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile)(mockValues, helpers);
+		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
 
 		expect(helpers.setStatus).toHaveBeenCalledWith('Произошла ошибка. Попробуйте снова.');
 	});

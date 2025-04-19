@@ -150,3 +150,34 @@ describe('ProfileSettings', () => {
 		await waitFor(() => expect(mockPatchProfile).not.toHaveBeenCalled());
 	});
 });
+
+it('shows alert when email is changed', async () => {
+	window.alert = jest.fn(); // мокнем alert
+
+	(useGetProfileQuery as jest.Mock).mockReturnValue({
+		data: mockProfile,
+		isLoading: false,
+		isError: false,
+	});
+
+	const mockPatchProfile = jest.fn().mockResolvedValue({});
+	(usePatchProfileMutation as jest.Mock).mockReturnValue([mockPatchProfile, { isLoading: false }]);
+
+	render(
+		<MemoryRouter>
+			<ProfileSettings />
+		</MemoryRouter>
+	);
+
+	await waitFor(() => screen.getByPlaceholderText(/email/i));
+
+	const emailInput = screen.getByPlaceholderText(/email/i);
+	fireEvent.change(emailInput, { target: { value: 'new.email@example.com' } });
+
+	const saveButton = screen.getByRole('button', { name: /Сохранить/i });
+	fireEvent.click(saveButton);
+
+	await waitFor(() => {
+		expect(window.alert).toHaveBeenCalledWith('На вашу новую почту отправлено письмо для подтверждения.');
+	});
+});

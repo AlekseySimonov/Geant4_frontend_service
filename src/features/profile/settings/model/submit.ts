@@ -5,13 +5,16 @@ import { FormikHelpers } from "formik";
 type PatchProfileFn = ReturnType<typeof profileApi.endpoints.patchProfile.initiate>;
 
 export const handleSubmit =
-	(patchProfile:  (values: ProfileTypes) => ReturnType<PatchProfileFn>) =>
+	(patchProfile:  (values: ProfileTypes) => ReturnType<PatchProfileFn>, prevEmail: string) =>
 	async (
 		values: ProfileTypes,
 		{ setErrors, setStatus }: FormikHelpers<ProfileTypes>
 	) => {
 	try {
 		await patchProfile(values).unwrap();
+		if (values.email !== prevEmail) {
+			alert("Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить смену почты.");
+		}
 	} catch (error: any) {
 
 		if (error.status === 400) {
