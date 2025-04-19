@@ -1,22 +1,40 @@
 import { useState } from "react";
 import styles from "./_changeAvatar.module.scss"
-import { PrimaryButton } from "@/shared/ui/components/buttons";
+import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 import { onFileChange } from "../model";
-import Cropper from "react-easy-crop";
+import Cropper, { Area, Point } from "react-easy-crop";
 import { uploadCroppedImage } from "../model/uploadFile";
-import { usePostProfileAvatarMutation } from "@/pages/profilePage/api/profileApi";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
+import { deleteAvatar } from "@/features/avatar";
 
 export const ChangeAvatar: React.FC = () => {
+	const dispatch = useDispatch<AppDispatch>()
+	const { url: currentAvatar } = useSelector(
+		(state: RootState) => state.avatar
+	);
 
 	const [imageSrc, setImageSrc] = useState<string | null>(null);
-	const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-	const [zoom, setZoom] = useState<number>(1);
-	const [croppedAreaPixels, setCroppedAreaPixels] = useState<{ width: number, height: number, x: number, y: number } | null>(null);
+	const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
+	const [zoom, setZoom] = useState(1);
+	const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
-	const [postAvatar] = usePostProfileAvatarMutation()
-
-	const onCropComplete = ( croppedAreaPixels: { width: number; height: number; x: number; y: number }) => {
+	const onCropComplete = (_: Area, croppedAreaPixels: Area) => {
 		setCroppedAreaPixels(croppedAreaPixels);
+	};
+
+	const handleAvatarChange = async () => {
+		if (!imageSrc || !croppedAreaPixels) return;
+	
+		try {
+			await uploadCroppedImage(imageSrc, croppedAreaPixels, Boolean(currentAvatar), dispatch);
+		} catch (e) {
+			console.error("Ошибка при обновлении аватара", e);
+		}
+	};
+
+	const handleAvatarDelete = () => {
+		dispatch(deleteAvatar());
 	};
 
 	return (
@@ -32,19 +50,17 @@ export const ChangeAvatar: React.FC = () => {
 							crop={crop}
 							zoom={zoom}
 							aspect={1}
-							cropShape='rect'
-							showGrid={false}
 							onCropChange={setCrop}
 							onCropComplete={onCropComplete}
 							onZoomChange={setZoom}
-							restrictPosition={false}
+							cropSize={{ height: 200, width: 200 }}
+							showGrid={false}
 							classes={{
 								cropAreaClassName: styles.cropArea,
 							}}
 						/>
 					</div>
 				</>
-
 			) : (
 				<input
 					type="file"
@@ -56,7 +72,16 @@ export const ChangeAvatar: React.FC = () => {
 			<PrimaryButton
 				label="Сменить аватар"
 				fullWidth
-				onClick={() => { uploadCroppedImage(imageSrc, croppedAreaPixels, postAvatar) }} />
+				disabled={!imageSrc}
+				onClick={handleAvatarChange}
+			/>
+
+			<SecondaryButton
+				label="Удалить аватар"
+				fullWidth
+				disabled={!currentAvatar}
+				onClick={handleAvatarDelete}
+			/>
 		</div>
 	);
 };

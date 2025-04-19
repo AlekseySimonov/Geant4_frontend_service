@@ -15,4 +15,9 @@ export const secondaryButtonStyles: SxProps<Theme> = {
 	"@media (max-width: 400px)": {
 		paddingInline: "10px",
 	},
+	"&:disabled": {
+		backgroundColor: "var(--mui-palette-action-disabled)",
+		color: "var(--mui-palette-primary-main)",
+		cursor: "not-allowed",
+	}
 };

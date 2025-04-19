@@ -1,18 +1,20 @@
 import { Formik, Form } from "formik";
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
-import { settingsValidationSchema } from "../model/validation";
-import { handleSubmit } from "../model/submit";
 import styles from "./_profileSettings.module.scss";
 import { ProfileTypes } from "@/shared/types";
 import { FormField, Loader } from "@/shared";
-import { useGetProfileAvatarQuery, useGetProfileQuery, usePatchProfileMutation } from "@/pages/profilePage/api/profileApi";
+import { useGetProfileQuery, usePatchProfileMutation } from "@/pages/profilePage/api/profileApi";
 import { useErrorHandler, usePopup } from "@/shared/hooks";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/store";
 import { ModalWindow } from "@/shared/ui/components/modal";
 import { ChangePassword } from "./ChangePassword";
 import { DeleteAccount } from './DeleteAccount';
-import { ChangeAvatar } from '../../changeAvatar/ui/ChangeAvatar';
+import avatarDefault from "@/shared/ui/assets/icons/avatar_light.svg"
+import { useEffect } from "react";
+import { ChangeAvatar } from "../../changeAvatar";
+import { handleSubmit, settingsValidationSchema } from "../model";
+import { getAvatar } from "@/features/avatar";
 
 const ProfileSettings: React.FC = () => {
 
@@ -21,15 +23,24 @@ const ProfileSettings: React.FC = () => {
 	const [patchProfile] = usePatchProfileMutation();
 	useErrorHandler(isError)
 
-	const { data: avatarData } = useGetProfileAvatarQuery()
+	const { url: avatarUrl, isLoading: avatarLoading } = useSelector(
+		(state: RootState) => state.avatar
+	);
 
-	if (isLoading || !data || !avatarData) {
-		return <Loader />;
-	}
+	const dispatch = useDispatch<AppDispatch>()
+
+	useEffect(() => {
+		dispatch(getAvatar());
+	}, [dispatch])
+
 
 	const changePassword = usePopup()
 	const deleteAccount = usePopup()
 	const changeAvatar = usePopup()
+
+	if (isLoading || avatarLoading || !data) {
+		return <Loader />;
+	}
 
 	const initialValues: ProfileTypes = {
 		first_name: data.first_name,
@@ -43,17 +54,17 @@ const ProfileSettings: React.FC = () => {
 		<div className={styles.settings}>
 			<div className={styles.settings__title}>
 				<h2>Редактирование профиля</h2>
-				<SecondaryButton label="Удалить аккаунт" onClick={deleteAccount.openPopup}/>
+				<SecondaryButton label="Удалить аккаунт" onClick={deleteAccount.openPopup} />
 			</div>
 			<div className={styles.settings__body}>
 				<div className={styles.settings__avatar}>
 					<h3>Сотрудник</h3>
 					<img
-						className={`${styles.avatar} ${avatarData ? styles.loaded : ''}`}
-						src={avatarData}
+						className={`${styles.avatar} ${avatarUrl ? styles.loaded : ''}`}
+						src={avatarUrl || avatarDefault}
 						alt="Аватар"
 					/>
-					<SecondaryButton label="Сменить фото" onClick={changeAvatar.openPopup}/>
+					<SecondaryButton label="Сменить фото" onClick={changeAvatar.openPopup} />
 				</div>
 
 				<Formik
@@ -76,7 +87,7 @@ const ProfileSettings: React.FC = () => {
 								<div className={styles.settings__form__errorMessage}>{status}</div>
 							)}
 
-							<SecondaryButton label="Сменить пароль" fullWidth={true} onClick={changePassword.openPopup}/>
+							<SecondaryButton label="Сменить пароль" fullWidth={true} onClick={changePassword.openPopup} />
 
 							<div className={styles.settings__form__buttons}>
 								<PrimaryButton
@@ -92,7 +103,6 @@ const ProfileSettings: React.FC = () => {
 					)}
 				</Formik>
 			</div>
-			{isLoading && <Loader />}
 			<ModalWindow open={deleteAccount.isVisible} onClose={deleteAccount.closePopup}>
 				<DeleteAccount />
 			</ModalWindow>

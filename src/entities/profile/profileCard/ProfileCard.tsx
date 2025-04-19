@@ -5,7 +5,7 @@ import settingsIcon from "@/shared/ui/assets/icons/settings.svg"
 interface ProfileCardProps {  
     data: ProfileTypes; 
     onSettingsClick?: () => void;
-    avatar: string | undefined;
+    avatar: string | null;
 } 
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ data, onSettingsClick, avatar }) => {
@@ -14,10 +14,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ data, onSettingsClick, avatar
         <div className={styles.card}>  
             <div className={styles.card__personal}>  
                 <img className={`${styles.avatar} ${avatar ? styles.loaded : ''}`} src={avatar} alt ='avatar'/>
-                <div className={styles.data}>  
-                    <h4>{data.first_name} {data.last_name}</h4>  
+                <div className={styles.data}>
+                    <h4>{data.first_name} {data.last_name}</h4>
                     <h3>{data.username}</h3>  
-                    <h3>{data.email}</h3>  
+                    <h3>{data.email}</h3>
                 </div>  
             </div>  
             <div className={styles.card__settings} onClick={onSettingsClick}>  

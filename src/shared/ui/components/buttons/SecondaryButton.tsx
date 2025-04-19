@@ -10,6 +10,7 @@ interface SecondaryButtonProps {
 	fullWidth?: boolean;
 	type?: "button" | "submit" | "reset";
 	size?: "s" | "m" | "l";
+	disabled?: boolean;
 }
 
 export const SecondaryButton: React.FC<SecondaryButtonProps> = ({
@@ -18,6 +19,7 @@ export const SecondaryButton: React.FC<SecondaryButtonProps> = ({
 	onClick,
 	fullWidth = false,
 	type = "button",
+	disabled = false,
 	size = "s"
 }) => {
 	return (
@@ -28,6 +30,7 @@ export const SecondaryButton: React.FC<SecondaryButtonProps> = ({
 			to={link}
 			onClick={onClick}
 			type={type}
+			disabled={disabled}
 			sx={{
 				...secondaryButtonStyles,
 				...getSizeStyles(size),

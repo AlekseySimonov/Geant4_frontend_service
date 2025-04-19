@@ -7,16 +7,13 @@ const axiosClient = axios.create({
 	withCredentials: true,
 });
 
-axiosClient.interceptors.request.use((request) =>{
-    return request
-})
-
 axiosClient.interceptors.response.use(
 	response => response,
 	async (error: AxiosError) => {
 		const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
 		const isExpired = error.response?.status === 401;
+		const isAccepted = error.response?.status === 202;
 
 		if (isExpired && originalRequest && !originalRequest._retry) {
 			originalRequest._retry = true;
@@ -28,6 +25,10 @@ axiosClient.interceptors.response.use(
 				window.location.replace('/auth/login');
 				return Promise.reject(error);
 			}
+		}
+
+		if (isAccepted) {
+			return Promise.resolve(error.response);
 		}
 
 		return Promise.reject(error);
