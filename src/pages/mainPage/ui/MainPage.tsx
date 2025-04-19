@@ -1,4 +1,4 @@
-import { useCheckAuthQuery, useLazyLogoutQuery, } from "@/pages/authPage/api/authApi"
+import { useCheckAuthQuery } from "@/pages/authPage/api/authApi"
 import styles from "./_mainPage.module.scss"
 import mainBack from "@/shared/ui/assets/mainBack.jpg"
 import { useMediaQuery, useTheme } from "@mui/material"

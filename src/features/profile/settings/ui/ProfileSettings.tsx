@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { ModalWindow } from "@/shared/ui/components/modal";
 import { ChangePassword } from "./ChangePassword";
-import { DeleteAccount } from './DeleteAccount';
+import { Logout } from './Logout';
 import avatarDefault from "@/shared/ui/assets/icons/avatar_light.svg"
 import { useEffect } from "react";
 import { ChangeAvatar } from "../../changeAvatar";
@@ -35,7 +35,7 @@ const ProfileSettings: React.FC = () => {
 
 
 	const changePassword = usePopup()
-	const deleteAccount = usePopup()
+	const logout = usePopup()
 	const changeAvatar = usePopup()
 
 	if (isLoading || avatarLoading || !data) {
@@ -54,7 +54,7 @@ const ProfileSettings: React.FC = () => {
 		<div className={styles.settings}>
 			<div className={styles.settings__title}>
 				<h2>Редактирование профиля</h2>
-				<SecondaryButton label="Удалить аккаунт" onClick={deleteAccount.openPopup} />
+				<SecondaryButton label="Выйти из аккаунта" onClick={logout.openPopup} />
 			</div>
 			<div className={styles.settings__body}>
 				<div className={styles.settings__avatar}>
@@ -98,13 +98,12 @@ const ProfileSettings: React.FC = () => {
 
 								<SecondaryButton label="Отменить" link="/profile" />
 							</div>
-
 						</Form>
 					)}
 				</Formik>
 			</div>
-			<ModalWindow open={deleteAccount.isVisible} onClose={deleteAccount.closePopup}>
-				<DeleteAccount />
+			<ModalWindow open={logout.isVisible} onClose={logout.closePopup}>
+				<Logout />
 			</ModalWindow>
 			<ModalWindow open={changePassword.isVisible} onClose={changePassword.closePopup}>
 				<ChangePassword />

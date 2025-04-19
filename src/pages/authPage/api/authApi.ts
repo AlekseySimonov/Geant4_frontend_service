@@ -48,7 +48,7 @@ export const authApi = createApi({
 				}),
 			}),
 
-			logout: query({
+			logout: mutation({
 				query: () => ({
 					url: URLS.LOGOUT,
 					method: 'GET',
@@ -92,10 +92,9 @@ export const authApi = createApi({
 export const {
 	useLoginMutation,
 	useRegistrationMutation,
-	useLogoutQuery,
+	useLogoutMutation,
 	useCheckAuthQuery,
 	useLazyCheckAuthQuery,
-	useLazyLogoutQuery,
 	usePasswordRecoveryMutation,
 	useEmailVerifyConfirmQuery,
 	usePasswordRecoveryConfirmMutation,

@@ -61,7 +61,7 @@
 	}
 }
 
-.deleteAccount{
+.logout{
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
@@ -72,5 +72,10 @@
 		font-weight: 600;
 		font-size: 1.5rem;
 		text-align: center;
+	}
+	&_errorMessage{
+		color: var(--mui-palette-error-main);
+		font-size: 0.9rem;
+		padding-left: 21px;
 	}
 }
