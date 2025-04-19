@@ -3,7 +3,7 @@
 	justify-content: center;
 	flex-direction: column;
 	gap: 16px;
-	width: 400px;
+	width: 100%;
 	h3{
 		margin-bottom: 16px;
 		font-weight: 600;
@@ -11,7 +11,7 @@
 		text-align: center;
 	}
 	.container{
-		width: 400px;
+		width: 100%;
 		height: 267px;
 		border-radius: 8px;
 		border: solid 1px var(--mui-palette-primary-main);

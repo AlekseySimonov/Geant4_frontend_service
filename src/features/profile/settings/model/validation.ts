@@ -13,7 +13,7 @@ export const settingsValidationSchema = Yup.object({
 		.email('Неправильно указана Электронная почта. Пример: geant4@mail.com')
 		.required('Email обязателен'),
 
-	username: Yup.string()
+	new_username: Yup.string()
 		.required('Логин обязателен')
 		.matches(/^[a-zA-Z0-9]+$/, 'Логин должен содержать только латинские буквы и цифры'),
 });

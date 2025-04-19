@@ -3,7 +3,7 @@ import { ProfileTypes } from '@/shared/types';
 import { FormikHelpers } from 'formik';
 
 describe('handleSubmit', () => {
-	const mockValues: ProfileTypes = {
+	const baseValues: ProfileTypes = {
 		first_name: 'John',
 		last_name: 'Doe',
 		email: 'john@example.com',
@@ -19,32 +19,30 @@ describe('handleSubmit', () => {
 	};
 
 	it('Successfull send data without email changes', async () => {
-		const patchProfile = jest.fn().mockReturnValue({
-			unwrap: jest.fn().mockResolvedValue({}),
-		});
+		const patchProfile = jest.fn().mockReturnValue({ unwrap: jest.fn().mockResolvedValue({}) });
+		const postUsername = jest.fn();
 		const helpers = createMockHelpers();
 
 		const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
+		await handleSubmit(patchProfile, postUsername, 'john@example.com', 'johnny')(baseValues, helpers);
 
-		expect(patchProfile).toHaveBeenCalledWith(mockValues);
+		expect(patchProfile).toHaveBeenCalledWith(baseValues);
 		expect(helpers.setErrors).not.toHaveBeenCalled();
 		expect(helpers.setStatus).not.toHaveBeenCalled();
 		expect(alertMock).not.toHaveBeenCalled();
 	});
 
 	it('Successfull send data with email changes', async () => {
-		const patchProfile = jest.fn().mockReturnValue({
-			unwrap: jest.fn().mockResolvedValue({}),
-		});
+		const patchProfile = jest.fn().mockReturnValue({ unwrap: jest.fn().mockResolvedValue({}) });
+		const postUsername = jest.fn();
 		const helpers = createMockHelpers();
 
 		const alertMock = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-		await handleSubmit(patchProfile, 'old@example.com')(mockValues, helpers);
+		await handleSubmit(patchProfile, postUsername, 'john@example.com', 'johnny')(baseValues, helpers);
 
-		expect(patchProfile).toHaveBeenCalledWith(mockValues);
+		expect(patchProfile).toHaveBeenCalledWith(baseValues);
 		expect(alertMock).toHaveBeenCalledWith(
 			'На вашу новую почту отправлено письмо для подтверждения.'
 		);
@@ -59,9 +57,10 @@ describe('handleSubmit', () => {
 				},
 			}),
 		});
+		const postUsername = jest.fn();
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
+		await handleSubmit(patchProfile, postUsername, 'john@example.com', 'johnny')(baseValues, helpers);
 
 		expect(helpers.setErrors).toHaveBeenCalledWith({
 			username: 'Этот логин уже занят',
@@ -79,9 +78,10 @@ describe('handleSubmit', () => {
 				},
 			}),
 		});
+		const postUsername = jest.fn();
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
+		await handleSubmit(patchProfile, postUsername, 'john@example.com', 'johnny')(baseValues, helpers);
 
 		expect(helpers.setErrors).toHaveBeenCalledWith({
 			email: 'Эта почта уже используется',
@@ -97,9 +97,10 @@ describe('handleSubmit', () => {
 				data: {},
 			}),
 		});
+		const postUsername = jest.fn();
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
+		await handleSubmit(patchProfile, postUsername, 'john@example.com', 'johnny')(baseValues, helpers);
 
 		expect(helpers.setStatus).toHaveBeenCalledWith('Произошла ошибка. Попробуйте снова.');
 	});
@@ -110,9 +111,10 @@ describe('handleSubmit', () => {
 				status: 500,
 			}),
 		});
+		const postUsername = jest.fn();
 		const helpers = createMockHelpers();
 
-		await handleSubmit(patchProfile, 'john@example.com')(mockValues, helpers);
+		await handleSubmit(patchProfile, postUsername, 'john@example.com', 'johnny')(baseValues, helpers);
 
 		expect(helpers.setStatus).toHaveBeenCalledWith('Произошла ошибка. Попробуйте снова.');
 	});

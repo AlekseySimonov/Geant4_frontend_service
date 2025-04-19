@@ -1,6 +1,10 @@
 .profile{
-	margin-top: 64px;
+	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
-	gap: 46px;
+	gap: 20px;
+	@media (max-width: 900px){
+		gap: 16px;
+		margin-top: 32px;
+	}
 }

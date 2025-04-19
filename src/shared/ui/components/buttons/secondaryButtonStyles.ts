@@ -5,6 +5,8 @@ export const secondaryButtonStyles: SxProps<Theme> = {
 	textTransform: "none",
 	borderRadius: "8px",
 	transition: "0.3s ease",
+	lineHeight: '20px',
+	textAlign: 'center',
 	borderColor: "var(--mui-palette-primary-main)",
 	height: "max-content",
 	"&:hover": {

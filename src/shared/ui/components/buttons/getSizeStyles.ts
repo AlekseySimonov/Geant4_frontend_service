@@ -1,7 +1,7 @@
 export const getSizeStyles = (size: "s" | "m" | "l" ) => {
 	switch (size) {
 		case "s":
-			return { paddingBlock: "8px", paddingInline: "34px"  };
+			return { paddingBlock: "8px", paddingInline: "32px"  };
 		case "m":
 			return { paddingBlock: "20px", paddingInline: "40px" };
 		case "l":

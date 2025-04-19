@@ -2,16 +2,33 @@ import { profileApi } from "@/pages/profilePage/api";
 import { ProfileTypes } from "@/shared/types";
 import { FormikHelpers } from "formik";
 
+interface PatchProfileTypes {
+	email?: string;
+	first_name: string;
+	last_name: string;
+	new_username?: string;
+}
+
 type PatchProfileFn = ReturnType<typeof profileApi.endpoints.patchProfile.initiate>;
+type PostUpdateUsernameFn = ReturnType<typeof profileApi.endpoints.updateUsername.initiate>;
 
 export const handleSubmit =
-	(patchProfile:  (values: ProfileTypes) => ReturnType<PatchProfileFn>, prevEmail: string) =>
+	(
+		patchProfile: (values: Omit<PatchProfileTypes, "new_username">) => ReturnType<PatchProfileFn>,
+		postUsername: (values: { new_username: string }) => ReturnType<PostUpdateUsernameFn>,
+		prevEmail: string,
+		prevUsername:string,
+	) =>
 	async (
-		values: ProfileTypes,
+		values: PatchProfileTypes,
 		{ setErrors, setStatus }: FormikHelpers<ProfileTypes>
 	) => {
-	try {
-		await patchProfile(values).unwrap();
+		try {
+		const { new_username, ...profileData } = values;
+		await patchProfile(profileData).unwrap();
+		if (values.new_username !== prevUsername) {
+			await postUsername({new_username}).unwrap();
+		}
 		if (values.email !== prevEmail) {
 			alert("Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить смену почты.");
 		}

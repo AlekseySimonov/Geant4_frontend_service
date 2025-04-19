@@ -47,6 +47,14 @@ export const profileApi = createApi({
 				}),
 				invalidatesTags: ['Profile'],
 			}),
+			updateUsername: mutation({
+				query: (body: ProfileTypes) => ({
+					url: URLS.UPDATE_USERNAME,
+					method: 'POST',
+					body,
+				}),
+				invalidatesTags: ['Profile'],
+			}),
 		};
 	},
 });
@@ -55,4 +63,5 @@ export const {
 	useGetProfileQuery,
 	usePatchProfileMutation,
 	useChangePasswordMutation,
+	useUpdateUsernameMutation,
 } = profileApi;
