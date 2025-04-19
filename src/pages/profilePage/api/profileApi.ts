@@ -1,4 +1,4 @@
-import { AvatarTypes, ProfileTypes } from "@/shared/types";
+import { ProfileTypes } from "@/shared/types";
 import { URLS } from "./urls";
 import { createApi} from "@reduxjs/toolkit/query/react";
 import { globalLoading } from "@/shared/model";
@@ -38,7 +38,15 @@ export const profileApi = createApi({
 				}),
 				invalidatesTags: ['Profile'],
 			}),
-			
+
+			changePassword: mutation({
+				query: (body: ProfileTypes) => ({
+					url: URLS.CHANGE_PASSWORD,
+					method: 'POST',
+					body,
+				}),
+				invalidatesTags: ['Profile'],
+			}),
 		};
 	},
 });
@@ -46,4 +54,5 @@ export const profileApi = createApi({
 export const {
 	useGetProfileQuery,
 	usePatchProfileMutation,
+	useChangePasswordMutation,
 } = profileApi;

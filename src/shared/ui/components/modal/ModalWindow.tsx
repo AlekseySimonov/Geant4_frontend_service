@@ -13,7 +13,6 @@ export const ModalWindow: React.FC<ModalWindowProps> = ({ onClose, children, ope
 
 	return (
 		<>
-
 			<Modal open={open} onClose={onClose}>
 				<div className={styles.modal}>
 					{children}

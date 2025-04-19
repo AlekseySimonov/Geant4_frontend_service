@@ -30,17 +30,15 @@ const ProfilePage: React.FC = () => {
 		}
 	}, [profileData, isProfileError, isLoading, navigate])
 
-	if (isLoading || avatarLoading) {
-		return <Loader />
-	}
-
 	return (
 		<div className={styles.profile}>
-			<ProfileCard
-				data={profileData!}
-				onSettingsClick={() => navigate('/profile/settings')}
-				avatar={avatarUrl || avatarDefault}
-			/>
+			{profileData && (
+				<ProfileCard
+					data={profileData}
+					onSettingsClick={() => navigate("/profile/settings")}
+					avatar={avatarUrl || avatarDefault}
+				/>
+			)}
 			<ResolvesList />
 		</div>
 	)

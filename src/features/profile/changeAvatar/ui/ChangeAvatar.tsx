@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { deleteAvatar } from "@/features/avatar";
 
-export const ChangeAvatar: React.FC = () => {
+export const ChangeAvatar: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 	const dispatch = useDispatch<AppDispatch>()
 	const { url: currentAvatar } = useSelector(
 		(state: RootState) => state.avatar
@@ -28,6 +28,7 @@ export const ChangeAvatar: React.FC = () => {
 	
 		try {
 			await uploadCroppedImage(imageSrc, croppedAreaPixels, Boolean(currentAvatar), dispatch);
+			onClose()
 		} catch (e) {
 			console.error("Ошибка при обновлении аватара", e);
 		}

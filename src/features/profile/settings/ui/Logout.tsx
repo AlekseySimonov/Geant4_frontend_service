@@ -1,18 +1,16 @@
 import { useLogoutMutation } from "@/pages/authPage/api/authApi";
 import styles from "./_profileSettings.module.scss"
 import { PrimaryButton } from "@/shared/ui/components/buttons";
-import { useNavigate } from "react-router";
 
 export const Logout: React.FC = () => {
-	const navigate = useNavigate()
 	const [logout, { isError }] = useLogoutMutation();
 
 	const handleSubmit = async () => {
 		try {
 			await logout({}).unwrap();
+			window.location.replace('/auth/login')
 		} catch (error) {
 			console.error("Ошибка при выходе:", error);
-			navigate('/auth')
 		}
 	};
 

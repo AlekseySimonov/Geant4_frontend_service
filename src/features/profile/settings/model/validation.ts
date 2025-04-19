@@ -20,11 +20,10 @@ export const settingsValidationSchema = Yup.object({
 
 export const changePasswordValidationSchema = Yup.object({
 	old_password: Yup.string()
-		.required('Пароль обязателен')
+		.required('Пароль обязателен'),
+	new_password: Yup.string()
+		.required('Новый пароль обязателен')
 		.min(8, 'Пароль должен быть не менее 8 символов')
 		.matches(/[A-Z]/, 'Пароль должен содержать хотя бы одну заглавную букву')
 		.matches(/\d/, 'Пароль должен содержать хотя бы одну цифру'),
-	new_password: Yup.string()
-		.oneOf([Yup.ref('new_password'), null], 'Пароли должны совпадать')
-		.required('Подтверждение пароля обязательно'),
 });
