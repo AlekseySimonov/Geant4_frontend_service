@@ -50,7 +50,7 @@ const ProfileSettings: React.FC = () => {
 		<>
 			{data && (
 				<div className={styles.settings}>
-
+					{(isLoading || avatarLoading) && <Loader/>}
 					<Formik
 						initialValues={initialValues}
 						validationSchema={settingsValidationSchema}

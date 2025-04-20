@@ -1,0 +1,55 @@
+.tag{
+	padding-inline: 16px;
+	padding-block: 8px;
+	border-radius: 8px;
+	font-size: 1.5rem;
+	width: max-content;
+	position: relative;
+	@media(max-width: 600px){
+		font-size: 1rem;
+	}
+	@media(max-width: 400px){
+		padding-inline: 8px;
+	}
+	p{
+		position: absolute;
+		text-align: end;
+		margin-top: 8px;
+		right: 16px;
+		width: 240px;
+		@media(max-width: 800px){
+			display: none;
+		}
+	}
+}
+.success {
+	background-color: var(--mui-palette-error-main);
+	color: var(--mui-palette-background-paper);
+	p{
+		color: var(--mui-palette-background-paper);
+	}
+}
+
+.error {
+	background-color: var(--mui-palette-error-light);
+	color: var(--mui-palette-background-paper);
+	p{
+		color: var(--mui-palette-error-light);
+	}
+}
+
+.inProgress {
+	background-color: var(--mui-palette-info-light);
+	color: var(--mui-palette-primary-main);
+	p{
+		color: var(--mui-palette-primary-main);
+	}
+}
+
+.default {
+	background-color: var(--mui-palette-info-light);
+	color: var(--mui-palette-primary-main);
+	p{
+		color: var(--mui-palette-primary-main);
+	}
+}

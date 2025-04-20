@@ -1,4 +1,4 @@
-import { Link } from "react-router"
+import { Link, useMatch } from "react-router"
 import styles from "./_menu.module.scss"
 import { Drawer, List, ListItem, ListItemText, useMediaQuery, useTheme } from "@mui/material"
 import { useState } from "react";
@@ -13,11 +13,11 @@ export const Menu: React.FC = () => {
 	const [toggleDrawer, setToggleDrawer] = useState(false)
 
 	const menuItems = [
-		{ label: "Документация", to: "/" },
-		{ label: "Форум", to: "/" },
-		{ label: "Моделирование", to: "/" },
+		{ label: "Документация", to: "/doc" },
+		{ label: "Форум", to: "/forum" },
+		{ label: "Моделирование", to: "/modeling" },
 		{ label: "Профиль", to: "/profile" },
-		{ label: "Хранилище", to: "/" },
+		{ label: "Хранилище", to: "/storage" },
 	];
 
 	return (
@@ -31,11 +31,21 @@ export const Menu: React.FC = () => {
 			<div className={styles.menu__navigation}>
 				{!isMobile ? (
 					<>
-						{menuItems.map((item) => (
-							<Link key={item.label} to={item.to}>
+						{menuItems.map((item) => {
+						const match = useMatch({  
+							path: item.to,  
+							end: item.to === "/" 
+						});
+							
+						return (
+							<Link
+								key={item.label}
+								to={item.to}
+								className={match ? styles.activeLink : ""}
+							>
 								{item.label}
 							</Link>
-						))}
+						)})}
 					</>
 				) : (
 					<>
@@ -48,17 +58,23 @@ export const Menu: React.FC = () => {
 						>
 								<List>
 									<img src={arrow} onClick={() => setToggleDrawer(false)} />
-								{menuItems.map((item) => (
-									<ListItem
-										classes={{gutters: styles.listItem}}
-										key={item.label}
-										component={Link}
-										to={item.to}
-										onClick={() => setToggleDrawer(false)}
-									>
-										<ListItemText classes={{primary:styles.listItem__text}} primary={item.label} />
-									</ListItem>
-								))}
+									{menuItems.map((item) => {
+										const match = useMatch({  
+											path: item.to,  
+											end: item.to === "/"  
+										});  
+										return(
+										<ListItem
+											classes={{ gutters: styles.listItem }}
+											key={item.label}
+											component={Link}
+											to={item.to}
+											onClick={() => setToggleDrawer(false)}
+											className={match ? styles.activeListItem : ""}  
+										>
+											<ListItemText classes={{ primary: styles.listItem__text }} primary={item.label} />
+										</ListItem>
+									)})}
 							</List>
 						</Drawer>
 					</>

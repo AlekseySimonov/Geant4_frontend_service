@@ -1,0 +1,32 @@
+.resolve {
+	padding: 24px;
+	box-shadow: var(--mui-shadows-1);
+	display: flex;
+	justify-content: space-between;
+	gap: 80px;
+	@media(max-width: 800px){
+		flex-direction: column-reverse;
+		gap: 20px;
+	}
+	@media(max-width: 600px){
+		h3{
+		font-size: 1rem;
+		}
+		h4{
+			font-size: 1.4rem;
+		}
+	}
+
+	
+	&__info {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		&__tags {
+			display: flex;
+			gap: 10px;
+			max-width: 400px;
+			flex-wrap: wrap;
+		}
+	}
+}

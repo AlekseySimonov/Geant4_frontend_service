@@ -20,14 +20,19 @@ const lightTheme = createTheme({
 			paper: '#FCFDFF',
 		},
 		info: {
-			main: 'rgba(74,85,131, 0.8)'
+			main: 'rgba(74,85,131, 0.8)',
+			light: '#CCD6FF'
 		},
 		text: {
 			primary: "#FCFDFF",
 			secondary: "rgba(74,85,131, 0.8)"
 		},
 		error: {
-			main: '#B5003F'
+			main: '#B5003F',
+			light: 'rgba(181,0,0,0.39)'
+		},
+		success:{
+			main: '##87AB89'
 		},
 		action: {
 			disabled: '#DEE3ED'

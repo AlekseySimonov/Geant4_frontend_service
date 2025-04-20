@@ -4,7 +4,8 @@ import { primaryButtonStyles } from "./primaryButtonStyles";
 import { getSizeStyles } from "./getSizeStyles";
 
 interface PrimaryButtonProps {
-	label: string;
+	label?: string;
+	children?: React.ReactNode;
 	link?: string;
 	onClick?: () => void;
 	fullWidth?: boolean;
@@ -20,7 +21,8 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 	fullWidth = false,
 	type = "button",
 	disabled = false,
-	size = "s"
+	size = "s",
+	children
 }) => {
 	return (
 		<Button
@@ -37,7 +39,7 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 				width: fullWidth ? "100%" : "max-content",
 			}}
 		>
-			{label}
+			{children ?? label} 
 		</Button>
 	);
 };

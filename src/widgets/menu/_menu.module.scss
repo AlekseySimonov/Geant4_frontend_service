@@ -3,11 +3,10 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	background: var(--mui-palette-background-paper);
 	height: 80px;
 	z-index: 500;
-	a, a:visited, a:hover, a:active {
-		color: inherit;
+	a, a:hover, a:active {
+		color: var(--mui-palette-primary-main);
 	}
 	&__background{
 		position: absolute;
@@ -16,6 +15,7 @@
 		left: 0;
 		z-index: 0;
 		box-shadow: var(--mui-shadows-1);
+		background: var(--mui-palette-background-paper);
 	}
 	&__logo{
 		font-family: 'Manrope', sans-serif;
@@ -30,7 +30,11 @@
 		flex-direction: row;
 		gap: 2rem;
 		align-items: center;
-		font-size: 1rem;
+		font-weight: 500;
+		font-size: 1.1rem;
+		.activeLink {  
+			color: var(--mui-palette-primary-light);
+		}  
 		&__img{
 			width: 25px;
 		}
