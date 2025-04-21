@@ -1,1 +1,1 @@
-export { default } from './ResolvesList';
+export { default } from './ui/ResolvesList';

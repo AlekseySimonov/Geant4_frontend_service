@@ -7,6 +7,7 @@ import { uploadCroppedImage } from "../model/uploadFile";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { deleteAvatar } from "@/features/avatar";
+import uploadImg from "@/shared/ui/assets/icons/uploadImg.svg"
 
 export const ChangeAvatar: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 	const dispatch = useDispatch<AppDispatch>()
@@ -63,11 +64,17 @@ export const ChangeAvatar: React.FC<{ onClose: () => void }> = ({ onClose }) => 
 					</div>
 				</>
 			) : (
-				<input
-					type="file"
-					onChange={(e) => onFileChange(e, setImageSrc)}
-					accept="image/*"
-				/>
+				<div className={styles.changeAvatar__input }>
+					<input
+						type="file"
+						onChange={(e) => onFileChange(e, setImageSrc)}
+						accept="image/*"
+						/>
+						<div className={styles.changeAvatar__input__info }>
+							<p>Нажмите, чтобы добавить изображение</p>
+							<img src={uploadImg} alt="upload" />
+						</div>
+				</div>
 			)}
 
 			<PrimaryButton

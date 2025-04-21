@@ -1,4 +1,4 @@
-import { ProfileTypes } from "@/shared/types";
+import { MyExamplesTypes, ProfileTypes } from "@/shared/types";
 import { URLS } from "./urls";
 import { createApi} from "@reduxjs/toolkit/query/react";
 import { globalLoading } from "@/shared/model";
@@ -7,7 +7,7 @@ import { apiBaseQuery } from "@/shared/api";
 export const profileApi = createApi({
 	reducerPath: 'profileApi',
 	baseQuery: apiBaseQuery(process.env.API_BASE_URL),
-	tagTypes: ['Profile'],
+	tagTypes: ['Profile', 'Examples'],
 	endpoints: (builder) => {
 		const mutation = (options: any) =>
 			builder.mutation({
@@ -55,6 +55,13 @@ export const profileApi = createApi({
 				}),
 				invalidatesTags: ['Profile'],
 			}),
+			getExamples: query<MyExamplesTypes[], void>({
+				query: () => ({
+					url: URLS.EXAMPLES,
+					method: 'GET',
+				}),
+				providesTags: ['Examples'],
+			}),
 		};
 	},
 });
@@ -64,4 +71,5 @@ export const {
 	usePatchProfileMutation,
 	useChangePasswordMutation,
 	useUpdateUsernameMutation,
+	useGetExamplesQuery,
 } = profileApi;

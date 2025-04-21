@@ -8,7 +8,6 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 			return {
 				fontSize: '1rem',
 				borderRadius: theme.shape.borderRadius,
-				backgroundColor: theme.palette.secondary.main,
 				"&.Mui-error .MuiOutlinedInput-notchedOutline": {
 					borderColor: theme.palette.error.main,
 				},
