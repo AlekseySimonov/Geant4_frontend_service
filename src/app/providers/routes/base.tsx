@@ -6,6 +6,7 @@ import { Loader } from "@/shared";
 
 const MainPage = lazy(() => import("@/pages").then(module => ({ default: module.MainPage })))
 const ProfilePage = lazy(() => import("@/pages").then(module => ({ default: module.ProfilePage })))
+const DocumentationPage = lazy(() => import("@/pages").then(module => ({ default: module.DocumentationPage })))
 
 
 export const baseRoutes = {
@@ -18,6 +19,7 @@ export const baseRoutes = {
 		{ index: true, element: <Navigate to="main" replace /> },
 		{ path: "main", element: <MainPage /> },
 		{ path: "profile", element: <ProfilePage /> },
-		{ path: "profile/settings", element: <ProfileSettings /> }
+		{ path: "profile/settings", element: <ProfileSettings /> },
+		{ path: "documentation", element: <DocumentationPage /> }
 	],
 };

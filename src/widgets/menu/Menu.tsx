@@ -13,7 +13,7 @@ export const Menu: React.FC = () => {
 	const [toggleDrawer, setToggleDrawer] = useState(false)
 
 	const menuItems = [
-		{ label: "Документация", to: "/doc" },
+		{ label: "Документация", to: "/documentation" },
 		{ label: "Форум", to: "/forum" },
 		{ label: "Моделирование", to: "/modeling" },
 		{ label: "Профиль", to: "/profile" },

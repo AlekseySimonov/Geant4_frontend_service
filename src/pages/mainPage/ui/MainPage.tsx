@@ -57,7 +57,7 @@ const MainPage: React.FC = () => {
 				<Card
 					title="Документация"
 					text="Документация Geant4ru, а также учебные пособия и руководства, доступны онлайн."
-					link="/"
+					link="/documentation"
 					btnLabel="Читать документацию"
 				/>
 				<Card
