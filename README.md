@@ -27,8 +27,10 @@
 
 ## Запуск в режиме разработки
 
-Клонировать репозиторий `git clone https://github.com/AlekseySimonov/Geant4_frontend_service.git`
-
+Клонировать репозиторий 
+```bash
+git clone https://github.com/AlekseySimonov/Geant4_frontend_service.git
+```
 Для установки всех зависимостей из package.json
 ```bash
 npm install
@@ -66,7 +68,7 @@ npm run build:dev
 npm run build:prod
 ```
 ### Папка сборки 
-Результат обеих сборок сохраняется в директорию `/build`.
+Результат обеих сборок сохраняется в директорию `build`.
 
 ## Деплой
 CI/CD настроен с помощью GitHub Actions. Скрипты находятся в директории `.github/workflows/`.
