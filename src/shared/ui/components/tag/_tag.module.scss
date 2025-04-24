@@ -47,9 +47,9 @@
 }
 
 .default {
-	background-color: var(--mui-palette-info-light);
+	font-size: 1rem;
+	background-color: none;
 	color: var(--mui-palette-primary-main);
-	p{
-		color: var(--mui-palette-primary-main);
-	}
+	border: solid 1px var(--mui-palette-primary-main);
+	border-radius: 8px;
 }
