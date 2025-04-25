@@ -38,6 +38,11 @@
 			margin-left: auto;
 			cursor: pointer;
 		}
+		&__loader{
+			position: absolute;
+			right: 44px;
+			top: 8px;
+		}
 	}
 	&__popper{
 		position: absolute;
@@ -53,7 +58,7 @@
 		display: flex;
 		padding-block: 10px;
 		flex-direction: column;
-		z-index: 888;
+		z-index: 20;
 		&__item {
 			cursor: pointer; 
 			padding: 8px 12px 8px 44px; 
@@ -61,6 +66,9 @@
 		}
 		&__item:hover {
 			background-color: var(--mui-palette-background-default);
+		}
+		&__info{
+			padding: 8px 12px 8px 44px; 
 		}
 	}
 }
