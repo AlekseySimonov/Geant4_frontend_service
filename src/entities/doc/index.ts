@@ -1,1 +1,1 @@
-export {default as ArticleCard} from "./exampleCard"
+export { default as ArticleCard } from "./exampleCard"

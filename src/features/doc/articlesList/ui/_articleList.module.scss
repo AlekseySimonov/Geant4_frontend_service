@@ -1,0 +1,31 @@
+.articles{
+	display: flex;
+	flex-direction: column;
+	gap: 34px;
+	&__filter{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+	h2{
+		font-size: 1.5rem;
+	}
+	&__filter{
+		width: 100%;
+		display: flex;
+		gap: 24px;
+		flex-wrap: nowrap;
+		align-items: center;
+		@media (max-width: 1100px){
+			flex-wrap: wrap;
+		}
+		&__reset{
+			cursor: pointer;
+		}
+	}
+	&__cards{
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+}

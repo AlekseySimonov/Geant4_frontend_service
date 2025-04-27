@@ -9,6 +9,12 @@
 	border-radius: 8px;
 	width: 100%;
 	box-shadow: var(--mui-shadows-2);
+	&__filter{
+		display: flex;
+		flex-direction: row;
+		gap: 24px;
+		flex-wrap: wrap;
+	}
 	h2{
 		font-size: 1.5rem;
 	}

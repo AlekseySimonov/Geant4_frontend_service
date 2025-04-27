@@ -1,10 +1,14 @@
 import styles from "./_articleCard.module.scss"
 import { Tag } from '@/shared/ui/components/tag';
 
-const ArticleCard: React.FC = () => { 
+interface ArticleCardTypes{
+	title?: string;
+}
+
+const ArticleCard: React.FC<ArticleCardTypes> = ({title}) => { 
 	return (
 		<div className={styles.card}>
-			<h2>Hассеяние рентгеновских лучей в среде</h2>
+			<h2>{title || 'Без названия'}</h2>
 			<div className={styles.card__tags}>
 				<Tag label="Рентгеновское измучение" defaultStyle />
 				<Tag label="Взаимодействие с веществом" defaultStyle />

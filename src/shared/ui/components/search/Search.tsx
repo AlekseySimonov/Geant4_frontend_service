@@ -7,10 +7,16 @@ import { CircularProgress } from "@mui/material";
 import { ArticlesTypes } from "@/shared/types";
 
 interface SearchProps {
-	onSearch: (query: string) => Promise<ArticlesTypes[]>;
+	onSearch: (query: string) => Promise<{ title: string, id: number }[]>;
+	onOptionSelect?: (title: string) => void;
+	searchValue?: string;
 }
 
-export const Search: React.FC<SearchProps> = ({ onSearch })=> {
+export const Search: React.FC<SearchProps> = ({
+	onSearch,
+	onOptionSelect,
+	searchValue,
+}) => {
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState<readonly ArticlesTypes[]>([]);
 	const [loading, setLoading] = useState(false);
@@ -36,25 +42,46 @@ export const Search: React.FC<SearchProps> = ({ onSearch })=> {
 		};
 
 		fetchData();
-		
+
 	}, [debouncedSearchText]);
 
 	const handleSearchClick = () => {
 		if (inputRef.current) {
-		inputRef.current.focus();
+			inputRef.current.focus();
 		}
 	};
+
+	const handleOptionClick = (option: ArticlesTypes) => {
+		setSearchText(option.title);
+		setOpen(false);
+		onOptionSelect?.(option.title);
+	};
+
+	useEffect(() => {
+		if (searchValue !== searchText) {
+			setSearchText(searchValue);
+		}
+	}, [searchValue]);
 
 	return (
 		<div className={styles.search} onClick={handleSearchClick} ref={searchRef}>
 			<div className={`${styles.search__input} ${open ? styles.open : ''}`}>
-				<img className={ styles.search__input__icon} src={searchIcon} alt="#" />
+				<img className={styles.search__input__icon} src={searchIcon} alt="#" />
 				<input
 					type="text"
 					placeholder="Поиск"
 					ref={inputRef}
 					value={searchText}
 					onChange={(e) => setSearchText(e.target.value)}
+					onKeyDown={(e) => {
+						if (e.key === "Enter") {
+							e.preventDefault();
+							if (searchText.trim()) {
+								onOptionSelect?.(searchText.trim());
+								setOpen(false);
+							}
+						}
+					}}
 				/>
 				{searchText && (
 					<img className={styles.search__input__cross} src={crossIcon} alt="#" onClick={() => setSearchText('')} />
@@ -68,14 +95,14 @@ export const Search: React.FC<SearchProps> = ({ onSearch })=> {
 			{open && (<div className={styles.search__popper}>
 				{loading && <div className={styles.search__popper__info}>Загрузка...</div>}
 				{!loading && options.length === 0 && (
-						<div className={styles.search__popper__info}>Ничего не найдено</div>
+					<div className={styles.search__popper__info}>Ничего не найдено</div>
 				)}
 				{!loading &&
-					options.map((option, index) => (
+					options.map((option) => (
 						<div
-							key={index}
+							key={option.id}
 							className={styles.search__popper__item}
-							onClick={() => setSearchText(option.title)}
+							onClick={() => handleOptionClick(option)}
 						>
 							{option.title}
 						</div>

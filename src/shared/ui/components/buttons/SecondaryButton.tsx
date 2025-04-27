@@ -9,7 +9,7 @@ interface SecondaryButtonProps {
 	onClick?: () => void;
 	fullWidth?: boolean;
 	type?: "button" | "submit" | "reset";
-	size?: "s" | "m" | "l";
+	size?: "s" | "m" | "l" | "height-40";
 	disabled?: boolean;
 }
 
