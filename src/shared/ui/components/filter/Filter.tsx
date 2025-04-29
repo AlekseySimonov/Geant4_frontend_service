@@ -37,10 +37,12 @@ export const Filter: React.FC<FilterProps> = ({
 		<div
 			className={styles.filter}
 			ref={filterRef}
-			style={{ width: width || 'max-content' }}
+			style={{ minWidth: width || 'max-content' }}
 		>
 			<div className={`${styles.filter__button} ${open ? styles.open : ''}`} onClick={() => setOpen(prev => !prev)}>
-				{selectedOption ? selectedOption : label}
+				<div className={styles.filter__button__label}>
+					{selectedOption ? selectedOption : label}
+				</div>
 				<KeyboardArrowDownRoundedIcon
 					className={open ? styles.iconOpen : ''}
 					color="inherit"

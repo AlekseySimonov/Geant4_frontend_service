@@ -9,13 +9,13 @@ import { useEffect } from 'react'
 const AuthPage: React.FC = () => {
 
 	const navigate = useNavigate()
-	const { isSuccess } = useCheckAuthQuery();
+	const { data, isSuccess } = useCheckAuthQuery();
 
 	useEffect(() => {
-		if (isSuccess) {
+		if ((isSuccess && data?.detail === true)) {
 			navigate('/main', { replace: true });
 		}
-	}, [isSuccess, navigate]);
+	}, [isSuccess, data, navigate]);
 
 	const { isLoading} = useSelector((state: RootState) => state.globalLoading)
 

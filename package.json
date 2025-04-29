@@ -19,7 +19,6 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/jest": "^29.5.14",
-    "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.13.1",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
@@ -59,13 +58,11 @@
     "axios": "^1.8.4",
     "dotenv": "^16.4.7",
     "formik": "^2.4.6",
-    "js-cookie": "^3.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-easy-crop": "^5.4.1",
     "react-redux": "^9.2.0",
     "react-router": "^7.1.5",
-    "react-spinners": "^0.15.0",
     "yup": "^1.6.1"
   }
 }

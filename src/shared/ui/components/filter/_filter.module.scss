@@ -1,5 +1,9 @@
 .filter{
 	position: relative;
+	@media (max-width: 500px){
+		min-width: none;
+		width: 100%;
+	}
 	&__button{
 		display: flex;
 		align-items: center;
@@ -11,6 +15,9 @@
 		padding: 8px 16px 8px 44px; 
 		border: solid 1px var(--mui-palette-primary-main);
 		cursor: pointer;
+		&__label{
+			overflow: hidden;
+		}
 		&.open{
 			border-radius: 8px 8px 0 0;
 			border-bottom: none;
@@ -42,6 +49,7 @@
 	&__popper{
 		position: absolute;
 		width: 100%;
+		overflow: hidden;
 		left: 0;
 		top: 100%;
 		max-height: 300px;

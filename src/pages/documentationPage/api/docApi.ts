@@ -27,9 +27,9 @@ export const docApi = createApi({
 			});
 
 		return {
-			getArticles: query<ArticlesTypes[], void>({
-				query: () => ({
-					url: URLS.ARTICLES,
+			getArticles: query<ArticlesTypes[], { page?: number; limit?: number }>({
+				query: ({ page = 1, limit = 10 }) => ({
+					url: `${URLS.ARTICLES}?page=${page}&limit=${limit}`,
 					method: 'GET',
 				}),
 			}),

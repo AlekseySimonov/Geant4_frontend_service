@@ -1,0 +1,29 @@
+.card{
+	display: flex;
+	flex-direction: column;
+	width: 320px;
+	height: 180px;
+	padding: 16px;
+	border-radius: 8px;
+	background-color: var(--mui-palette-background-paper);
+	gap: 20px;
+	box-shadow: var(--mui-shadows-2);
+	&__title{
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		h2{
+			font-size: 1.5rem;
+		}
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: -10px;
+			left: 0;
+			right: 0;
+			height: 1px;
+			background-color: var(--mui-palette-primary-main);
+		}
+	}
+}

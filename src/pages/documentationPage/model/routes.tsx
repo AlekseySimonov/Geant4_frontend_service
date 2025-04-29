@@ -1,4 +1,4 @@
-import { ArticlesList } from "@/features";
+import { ArticlesList, ImportantArticles } from "@/features";
 import { lazy } from "react";
 import { Navigate } from "react-router";
 
@@ -10,5 +10,6 @@ export const docRoutes = {
 	children: [
 		{ index: true, element: <Navigate to="articles" replace /> },
 		{ path: "articles", element: <ArticlesList /> },
+		{ path: "articles/important", element: <ImportantArticles /> },
 	],
 };

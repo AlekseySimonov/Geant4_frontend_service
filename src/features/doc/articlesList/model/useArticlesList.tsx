@@ -5,6 +5,8 @@ import { useLazySearchArticlesQuery } from "@/pages/documentationPage/api/queryD
 export const useArticlesList = () => {
 	const [searchArticle] = useLazySearchArticlesQuery();
 
+	const [page, setPage] = useState(1);
+
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 	const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState<string>('');
@@ -12,7 +14,12 @@ export const useArticlesList = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const result = await searchArticle({ query: searchQuery, category: selectedCategory, chapter: selectedChapter });
+			const result = await searchArticle({
+				query: searchQuery,
+				category: selectedCategory,
+				chapter: selectedChapter,
+				page: page,
+			});
 			if ('data' in result) {
 				setArticles(result.data);
 			}
@@ -43,22 +50,25 @@ export const useArticlesList = () => {
 		const result = await searchArticle({ query: searchQuery, category: selectedCategory, chapter: selectedChapter });
 		if ('data' in result) {
 			setArticles(result.data);
+			setPage(1)
 		}
 	};
 
 	const handleCategoryChange = (categoryTitle: string) => {
 		setSelectedCategory(categoryTitle);
+		setPage(1)
 	};
 
 	const handleChapterChange = (chapterTitle: string) => {
 		setSelectedChapter(chapterTitle);
+		setPage(1)
 	};
 
 	const handleReset = () => {
 		setSelectedCategory(null);
 		setSelectedChapter(null);
 		setSearchQuery('');
-		setArticles([]);
+		setPage(1)
 	};
 
 	return {
