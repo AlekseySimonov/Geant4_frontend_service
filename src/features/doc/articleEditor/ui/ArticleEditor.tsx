@@ -5,6 +5,8 @@ import { ArticlesTypes } from '@/shared/types';
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 import { EditorBlock } from "@/entities";
 import { useState } from "react";
+import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import { useNavigate } from "react-router";
 
 const initialValues: ArticlesTypes = {
 	title: '',
@@ -15,6 +17,7 @@ const initialValues: ArticlesTypes = {
 const ArticleEditor: React.FC = () => {
 	const [blocks, setBlocks] = useState<number[]>([]);
 	const [blockCounter, setBlockCounter] = useState(0);
+	const navigate = useNavigate()
 
 	return (
 		<div className={styles.editor}>
@@ -26,7 +29,11 @@ const ArticleEditor: React.FC = () => {
 			>
 				{({ values }) => (
 					<Form className={styles.editor__form}>
-						<h2>Редактор статьи</h2>
+						<div className={styles.editor__form__title}>
+							<ArrowBackIosRoundedIcon style={{ fontSize: 30 }} onClick={()=> navigate('/documentation/articles')}/>
+							<h2>Редактор статьи</h2>
+						</div>
+
 						<FormField name="title" placeholder="Название статьи" />
 						<FormField name="description" placeholder="Описание" isMultiline />
 
@@ -46,14 +53,14 @@ const ArticleEditor: React.FC = () => {
 										onClick={() =>
 											push({
 												title: '',
-												elements: [{text: '',}]
+												elements: [{ text: '', }]
 											})
 										}
 									/>
 								</>
 							)}
 						</FieldArray>
-						<PrimaryButton label="Опубликовать" fullWidth />
+						<PrimaryButton label="Опубликовать" fullWidth type = "submit"/>
 					</Form>
 				)}
 
