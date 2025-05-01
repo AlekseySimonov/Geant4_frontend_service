@@ -30,7 +30,7 @@ const ResolveCard: React.FC<ResolveCardProps> = ({ title, date, tags, status }) 
 				</div>
 			</div>
 			<div className={styles.resolve__progress}>
-				<Tag label={label} {...tagProps} />
+				<Tag label={label} {...tagProps}/>
 			</div>
 		</div>
 	)

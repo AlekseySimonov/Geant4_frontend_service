@@ -5,7 +5,6 @@ import { PrimaryButton } from "@/shared/ui/components/buttons"
 
 const ResolvesList: React.FC = () => {
 	const { data: examples, isLoading  } = useGetExamplesQuery()
-	console.log(examples)
 
 	if (isLoading) {
 		return null

@@ -6,11 +6,12 @@ interface FormFieldProps {
 	name: string;
 	type?: string;
 	placeholder: string;
-	errors: Record<string, string | undefined>;
+	errors?: Record<string, string | undefined>;
+	isMultiline?: boolean;
 }
 
 export const FormField: React.FC<FormFieldProps> =
-	({ name, type = 'text', placeholder, errors }) => {
+	({ name, type = 'text', placeholder, errors = {}, isMultiline = false}) => {
 		return (
 			<div className={`${styles.form_field} ${errors[name] ? styles.error : ''}`}>
 				<Field name={name}>
@@ -23,6 +24,8 @@ export const FormField: React.FC<FormFieldProps> =
 							label={placeholder}
 							variant="outlined"
 							fullWidth
+							multiline={isMultiline}
+							minRows={isMultiline ? 3 : undefined}
 							error={Boolean(errors[name])}
 						/>
 					)}

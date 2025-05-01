@@ -55,7 +55,7 @@ export const authApi = createApi({
 				}),
 			}),
 
-			checkAuth: query<void, void>({
+			checkAuth: query<{ detail: boolean }, void>({
 				query: () => ({
 					url: URLS.CHECK_AUTH,
 					method: 'GET',

@@ -11,13 +11,13 @@ import { useNavigate } from "react-router";
 
 const MainPage: React.FC = () => {
 	const navigate = useNavigate()
-	const { isError } = useCheckAuthQuery()
+	const { data, isError, isSuccess } = useCheckAuthQuery()
 	
 	useEffect(() => {
-		if (isError) {
+		if (isError || (isSuccess && data?.detail === false)) {
 			navigate('/auth/login')
 		}
-	},[isError, navigate])
+	},[isError, data, navigate])
 
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("md"))
@@ -57,7 +57,7 @@ const MainPage: React.FC = () => {
 				<Card
 					title="Документация"
 					text="Документация Geant4ru, а также учебные пособия и руководства, доступны онлайн."
-					link="/"
+					link="/documentation"
 					btnLabel="Читать документацию"
 				/>
 				<Card

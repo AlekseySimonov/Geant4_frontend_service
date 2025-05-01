@@ -9,6 +9,7 @@ export const secondaryButtonStyles: SxProps<Theme> = {
 	textAlign: 'center',
 	borderColor: "var(--mui-palette-primary-main)",
 	height: "max-content",
+	backgroundColor: "var(--mui-palette-primary-paper)",
 	"&:hover": {
 		backgroundColor: "var(--mui-palette-primary-light)",
 		color: "var(--mui-palette-secondary-main)",
