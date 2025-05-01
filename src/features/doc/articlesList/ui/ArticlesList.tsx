@@ -32,6 +32,7 @@ const ArticlesList: React.FC = () => {
 	const { data: chapters } = useGetChaptersQuery()
 
 	const isWideScreen = useMediaQuery('(min-width:1350px)')
+	const isMobile = useMediaQuery('(max-width: 700px)');
 	const navigate = useNavigate()
 
 	return (
@@ -72,25 +73,34 @@ const ArticlesList: React.FC = () => {
 						onOptionSelect={handleSearchEnter}
 						searchValue={searchQuery}
 					/>
-					<Filter
-						options={categories}
-						label="Категории"
-						width="230px"
-						onOptionSelect={(title) => handleCategoryChange(title)}
-						selectedOption={selectedCategory}
-					/>
-					<Filter
-						options={chapters}
-						label="Разделы"
-						width="200px"
-						onOptionSelect={(title) => handleChapterChange(title)}
-						selectedOption={selectedChapter}
-					/>
-					<ClearRoundedIcon
-						onClick={handleReset}
-						style={{ fontSize: 30 }}
-						className={styles.articles__filter__reset}
-					/>
+					<div className={styles.articles__filter__filters}>
+						<Filter
+							options={categories}
+							label="Категории"
+							width={isMobile ? '140px' : '230px'}
+							onOptionSelect={(title) => handleCategoryChange(title)}
+							selectedOption={selectedCategory}
+						/>
+						<Filter
+							options={chapters}
+							label="Разделы"
+							width={isMobile ? '120px' : '200px'}
+							onOptionSelect={(title) => handleChapterChange(title)}
+							selectedOption={selectedChapter}
+						/>
+						{isMobile ? (
+							<SecondaryButton
+								label="Сбросить"
+								onClick={handleReset}
+							/>
+						) : (
+							<ClearRoundedIcon
+								onClick={handleReset}
+								style={{ fontSize: 30 }}
+								className={styles.articles__filter__reset}
+							/>
+						)}
+					</div>
 				</div>
 
 				<div className={styles.articles__cards}>

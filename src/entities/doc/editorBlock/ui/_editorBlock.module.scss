@@ -7,10 +7,14 @@
 	border: solid 1px var(--mui-palette-primary-main);
 	gap: 32px;
 	position: relative;
-	&__remover{
+	&__buttons{
+		display: flex;
+		gap: 10px;
 		position: absolute;
 		right: 10px;
 		top: 10px;
-		cursor: pointer;
+		svg{
+			cursor: pointer;
+		}
 	}
 }

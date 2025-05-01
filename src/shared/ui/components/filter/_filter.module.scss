@@ -15,6 +15,9 @@
 		padding: 8px 16px 8px 44px; 
 		border: solid 1px var(--mui-palette-primary-main);
 		cursor: pointer;
+		@media (max-width: 400px){
+			padding: 8px 8px 8px 22px; 
+		}
 		&__label{
 			overflow: hidden;
 		}
@@ -66,6 +69,11 @@
 			cursor: pointer; 
 			padding: 8px 12px 8px 44px; 
 			transition: background-color 0.3s ease;
+			white-space: normal;
+			word-wrap: break-word;
+			@media (max-width: 400px){
+				padding: 8px 12px 8px 22px; 
+			}
 		}
 		&__item:hover {
 			background-color: var(--mui-palette-background-default);

@@ -29,12 +29,6 @@
 		}
 	}
 
-	&__filter {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-
 	h2 {
 		font-size: 1.5rem;
 	}
@@ -45,9 +39,24 @@
 		gap: 24px;
 		flex-wrap: nowrap;
 		align-items: center;
+		&__filters{
+			display: flex;
+			gap: 24px;
+			align-items: center;
+			@media (max-width: 700px){
+				flex-wrap: wrap;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 5px;
+			}
+		}
 
-		@media (max-width: 1100px) {
+		@media (max-width: 950px) {
 			flex-wrap: wrap;
+			flex-direction: column;
+			gap: 5px;
+			align-items: flex-start;
 		}
 
 		&__reset {
