@@ -98,9 +98,9 @@ export const Search: React.FC<SearchProps> = ({
 					<div className={styles.search__popper__info}>Ничего не найдено</div>
 				)}
 				{!loading &&
-					options.map((option) => (
+					options.map((option, index) => (
 						<div
-							key={option.id}
+							key={index}
 							className={styles.search__popper__item}
 							onClick={() => handleOptionClick(option)}
 						>

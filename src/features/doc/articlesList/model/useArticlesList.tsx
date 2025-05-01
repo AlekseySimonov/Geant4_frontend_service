@@ -6,6 +6,7 @@ export const useArticlesList = () => {
 	const [searchArticle] = useLazySearchArticlesQuery();
 
 	const [page, setPage] = useState(1);
+	const [pageCount, setPageCount] = useState(1);
 
 	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 	const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
@@ -21,11 +22,17 @@ export const useArticlesList = () => {
 				page: page,
 			});
 			if ('data' in result) {
-				setArticles(result.data);
+				const articles = result.data.filter((item: any) => !('pages_count' in item));
+				const pageInfo = result.data.find((item: any) => 'pages_count' in item);
+	
+				setArticles(articles);
+				if (pageInfo) {
+					setPageCount(pageInfo.pages_count);
+				}
 			}
 		};
 		fetchData();
-	}, [selectedCategory, selectedChapter]);
+	}, [selectedCategory, selectedChapter, page]);
 
 	const fetchSearchData = async (searchText: string) => {
 		setSearchQuery(searchText);
@@ -49,8 +56,9 @@ export const useArticlesList = () => {
 	const handleSearchEnter = async () => {
 		const result = await searchArticle({ query: searchQuery, category: selectedCategory, chapter: selectedChapter });
 		if ('data' in result) {
-			setArticles(result.data);
-			setPage(1)
+			const articles = result.data.filter((item: any) => !('pages_count' in item));
+			setArticles(articles);
+			setPage(1);
 		}
 	};
 
@@ -76,10 +84,13 @@ export const useArticlesList = () => {
 		selectedCategory,
 		selectedChapter,
 		searchQuery,
+		page,
+		pageCount,
 		fetchSearchData,
 		handleSearchEnter,
 		handleCategoryChange,
 		handleChapterChange,
 		handleReset,
+		setPage,
 	};
 };

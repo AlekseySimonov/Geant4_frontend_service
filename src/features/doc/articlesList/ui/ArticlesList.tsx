@@ -1,11 +1,11 @@
 import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
-import { useArticlesList } from "../model";
+import { useArticlesList, useImportantArticles } from "../model";
 import styles from "./_articleList.module.scss"
 import { ArticleCard, ImportantArticleCard } from "@/entities/doc";
 import { Filter } from "@/shared/ui/components/filter";
 import { Search } from "@/shared/ui/components/search";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import { Pagination } from "@mui/material";
+import { Pagination, useMediaQuery } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 
 const ArticlesList: React.FC = () => {
@@ -14,29 +14,50 @@ const ArticlesList: React.FC = () => {
 		selectedCategory,
 		selectedChapter,
 		searchQuery,
+		page,
+		pageCount,
 		handleChapterChange,
 		handleCategoryChange,
 		handleReset,
 		fetchSearchData,
 		handleSearchEnter,
+		setPage,
 	} = useArticlesList();
+
+	const {
+		importantArticles,
+		page: importantPage,
+		setPage: setImportantPage
+	} = useImportantArticles();
 
 	const { data: categories } = useGetCategoriesQuery()
 	const { data: chapters } = useGetChaptersQuery()
 
+	const isWideScreen = useMediaQuery('(min-width:1350px)')
+
 	return (
 
 		<div style={{ display: 'flex', gap: '30px' }}>
-			<div style={{ display: 'flex', flexDirection: 'column',gap: '24px' }}>
-				<ImportantArticleCard />
-				<ImportantArticleCard />
-				<ImportantArticleCard/>
+			<div className={styles.importantCards }>
+				{isWideScreen && (
+					<div className={styles.importantCards}>
+						{importantArticles.map(article => (
+							<ImportantArticleCard
+								key={article.id}
+								title={article.title}
+								description={article.description}
+							/>
+						))}
+					</div>
+				)}
 			</div>
 			
 			<div className={styles.articles}>
 				<div className={styles.articles__title}>
 					<h2>Пользовательское руководство</h2>
-					<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
+					{!isWideScreen && (
+						<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
+					)}
 				</div>
 
 				<div className={styles.articles__filter}>
@@ -81,7 +102,9 @@ const ArticlesList: React.FC = () => {
 							{articles.length > 9 && (
 								<div className={styles.articles__cards__pagination}>
 									<Pagination
-										count={10}
+										count={pageCount}
+										page={page}
+										onChange={(_, value) => setPage(value)}
 										color="primary"
 										variant="outlined"
 										shape="rounded"

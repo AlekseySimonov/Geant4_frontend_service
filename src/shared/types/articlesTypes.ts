@@ -5,4 +5,5 @@ export interface ArticlesTypes {
 	description?: string;
 	title: string;
 	chosen?: true;
+	pages_count?: number;
 }

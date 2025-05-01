@@ -17,7 +17,8 @@ export const useImportantArticles = () => {
 			});
 
 			if ('data' in result) {
-				setImportantArticles(result.data);
+				const filtered = result.data.filter((item: any) => !('pages_count' in item));
+				setImportantArticles(filtered);
 			}
 		};
 
