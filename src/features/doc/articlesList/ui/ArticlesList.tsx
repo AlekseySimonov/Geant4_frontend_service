@@ -7,6 +7,8 @@ import { Search } from "@/shared/ui/components/search";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { Pagination, useMediaQuery } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { useNavigate } from "react-router";
 
 const ArticlesList: React.FC = () => {
 	const {
@@ -24,21 +26,18 @@ const ArticlesList: React.FC = () => {
 		setPage,
 	} = useArticlesList();
 
-	const {
-		importantArticles,
-		page: importantPage,
-		setPage: setImportantPage
-	} = useImportantArticles();
+	const { importantArticles } = useImportantArticles();
 
 	const { data: categories } = useGetCategoriesQuery()
 	const { data: chapters } = useGetChaptersQuery()
 
 	const isWideScreen = useMediaQuery('(min-width:1350px)')
+	const navigate = useNavigate()
 
 	return (
 
 		<div style={{ display: 'flex', gap: '30px' }}>
-			<div className={styles.importantCards }>
+			<div className={styles.importantCards}>
 				{isWideScreen && (
 					<div className={styles.importantCards}>
 						{importantArticles.map(article => (
@@ -51,13 +50,20 @@ const ArticlesList: React.FC = () => {
 					</div>
 				)}
 			</div>
-			
+
 			<div className={styles.articles}>
 				<div className={styles.articles__title}>
 					<h2>Пользовательское руководство</h2>
-					{!isWideScreen && (
-						<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
-					)}
+					<div>
+						{!isWideScreen && (
+							<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
+						)}
+						<AddRoundedIcon
+							className={styles.articles__title__addArticle}
+							style={{ fontSize: 30 }}
+							onClick={() => navigate('/documentation/articles/editor')}
+						/>
+					</div>
 				</div>
 
 				<div className={styles.articles__filter}>

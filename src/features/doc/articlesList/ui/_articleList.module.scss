@@ -19,6 +19,14 @@
 		justify-content: space-between;
 		gap: 24px;
 		flex-wrap: wrap;
+		:last-child{
+			align-self: center;
+			display: flex;
+		}
+		&__addArticle{
+			margin-left: 10px;
+			cursor: pointer;
+		}
 	}
 
 	&__filter {
