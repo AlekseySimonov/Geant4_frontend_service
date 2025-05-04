@@ -16,6 +16,8 @@ const config: Config = {
 		'**/tests/**/*.(test|spec).{ts,tsx}',
 	],
 	setupFilesAfterEnv: ["<rootDir>/config/tests/jest.setup.ts"],
+	collectCoverage: true,
+	coverageReporters: ['json', 'lcov', 'clover', 'text'],
 };
 
 export default config;

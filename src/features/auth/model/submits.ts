@@ -26,7 +26,9 @@ export const registrationSubmit =
 						errors.email = "Эта почта уже используется";
 					}
 
-					setErrors(errors);
+					if (Object.keys(errors).length > 0) {
+						setErrors(errors);
+					}
 
 					if (!error.data?.email && !error.data?.username) {
 						setStatus("Произошла ошибка. Попробуйте снова.");
@@ -39,23 +41,23 @@ export const registrationSubmit =
 
 type LoginFn = ReturnType<typeof useLoginMutation>[0];
 
-export const loginSubmit =
-	(login: LoginFn) =>
-		async (
-			values: FormValues,
-			{ setStatus }: FormikHelpers<FormValues>
-		) => {
-			try {
-				await login(values).unwrap();
-				window.location.replace('/main')
-			} catch (error: any) {
-				if (error?.status === 400) {
-					setStatus("Неправильный ник или пароль");
-				} else {
-					setStatus("Произошла ошибка. Попробуйте снова.");
-				}
-			}
-		};
+export const loginSubmit: (
+	login: LoginFn
+) => (
+	values: FormValues,
+	{ setStatus }: FormikHelpers<FormValues>
+) => Promise<void> = (login: LoginFn) => async (values: FormValues, { setStatus }: FormikHelpers<FormValues>) => {
+	try {
+		await login(values).unwrap();
+		window.location.replace('/main')
+	} catch (error: any) {
+		if (error?.status === 400) {
+			setStatus("Неправильный ник или пароль");
+		} else {
+			setStatus("Произошла ошибка. Попробуйте снова.");
+		}
+	}
+};
 
 type RecoveryFn = ReturnType<typeof usePasswordRecoveryMutation>[0];
 

@@ -41,13 +41,29 @@ const ArticlesList: React.FC = () => {
 			<div className={styles.importantCards}>
 				{isWideScreen && (
 					<div className={styles.importantCards}>
-						{importantArticles.map(article => (
+						<ImportantArticleCard
+								title={''}
+								description={''}
+						/>
+						<ImportantArticleCard
+								title={''}
+								description={''}
+						/>
+						<ImportantArticleCard
+								title={''}
+								description={''}
+							/>
+						<ImportantArticleCard
+								title={''}
+								description={''}
+							/>
+						{/* {importantArticles.map(article => (
 							<ImportantArticleCard
 								key={article.id}
 								title={article.title}
 								description={article.description}
 							/>
-						))}
+						))} */}
 					</div>
 				)}
 			</div>
