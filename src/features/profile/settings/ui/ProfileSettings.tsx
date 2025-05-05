@@ -14,7 +14,6 @@ import { useEffect } from "react";
 import { ChangeAvatar } from "../../changeAvatar";
 import { handleSubmit, settingsValidationSchema } from "../model";
 import { getAvatar } from "@/features/avatar";
-import { IconButton } from "@mui/material";
 
 const ProfileSettings: React.FC = () => {
 
@@ -54,7 +53,12 @@ const ProfileSettings: React.FC = () => {
 					<Formik
 						initialValues={initialValues}
 						validationSchema={settingsValidationSchema}
-						onSubmit={handleSubmit(patchProfile,updateUsername, data.email, data.username)}
+						onSubmit={(values, formikHelpers) =>
+							handleSubmit(patchProfile, updateUsername, data.email, data.username, dispatch)(
+								values,
+								formikHelpers
+							)
+						}
 					>
 						{({ errors, status, isValid, dirty }) => (
 							<>
@@ -64,14 +68,11 @@ const ProfileSettings: React.FC = () => {
 								<h3 className={styles.settings__employee}>Сотрудник</h3>
 								<div className={styles.settings__body}>
 									<div className={styles.settings__avatar}>
-										<IconButton>
-											<img
-												className={`${styles.avatar} ${avatarUrl ? styles.loaded : ''}`}
-												src={avatarUrl || avatarDefault}
-												alt="Аватар"
-											/>
-										</IconButton>
-										
+										<img
+											className={`${styles.avatar} ${avatarUrl ? styles.loaded : ''}`}
+											src={avatarUrl || avatarDefault}
+											alt="Аватар"
+										/>
 										<SecondaryButton label="Сменить аватар" onClick={changeAvatar.openPopup} fullWidth/>
 									</div>
 

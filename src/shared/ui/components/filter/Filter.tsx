@@ -2,19 +2,7 @@ import { useRef, useState } from "react";
 import styles from "./_filter.module.scss"
 import { useClickOutside } from "@/shared/hooks";
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-
-interface FilterTypes{
-	id: number;
-	title: string;
-}
-
-interface FilterProps {
-	options: FilterTypes[];
-	onOptionSelect?: (title: string) => void;
-	label: string;
-	selectedOption?: string | null;
-	width?: string
-}
+import { FilterProps, FilterTypes } from "./types/types";
 
 export const Filter: React.FC<FilterProps> = ({
 	onOptionSelect,
@@ -51,15 +39,23 @@ export const Filter: React.FC<FilterProps> = ({
 			</div>
 			{open && (
 				<div className={styles.filter__popper}>
-					{options.map((option) => (
-						<div
-							key={option.id}
-							className={styles.filter__popper__item}
-							onClick={() => handleOptionClick(option)}
-						>
-							{option.title}
+					{(!options || options.filter(option => option.title?.trim()).length === 0) ? (
+						<div className={styles.filter__popper__undefined}>
+							Ничего не найдено
 						</div>
-					))}
+					) : (
+							options
+								.filter(option => option.title?.trim())
+								.map((option) => (
+							<div
+								key={option.id}
+								className={styles.filter__popper__item}
+								onClick={() => handleOptionClick(option)}
+							>
+								{option.title}
+							</div>
+						))
+					)}
 				</div>)}
 		</div>
 	);

@@ -4,6 +4,7 @@ import { globalLoadingReducer } from '@/shared/model';
 import { configureStore } from '@reduxjs/toolkit';
 import avatarReducer from "@/features/avatar/avatarSlice";
 import { docApi } from '@/pages/documentationPage/api';
+import alertReducer from '@/shared/ui/components/alert/model/alertSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
 		[docApi.reducerPath]: docApi.reducer,
 		globalLoading: globalLoadingReducer,
 		avatar: avatarReducer,
+		alert: alertReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware( {serializableCheck: false })

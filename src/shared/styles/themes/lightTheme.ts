@@ -1,6 +1,6 @@
 import { createTheme, Shadows } from "@mui/material";
 import commonSettings from "./commonSettings";
-import { backdropOverride, outlinedInputOverride, paperOverride, inputLabelOverride, iconButtonOverride } from "./overrides";
+import { backdropOverride, outlinedInputOverride, paperOverride, inputLabelOverride, iconButtonOverride, alertOverride } from "./overrides";
 
 const lightTheme = createTheme({
 	...commonSettings,
@@ -28,11 +28,12 @@ const lightTheme = createTheme({
 			secondary: "rgba(74,85,131, 0.8)"
 		},
 		error: {
-			main: '#B5003F',
+			main: '#E09B9C',
 			light: 'rgba(181,0,0,0.39)'
 		},
 		success:{
-			main: '##87AB89'
+			main: '#4F834A',
+			light: '#87AB89'
 		},
 		action: {
 			disabled: '#DEE3ED'
@@ -56,6 +57,7 @@ const lightTheme = createTheme({
 		MuiOutlinedInput: outlinedInputOverride,
 		MuiInputLabel: inputLabelOverride,
 		MuiIconButton: iconButtonOverride,
+		MuiAlert: alertOverride,
 	}
 })
 

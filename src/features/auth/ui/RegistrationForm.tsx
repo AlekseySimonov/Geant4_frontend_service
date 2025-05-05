@@ -5,9 +5,12 @@ import { useRegistrationMutation } from "@/pages/authPage/api/authApi";
 import { FormValues } from "../types";
 import { registrationSubmit, registrationValidationSchema } from "../model";
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/store";
 
 export const RegistrationForm: React.FC = () => {
 	const [registration] = useRegistrationMutation()
+	const dispatch: AppDispatch = useDispatch();
 	const initialValues: FormValues = {
 		first_name: "",
 		last_name: "",
@@ -21,7 +24,9 @@ export const RegistrationForm: React.FC = () => {
 		<Formik
 			initialValues={initialValues}
 			validationSchema={registrationValidationSchema}
-			onSubmit={registrationSubmit(registration)}
+			onSubmit={(values, formikHelpers) =>
+				registrationSubmit(registration)(values, formikHelpers, dispatch)
+			}
 		>
 			{({ errors, status, isValid, dirty }) => {
 

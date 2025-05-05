@@ -65,6 +65,14 @@
 		padding-block: 10px;
 		flex-direction: column;
 		z-index: 20;
+		&__undefined{
+			padding: 8px 12px 8px 44px; 
+			white-space: normal;
+			word-wrap: break-word;
+			@media (max-width: 400px){
+				padding: 8px 12px 8px 22px; 
+			}
+		}
 		&__item {
 			cursor: pointer; 
 			padding: 8px 12px 8px 44px; 

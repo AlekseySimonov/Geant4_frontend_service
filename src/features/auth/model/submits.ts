@@ -1,6 +1,8 @@
 import { FormikHelpers } from "formik";
 import { FormValues } from "../types";
 import { useLoginMutation, usePasswordRecoveryMutation, useRegistrationMutation } from "@/pages/authPage/api/authApi";
+import { AppDispatch } from "@/app/store";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 
 type RegistrationFn = ReturnType<typeof useRegistrationMutation>[0];
 
@@ -8,12 +10,20 @@ export const registrationSubmit =
 	(registration: RegistrationFn) =>
 		async (
 			values: FormValues,
-			{ setErrors, setStatus }: FormikHelpers<FormValues>
+			{ setErrors, setStatus }: FormikHelpers<FormValues>,
+			dispatch: AppDispatch,
 		) => {
 			try {
 				await registration(values).unwrap();
-				alert('Вы успешно зарегистрировались. Проверьте почту для подтверждения пароля')
-				window.location.replace('/auth/login')
+				dispatch(
+					showAlert({
+						message: 'Вы успешно зарегистрировались. Проверьте почту для подтверждения пароля',
+						severity: 'success',
+					})
+				);
+				setTimeout(() => {
+					window.location.replace('/auth/login');
+				}, 3500);
 			} catch (error: any) {
 				if (error.status === 400) {
 					const errors: Record<string, string> = {};

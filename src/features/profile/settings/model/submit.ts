@@ -1,5 +1,7 @@
+import { AppDispatch } from "@/app/store";
 import { profileApi } from "@/pages/profilePage/api";
 import { ProfileTypes } from "@/shared/types";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 import { FormikHelpers } from "formik";
 
 interface PatchProfileTypes {
@@ -18,6 +20,7 @@ export const handleSubmit =
 		postUsername: (values: { new_username: string }) => ReturnType<PostUpdateUsernameFn>,
 		prevEmail: string,
 		prevUsername: string,
+		dispatch: AppDispatch,
 	) =>
 		async (
 			values: PatchProfileTypes,
@@ -36,7 +39,12 @@ export const handleSubmit =
 					await postUsername({ new_username }).unwrap();
 				}
 				if (values.email !== prevEmail) {
-					alert("Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить смену почты.");
+					dispatch(
+						showAlert({
+							message: 'Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить обновление почты.',
+							severity: 'info',
+						})
+					);
 				}
 			} catch (error: any) {
 

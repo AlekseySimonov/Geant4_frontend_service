@@ -5,6 +5,7 @@ import styles from "./_base.module.scss";
 import { RootState } from '@/app/store';
 import { useSelector } from 'react-redux';
 import { Loader } from '@/shared';
+import { AlertPopup } from '@/shared/ui/components/alert/ui/AlertPopup';
 
 
 export const Base = () => {
@@ -12,11 +13,13 @@ export const Base = () => {
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
 	return (
-		<Container maxWidth='xl' sx={{overflowY: 'auto'}}>
+		<Container maxWidth='xl' sx={{ overflowY: 'auto' }}>
 			<Menu />
-				<Outlet />
-				{(globalLoading || avatarLoading)&& <Loader /> }
-				<div className={styles.background}></div>
+			<Outlet />
+			<AlertPopup/>
+			{(globalLoading || avatarLoading) && <Loader />}
+			<div className={styles.background}></div>
+			
 		</Container>
 	);
 };

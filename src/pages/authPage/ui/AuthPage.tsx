@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from 'react-router'
 import styles from './_authpage.module.scss'
-import { Loader } from '@/shared'
+import { AlertPopup, Loader } from '@/shared'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
 import { useCheckAuthQuery } from '../api/authApi'
@@ -17,19 +17,20 @@ const AuthPage: React.FC = () => {
 		}
 	}, [isSuccess, data, navigate]);
 
-	const { isLoading} = useSelector((state: RootState) => state.globalLoading)
+	const { isLoading } = useSelector((state: RootState) => state.globalLoading)
 
 	return (
-			<div className={styles.container}>
+		<div className={styles.container}>
+			<AlertPopup/>
 			<div className={styles.container__content}>
 				<div className={styles.container__content_header}>
 					Geant4ru
 				</div>
 				<Outlet />
-				{isLoading && <Loader /> }
+				{isLoading && <Loader />}
 			</div>
 		</div>
-		
+
 	)
 }
 

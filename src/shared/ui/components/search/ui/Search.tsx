@@ -5,67 +5,25 @@ import crossIcon from "@/shared/ui/assets/icons/cross.svg"
 import { useClickOutside, useDebounce } from "@/shared/hooks";
 import { CircularProgress } from "@mui/material";
 import { ArticlesTypes } from "@/shared/types";
-
-interface SearchProps {
-	onSearch: (query: string) => Promise<{ title: string, id: number }[]>;
-	onOptionSelect?: (title: string) => void;
-	searchValue?: string;
-}
+import { SearchProps } from "../model/types";
+import { useSearch } from "../model/useSearch";
 
 export const Search: React.FC<SearchProps> = ({
 	onSearch,
 	onOptionSelect,
 	searchValue,
 }) => {
-	const [open, setOpen] = useState(false);
-	const [options, setOptions] = useState<readonly ArticlesTypes[]>([]);
-	const [loading, setLoading] = useState(false);
-	const [searchText, setSearchText] = useState('');
-	const searchRef = useRef<HTMLDivElement | null>(null);
 	const inputRef = useRef(null);
-	const debouncedSearchText = useDebounce(searchText, 500)
-
-	useClickOutside(searchRef, () => setOpen(false))
-
-	useEffect(() => {
-		if (debouncedSearchText.length <= 3) {
-			setOpen(false);
-			return;
-		}
-
-		const fetchData = async () => {
-			setLoading(true);
-			setOpen(true);
-			const results = await onSearch(debouncedSearchText);
-			const filtered = results.filter(article =>
-				Boolean(article.title) &&
-				article.id != null
-			);
-			setOptions(filtered);
-			setLoading(false);
-		};
-
-		fetchData();
-
-	}, [debouncedSearchText]);
-
-	const handleSearchClick = () => {
-		if (inputRef.current) {
-			inputRef.current.focus();
-		}
-	};
-
-	const handleOptionClick = (option: ArticlesTypes) => {
-		setSearchText(option.title);
-		setOpen(false);
-		onOptionSelect?.(option.title);
-	};
-
-	useEffect(() => {
-		if (searchValue !== searchText) {
-			setSearchText(searchValue);
-		}
-	}, [searchValue]);
+	const {
+		searchRef,
+		open,
+		searchText,
+		setSearchText,
+		handleSearchClick,
+		handleOptionClick,
+		loading,
+		options,
+	} = useSearch({ onSearch, onOptionSelect, searchValue });
 
 	return (
 		<div className={styles.search} onClick={handleSearchClick} ref={searchRef}>
@@ -81,8 +39,7 @@ export const Search: React.FC<SearchProps> = ({
 						if (e.key === "Enter") {
 							e.preventDefault();
 							if (searchText.trim()) {
-								onOptionSelect?.(searchText.trim());
-								setOpen(false);
+								handleOptionClick({ title: searchText.trim(), id: -1 });
 							}
 						}
 					}}
