@@ -36,7 +36,7 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
 			sx={{
 				...primaryButtonStyles,
 				...getSizeStyles(size),
-				width: fullWidth ? "100%" : "max-content",
+				width: fullWidth ? "100%" : "fit-content",
 			}}
 		>
 			{children ?? label} 

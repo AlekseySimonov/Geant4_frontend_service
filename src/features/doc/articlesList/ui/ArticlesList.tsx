@@ -1,4 +1,4 @@
-import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
+import { useGetCategoriesQuery, useGetChaptersQuery, useGetStuffQuery } from "@/pages/documentationPage/api/docApi";
 import { useArticlesList, useImportantArticles } from "../model";
 import styles from "./_articleList.module.scss"
 import { ArticleCard, ImportantArticleCard } from "@/entities/doc";
@@ -30,6 +30,7 @@ const ArticlesList: React.FC = () => {
 
 	const { data: categories } = useGetCategoriesQuery()
 	const { data: chapters } = useGetChaptersQuery()
+	const { data: isStuff } = useGetStuffQuery()
 
 	const isWideScreen = useMediaQuery('(min-width:1350px)')
 	const isMobile = useMediaQuery('(max-width: 700px)');
@@ -59,12 +60,14 @@ const ArticlesList: React.FC = () => {
 						{!isWideScreen && (
 							<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
 						)}
+						{isStuff?.is_stuff && (
 						<IconButton className={styles.articles__title__addArticle}>
 							<AddRoundedIcon
 								style={{ fontSize: 30 }}
 								onClick={() => navigate('/documentation/articles/editor')}
 							/>
-						</IconButton>
+							</IconButton>
+						)}
 					</div>
 				</div>
 

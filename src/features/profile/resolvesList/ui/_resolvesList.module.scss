@@ -10,6 +10,11 @@
 	@media(max-width: 800px){
 		padding: 20px;
 	}
+	@media(max-width: 600px){
+		h3{
+			font-size: 1.2rem;
+		}
+	}
 	&__nullList{
 		display: flex;
 		flex-direction: column;

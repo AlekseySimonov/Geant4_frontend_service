@@ -21,7 +21,6 @@ const ProfilePage: React.FC = () => {
 		dispatch(getAvatar());
 	}, [dispatch]);
 
-
 	const navigate = useNavigate()
 	useEffect(() => {
 		if (!isLoading && (!profileData || isProfileError)) {

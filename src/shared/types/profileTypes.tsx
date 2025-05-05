@@ -4,5 +4,6 @@ export interface ProfileTypes {
     last_name: string;  
     username?: string;
     is_employee?: boolean;
-    new_username?: string
-}  
+    new_username?: string;
+    is_stuff?: boolean;
+}

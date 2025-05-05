@@ -45,6 +45,12 @@ export const docApi = createApi({
 					method: 'GET',
 				}),
 			}),
+			getStuff: query<{is_stuff: boolean}, void>({
+				query: () => ({
+					url: URLS.IS_STUFF,
+					method: 'GET',
+				}),
+			}),
 		};
 	},
 });
@@ -53,4 +59,5 @@ export const {
 	useGetCategoriesQuery,
 	useGetChaptersQuery,
 	useGetArticlesQuery,
+	useGetStuffQuery,
 } = docApi;

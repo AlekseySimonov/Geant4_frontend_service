@@ -32,14 +32,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ data, onSettingsClick, avatar
                 </div>
                 <div className={styles.card__settings}>
                     <div>
+                        {data?.is_stuff && (<h3>Сотрудник</h3>)}
                         <IconButton color="primary">
                             <img src={settingsIcon} alt="Settings" onClick={onSettingsClick}/>
                         </IconButton>
                     </div>
-
                     <SecondaryButton size= 's' label="Выйти" onClick={logout.openPopup} />
                 </div>
-
             </div>
             <ModalWindow open={logout.isVisible} onClose={logout.closePopup}>
                 <Logout />

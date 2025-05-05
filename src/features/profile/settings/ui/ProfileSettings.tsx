@@ -18,7 +18,7 @@ import { getAvatar } from "@/features/avatar";
 const ProfileSettings: React.FC = () => {
 
 	const { data, isError } = useGetProfileQuery();
-	const { isLoading:globalLoading } = useSelector((state: RootState) => state.globalLoading)
+	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading)
 	const [patchProfile] = usePatchProfileMutation();
 	const [updateUsername] = useUpdateUsernameMutation();
 	useErrorHandler(isError)
@@ -65,7 +65,7 @@ const ProfileSettings: React.FC = () => {
 								<div className={styles.settings__title}>
 									<h2>Редактирование профиля</h2>
 								</div>
-								<h3 className={styles.settings__employee}>Сотрудник</h3>
+								{data?.is_stuff && (<h3 className={styles.settings__employee}>Сотрудник</h3>)}
 								<div className={styles.settings__body}>
 									<div className={styles.settings__avatar}>
 										<img

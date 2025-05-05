@@ -74,7 +74,14 @@
 			gap: 3px;
 			right: 16px;
 		}
-
+		:first-child{
+			display: flex;
+			gap: 10px;
+			align-items: center;
+			h3{
+				font-weight: 400;
+			}
+		}
 		img {
 			width: 36px;
 			height: 36px;
