@@ -9,7 +9,7 @@ export const primaryButtonStyles: SxProps<Theme> = {
 	height: "max-content",
 	boxShadow: "none",
 	textTransform: "none",
-	lineHeight:'none',
+	lineHeight: 'none',
 	"&:hover": {
 		boxShadow: "var(--mui-shadows-4)",
 	},

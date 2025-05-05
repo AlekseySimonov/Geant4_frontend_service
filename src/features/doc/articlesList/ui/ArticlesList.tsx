@@ -5,7 +5,7 @@ import { ArticleCard, ImportantArticleCard } from "@/entities/doc";
 import { Filter } from "@/shared/ui/components/filter";
 import { Search } from "@/shared/ui/components/search";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import { Pagination, useMediaQuery } from "@mui/material";
+import { IconButton, Pagination, useMediaQuery } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useNavigate } from "react-router";
@@ -75,11 +75,12 @@ const ArticlesList: React.FC = () => {
 						{!isWideScreen && (
 							<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
 						)}
-						<AddRoundedIcon
-							className={styles.articles__title__addArticle}
-							style={{ fontSize: 30 }}
-							onClick={() => navigate('/documentation/articles/editor')}
-						/>
+						<IconButton className={styles.articles__title__addArticle}>
+							<AddRoundedIcon
+								style={{ fontSize: 30 }}
+								onClick={() => navigate('/documentation/articles/editor')}
+							/>
+						</IconButton>
 					</div>
 				</div>
 
@@ -110,11 +111,13 @@ const ArticlesList: React.FC = () => {
 								onClick={handleReset}
 							/>
 						) : (
-							<ClearRoundedIcon
-								onClick={handleReset}
-								style={{ fontSize: 30 }}
-								className={styles.articles__filter__reset}
-							/>
+							<IconButton>
+								<ClearRoundedIcon
+									onClick={handleReset}
+									style={{ fontSize: 30 }}
+									className={styles.articles__filter__reset}
+								/>
+							</IconButton>
 						)}
 					</div>
 				</div>

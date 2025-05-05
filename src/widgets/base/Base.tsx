@@ -16,7 +16,7 @@ export const Base = () => {
 			<Menu />
 				<Outlet />
 				{(globalLoading || avatarLoading)&& <Loader /> }
-			<div className={styles.background}></div>
+				<div className={styles.background}></div>
 		</Container>
 	);
 };

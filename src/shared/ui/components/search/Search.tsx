@@ -37,7 +37,11 @@ export const Search: React.FC<SearchProps> = ({
 			setLoading(true);
 			setOpen(true);
 			const results = await onSearch(debouncedSearchText);
-			setOptions(results);
+			const filtered = results.filter(article =>
+				Boolean(article.title) &&
+				article.id != null
+			);
+			setOptions(filtered);
 			setLoading(false);
 		};
 

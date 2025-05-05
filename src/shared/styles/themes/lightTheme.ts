@@ -1,6 +1,6 @@
 import { createTheme, Shadows } from "@mui/material";
 import commonSettings from "./commonSettings";
-import { backdropOverride, outlinedInputOverride, paperOverride, inputLabelOverride } from "./overrides";
+import { backdropOverride, outlinedInputOverride, paperOverride, inputLabelOverride, iconButtonOverride } from "./overrides";
 
 const lightTheme = createTheme({
 	...commonSettings,
@@ -55,6 +55,7 @@ const lightTheme = createTheme({
 		MuiPaper: paperOverride,
 		MuiOutlinedInput: outlinedInputOverride,
 		MuiInputLabel: inputLabelOverride,
+		MuiIconButton: iconButtonOverride,
 	}
 })
 

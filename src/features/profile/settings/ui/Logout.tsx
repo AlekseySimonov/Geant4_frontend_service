@@ -19,7 +19,7 @@ export const Logout: React.FC = () => {
 			<h3>Выход</h3>
 			<p>Вы уверены, что хотите выйти из аккаунта?</p>
 			{isError && (
-				<div className={styles.logout_errorMessage}>
+				<div className={styles.logout__errorMessage}>
 				Не удалось выйти. Попробуйте ещё раз.
 				</div>
 			)}

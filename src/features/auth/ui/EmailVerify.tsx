@@ -14,7 +14,7 @@ export const EmailVerifyConfirmPage: React.FC = () => {
 	useEffect(() => {
 		if (isSuccess) {
 			const timeout = setTimeout(() => {
-				navigate("/", { replace: true });
+				navigate("/auth", { replace: true });
 			}, 2000);
 
 			return () => clearTimeout(timeout);

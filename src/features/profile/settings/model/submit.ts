@@ -17,40 +17,46 @@ export const handleSubmit =
 		patchProfile: (values: Omit<PatchProfileTypes, "new_username">) => ReturnType<PatchProfileFn>,
 		postUsername: (values: { new_username: string }) => ReturnType<PostUpdateUsernameFn>,
 		prevEmail: string,
-		prevUsername:string,
+		prevUsername: string,
 	) =>
-	async (
-		values: PatchProfileTypes,
-		{ setErrors, setStatus }: FormikHelpers<ProfileTypes>
-	) => {
-		try {
-		const { new_username, ...profileData } = values;
-		await patchProfile(profileData).unwrap();
-		if (values.new_username !== prevUsername) {
-			await postUsername({new_username}).unwrap();
-		}
-		if (values.email !== prevEmail) {
-			alert("Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить смену почты.");
-		}
-	} catch (error: any) {
+		async (
+			values: PatchProfileTypes,
+			{ setErrors, setStatus }: FormikHelpers<ProfileTypes>
+		) => {
+			try {
+				const { new_username, email, ...rest } = values;
 
-		if (error.status === 400) {
-			const errors: Record<string, string> = {};
+				const profileData: Omit<PatchProfileTypes, "new_username"> = {
+					...rest,
+					...(email !== prevEmail ? { email } : {})
+				};
+				await patchProfile(profileData).unwrap();
+				
+				if (values.new_username !== prevUsername) {
+					await postUsername({ new_username }).unwrap();
+				}
+				if (values.email !== prevEmail) {
+					alert("Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить смену почты.");
+				}
+			} catch (error: any) {
 
-			if (error.data?.username) {
-				errors.username = "Этот логин уже занят";
+				if (error.status === 400) {
+					const errors: Record<string, string> = {};
+
+					if (error.data?.username) {
+						errors.username = "Этот логин уже занят";
+					}
+					if (error.data?.email) {
+						errors.email = "Эта почта уже используется";
+					}
+
+					setErrors(errors);
+
+					if (!error.data?.email && !error.data?.username) {
+						setStatus("Произошла ошибка. Попробуйте снова.");
+					}
+				} else {
+					setStatus("Произошла ошибка. Попробуйте снова.");
+				}
 			}
-			if (error.data?.email) {
-				errors.email = "Эта почта уже используется";
-			}
-
-			setErrors(errors);
-
-			if (!error.data?.email && !error.data?.username) {
-				setStatus("Произошла ошибка. Попробуйте снова.");
-			}
-		} else {
-			setStatus("Произошла ошибка. Попробуйте снова.");
-		}
-	}
-};
+		};

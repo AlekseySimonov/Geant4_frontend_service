@@ -22,9 +22,9 @@
 		:last-child{
 			align-self: center;
 			display: flex;
+			gap: 10px;
 		}
 		&__addArticle{
-			margin-left: 10px;
 			cursor: pointer;
 		}
 	}

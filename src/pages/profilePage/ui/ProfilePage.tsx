@@ -7,13 +7,13 @@ import avatarDefault from "@/shared/ui/assets/icons/avatar_light.svg"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/app/store"
 import { getAvatar } from "@/features/avatar"
+import { Loader } from "@/shared"
 
 const ProfilePage: React.FC = () => {
 	const { data: profileData, isError: isProfileError, isLoading } = useGetProfileQuery();
 
-	const { url: avatarUrl, isLoading: avatarLoading } = useSelector(
-		(state: RootState) => state.avatar
-	);
+	const { url: avatarUrl, isLoading: avatarLoading } = useSelector((state: RootState) => state.avatar);
+	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
 	const dispatch = useDispatch<AppDispatch>()
 
@@ -39,6 +39,7 @@ const ProfilePage: React.FC = () => {
 				/>
 			)}
 			<ResolvesList />
+			{(avatarLoading || globalLoading) && <Loader/>}
 		</div>
 	)
 }

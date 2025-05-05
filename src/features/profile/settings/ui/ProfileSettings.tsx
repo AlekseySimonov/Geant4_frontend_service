@@ -14,11 +14,12 @@ import { useEffect } from "react";
 import { ChangeAvatar } from "../../changeAvatar";
 import { handleSubmit, settingsValidationSchema } from "../model";
 import { getAvatar } from "@/features/avatar";
+import { IconButton } from "@mui/material";
 
 const ProfileSettings: React.FC = () => {
 
 	const { data, isError } = useGetProfileQuery();
-	const { isLoading } = useSelector((state: RootState) => state.globalLoading)
+	const { isLoading:globalLoading } = useSelector((state: RootState) => state.globalLoading)
 	const [patchProfile] = usePatchProfileMutation();
 	const [updateUsername] = useUpdateUsernameMutation();
 	useErrorHandler(isError)
@@ -63,11 +64,14 @@ const ProfileSettings: React.FC = () => {
 								<h3 className={styles.settings__employee}>Сотрудник</h3>
 								<div className={styles.settings__body}>
 									<div className={styles.settings__avatar}>
-										<img
-											className={`${styles.avatar} ${avatarUrl ? styles.loaded : ''}`}
-											src={avatarUrl || avatarDefault}
-											alt="Аватар"
-										/>
+										<IconButton>
+											<img
+												className={`${styles.avatar} ${avatarUrl ? styles.loaded : ''}`}
+												src={avatarUrl || avatarDefault}
+												alt="Аватар"
+											/>
+										</IconButton>
+										
 										<SecondaryButton label="Сменить аватар" onClick={changeAvatar.openPopup} fullWidth/>
 									</div>
 
@@ -102,10 +106,9 @@ const ProfileSettings: React.FC = () => {
 						)}
 					</Formik>
 
-
 					<ModalWindow open={changePassword.isVisible} onClose={changePassword.closePopup}>
 						<ChangePassword onClose={changePassword.closePopup} />
-						{isLoading && <Loader />}
+						{globalLoading && <Loader />}
 					</ModalWindow>
 
 					<ModalWindow open={changeAvatar.isVisible} onClose={changeAvatar.closePopup}>
@@ -113,11 +116,8 @@ const ProfileSettings: React.FC = () => {
 						{avatarLoading && <Loader />}
 					</ModalWindow>
 				</div>
-			
-			
 			)}
 		</>
-
 	);
 };
 
