@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
 import { useCheckAuthQuery } from '../api/authApi'
 import { useEffect } from 'react'
+import authBackground from '@/shared/ui/assets/authBackground.jpg'
+import { useMediaQuery } from '@mui/material'
 
 const AuthPage: React.FC = () => {
 
@@ -18,9 +20,13 @@ const AuthPage: React.FC = () => {
 	}, [isSuccess, data, navigate]);
 
 	const { isLoading } = useSelector((state: RootState) => state.globalLoading)
+	const isMobile = useMediaQuery ('(max-width: 600px)') 
 
 	return (
 		<div className={styles.container}>
+			{!isMobile && (
+				<img src={authBackground} alt="#" className={styles.container__background} />
+			)}
 			<AlertPopup/>
 			<div className={styles.container__content}>
 				<div className={styles.container__content_header}>

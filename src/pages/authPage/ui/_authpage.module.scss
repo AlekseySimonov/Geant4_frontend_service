@@ -4,6 +4,13 @@
 	justify-content: center; 
 	align-items: center;
 	background-color: var(--mui-palette-background-default);
+	&__background{
+		position: absolute;
+		width: 100%;
+		object-fit: cover;
+		height: 100%;
+		inset: 0;
+	}
 	@media (min-height:800px){
 		height: 100vh;
 	}
