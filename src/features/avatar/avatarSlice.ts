@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { deleteAvatar, getAvatar, patchAvatar, postAvatar } from "./actions";
 
 interface AvatarState {
@@ -16,7 +16,11 @@ const initialState: AvatarState = {
 const avatarSlice = createSlice({
 	name: 'avatar',
 	initialState,
-	reducers: {},
+	reducers: {
+		setAvatarLoading: (state, action: PayloadAction<boolean>) => {
+			state.isLoading = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getAvatar.pending, (state) => {
@@ -82,3 +86,4 @@ const avatarSlice = createSlice({
 });
 
 export default avatarSlice.reducer;
+export const { setAvatarLoading } = avatarSlice.actions;

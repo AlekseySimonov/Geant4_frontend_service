@@ -64,7 +64,7 @@ export const profileApi = createApi({
 			}),
 			updateEmail: query({
 				query: (token: string) => ({
-					url: `${URLS.UPDATE_EMAIL}${token}`,
+					url: `${URLS.PROFILE}update_email/${token}`,
 					method: 'GET',
 				}),
 				providesTags: ['Profile'],

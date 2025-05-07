@@ -3,7 +3,6 @@ const PROFILE_IMAGE = 'profile/image/'
 const CHANGE_PASSWORD = 'profile/update_password/'
 const UPDATE_USERNAME = 'profile/update_username/'
 const EXAMPLES = 'profile/my_examples/'
-const UPDATE_EMAIL = 'profile/update_email/{token}'
 
 export const URLS = {
 	PROFILE,
@@ -11,5 +10,4 @@ export const URLS = {
 	CHANGE_PASSWORD,
 	UPDATE_USERNAME,
 	EXAMPLES,
-	UPDATE_EMAIL
 }

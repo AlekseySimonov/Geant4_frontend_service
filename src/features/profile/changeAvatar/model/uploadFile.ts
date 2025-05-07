@@ -2,6 +2,7 @@ import { AppDispatch } from "@/app/store";
 import { getCroppedImg } from "./canvasUtils";
 import { getAvatar, patchAvatar, postAvatar } from "@/features/avatar";
 import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
+import { setAvatarLoading } from "@/features/avatar/avatarSlice";
 
 export const uploadCroppedImage = async (
 	imageSrc: string,
@@ -23,9 +24,10 @@ export const uploadCroppedImage = async (
 		await dispatch(
 			hasAvatar ? patchAvatar(formData) : postAvatar(formData)
 		)
-
+		dispatch(setAvatarLoading(true))
 		await new Promise((resolve) => setTimeout(resolve, 3000));
 		await dispatch(getAvatar())
+		dispatch(setAvatarLoading(false))
 	} catch (error) {
 		dispatch(
 			showAlert({
