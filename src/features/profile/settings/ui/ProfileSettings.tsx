@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { ChangeAvatar } from "../../changeAvatar";
 import { handleSubmit, settingsValidationSchema } from "../model";
 import { getAvatar } from "@/features/avatar";
+import { useNavigate } from "react-router";
 
 const ProfileSettings: React.FC = () => {
 
@@ -28,6 +29,7 @@ const ProfileSettings: React.FC = () => {
 	);
 
 	const dispatch = useDispatch<AppDispatch>()
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		dispatch(getAvatar());
@@ -54,7 +56,7 @@ const ProfileSettings: React.FC = () => {
 						initialValues={initialValues}
 						validationSchema={settingsValidationSchema}
 						onSubmit={(values, formikHelpers) =>
-							handleSubmit(patchProfile, updateUsername, data.email, data.username, dispatch)(
+							handleSubmit(patchProfile, updateUsername, data.email, data.username, dispatch, navigate)(
 								values,
 								formikHelpers
 							)

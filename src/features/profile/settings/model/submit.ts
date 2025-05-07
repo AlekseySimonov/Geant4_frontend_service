@@ -3,6 +3,7 @@ import { profileApi } from "@/pages/profilePage/api";
 import { ProfileTypes } from "@/shared/types";
 import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 import { FormikHelpers } from "formik";
+import { useNavigate } from "react-router";
 
 interface PatchProfileTypes {
 	email?: string;
@@ -21,6 +22,7 @@ export const handleSubmit =
 		prevEmail: string,
 		prevUsername: string,
 		dispatch: AppDispatch,
+		navigate: ReturnType<typeof useNavigate>
 	) =>
 		async (
 			values: PatchProfileTypes,
@@ -42,10 +44,11 @@ export const handleSubmit =
 					dispatch(
 						showAlert({
 							message: 'Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить обновление почты.',
-							severity: 'success',
+							severity: 'info',
 						})
 					);
 				}
+				navigate('/profile')
 			} catch (error: any) {
 
 				if (error.status === 400) {

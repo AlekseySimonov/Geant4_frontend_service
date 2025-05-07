@@ -67,7 +67,7 @@ export const useSearch = ({ onSearch, onOptionSelect, searchValue }: UseSearchPr
 	};
 
 	const handleOptionClick = (option: ArticlesTypes) => {
-		if (!option || !option.title) {
+		if (!option || typeof option.title !== 'string') {
 			console.error('Invalid option:', option);
 			return;
 		}
