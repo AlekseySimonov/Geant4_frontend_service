@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import styles from "./_search.module.scss"
 import searchIcon from "@/shared/ui/assets/icons/search.svg"
 import crossIcon from "@/shared/ui/assets/icons/cross.svg"
-import { useClickOutside, useDebounce } from "@/shared/hooks";
 import { CircularProgress } from "@mui/material";
-import { ArticlesTypes } from "@/shared/types";
 import { SearchProps } from "../model/types";
 import { useSearch } from "../model/useSearch";
 

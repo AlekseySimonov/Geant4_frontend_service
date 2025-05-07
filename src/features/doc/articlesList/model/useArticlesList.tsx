@@ -12,26 +12,31 @@ export const useArticlesList = () => {
 	const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [articles, setArticles] = useState<ArticlesTypes[]>([]);
+	
+	const fetchData = async (customPage = page,  customQuery = searchQuery) => {
+		const result = await searchArticle({
+			query: customQuery,
+			category: selectedCategory,
+			chapter: selectedChapter,
+			page: customPage,
+		});
+		if ('data' in result) {
+			const articles = result.data.filter((item: any) => !('pages_count' in item));
+			const pageInfo = result.data.find((item: any) => 'pages_count' in item);
+	
+			setArticles(articles);
+			if (pageInfo) {
+				setPageCount(pageInfo.pages_count);
+			}
+		}
+	};
 
 	useEffect(() => {
-		const fetchData = async () => {
-			const result = await searchArticle({
-				query: searchQuery,
-				category: selectedCategory,
-				chapter: selectedChapter,
-				page: page,
-			});
-			if ('data' in result) {
-				const articles = result.data.filter((item: any) => !('pages_count' in item));
-				const pageInfo = result.data.find((item: any) => 'pages_count' in item);
-	
-				setArticles(articles);
-				if (pageInfo) {
-					setPageCount(pageInfo.pages_count);
-				}
-			}
-		};
 		fetchData();
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth',
+		});
 	}, [selectedCategory, selectedChapter, page]);
 
 	const fetchSearchData = async (searchText: string) => {
@@ -53,8 +58,8 @@ export const useArticlesList = () => {
 		return [];
 	};
 
-	const handleSearchEnter = async () => {
-		const result = await searchArticle({ query: searchQuery, category: selectedCategory, chapter: selectedChapter });
+	const handleSearchEnter = async (selectedTitle: string) => {
+		const result = await searchArticle({ query: selectedTitle, category: selectedCategory, chapter: selectedChapter });
 		if ('data' in result) {
 			const articles = result.data.filter((item: any) => !('pages_count' in item));
 			setArticles(articles);
@@ -77,6 +82,7 @@ export const useArticlesList = () => {
 		setSelectedChapter(null);
 		setSearchQuery('');
 		setPage(1)
+		fetchData(1, '');
 	};
 
 	return {

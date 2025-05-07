@@ -42,7 +42,7 @@ export const handleSubmit =
 					dispatch(
 						showAlert({
 							message: 'Мы отправили письмо на новый адрес. Подтвердите его, чтобы завершить обновление почты.',
-							severity: 'info',
+							severity: 'success',
 						})
 					);
 				}

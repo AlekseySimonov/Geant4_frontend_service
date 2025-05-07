@@ -21,15 +21,16 @@ const lightTheme = createTheme({
 		},
 		info: {
 			main: 'rgba(74,85,131, 0.8)',
-			light: '#CCD6FF'
+			light:'#CADDFF',
+			dark: '#929EC7',
 		},
 		text: {
 			primary: "#FCFDFF",
 			secondary: "rgba(74,85,131, 0.8)"
 		},
 		error: {
-			main: '#E09B9C',
-			light: 'rgba(181,0,0,0.39)'
+			main: '#B5003F',
+			light: '#E09B9C'
 		},
 		success:{
 			main: '#4F834A',

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface AlertState {
 	message: string;
 	visible: boolean;
-	severity: 'success' | 'error' | 'info' | 'warning';
+	severity: 'success' | 'error' ;
 }
 
 const initialState: AlertState = {
