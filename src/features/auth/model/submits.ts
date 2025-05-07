@@ -18,7 +18,7 @@ export const registrationSubmit =
 				dispatch(
 					showAlert({
 						message: 'Вы успешно зарегистрировались. Проверьте почту для подтверждения пароля',
-						severity: 'success',
+						severity: 'info',
 					})
 				);
 				setTimeout(() => {
@@ -75,12 +75,20 @@ export const resetPasswordSubmit =
 	(recovery: RecoveryFn) =>
 		async (
 			values: FormValues,
-			{ setStatus }: FormikHelpers<FormValues>
+			{ setStatus }: FormikHelpers<FormValues>,
+			dispatch: AppDispatch,
 		) => {
 			try {
 				await recovery(values).unwrap();
-				alert('Проверьте почту для сброса пароля')
-				window.location.replace('/auth/login')
+				dispatch(
+					showAlert({
+						message: 'Проверьте почту для сброса пароля',
+						severity: 'info',
+					})
+				);
+				setTimeout(() => {
+					window.location.replace('/auth/login');
+				}, 3500);
 			} catch (err) {
 				if (err.status === 400) {
 					setStatus("Неправильно указана Электронная почта");

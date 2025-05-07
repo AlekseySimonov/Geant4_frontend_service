@@ -6,6 +6,9 @@ import { usePasswordRecoveryConfirmMutation } from "@/pages/authPage/api/authApi
 import { FormValues } from "../types/types";
 import { passwordConfirmValidationSchema } from "../model";
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/app/store";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 
 export const ResetPasswordConfirm: React.FC = () => {
 	const [recoveryConfirm] = usePasswordRecoveryConfirmMutation()
@@ -17,6 +20,7 @@ export const ResetPasswordConfirm: React.FC = () => {
 
 	const { token } = useParams<{ token: string }>();
 	const navigate = useNavigate();
+	const dispatch: AppDispatch = useDispatch();
 
 	const handleSubmit = async (values: typeof initialValues, { setStatus }: FormikHelpers<FormValues>) => {
 		if (!token) {
@@ -26,8 +30,15 @@ export const ResetPasswordConfirm: React.FC = () => {
 
 		try {
 			await recoveryConfirm({ token, body: values }).unwrap();
-			alert("Пароль успешно изменен.");
-			navigate('/auth/login', { replace: true }); 
+			dispatch(
+				showAlert({
+					message: 'Пароль успешно изменен',
+					severity: 'info',
+				})
+			);
+			setTimeout(() => {
+				navigate('/auth/login', { replace: true }); 
+			}, 3500);
 		} catch (err) {
 			if (err.status === 400) {
 				setStatus("Неправильно указан пароль");

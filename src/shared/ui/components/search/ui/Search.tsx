@@ -37,6 +37,7 @@ export const Search: React.FC<SearchProps> = ({
 						if (e.key === "Enter") {
 							e.preventDefault();
 							if (searchText.trim()) {
+								e.preventDefault();
 								handleOptionClick({ title: searchText.trim(), id: -1 });
 							}
 						}

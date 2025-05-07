@@ -14,10 +14,6 @@ export const alertOverride: Components['MuiAlert'] = {
 				color: 'white',
 				paddingInline: '40px',
 				paddingBlock: '24px',
-				'&.MuiAlert-standardSuccess': {
-					backgroundColor: theme.palette.info.light,
-					color: theme.palette.primary.main,
-				},
 
 				'&.MuiAlert-standardError': {
 					backgroundColor: theme.palette.error.light,
