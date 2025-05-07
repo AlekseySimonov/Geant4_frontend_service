@@ -60,6 +60,8 @@ export const authApi = createApi({
 					url: URLS.CHECK_AUTH,
 					method: 'GET',
 				}),
+				keepUnusedDataFor: 0,
+				refetchOnMountOrArgChange: true,
 			}),
 
 			passwordRecovery: mutation({
