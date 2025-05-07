@@ -1,6 +1,7 @@
 import { AppDispatch } from "@/app/store";
 import { getCroppedImg } from "./canvasUtils";
 import { getAvatar, patchAvatar, postAvatar } from "@/features/avatar";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 
 export const uploadCroppedImage = async (
 	imageSrc: string,
@@ -23,8 +24,14 @@ export const uploadCroppedImage = async (
 			hasAvatar ? patchAvatar(formData) : postAvatar(formData)
 		)
 
+		await new Promise((resolve) => setTimeout(resolve, 3000));
 		await dispatch(getAvatar())
 	} catch (error) {
-		console.error("Failed to upload avatar:", error);
+		dispatch(
+			showAlert({
+				message: 'Не удалось загрузить аватар',
+				severity: 'error',
+			})
+		);
 	}
 };

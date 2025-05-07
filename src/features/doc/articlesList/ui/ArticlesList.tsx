@@ -38,8 +38,8 @@ const ArticlesList: React.FC = () => {
 
 	return (
 
-		<div style={{ display: 'flex', gap: '30px' }}>
-			<div className={styles.importantCards}>
+		<div className={styles.content}>
+			<div className={styles.content__cards}>
 				{isWideScreen && (
 					<div className={styles.importantCards}>
 						{importantArticles.map(article => (
@@ -121,7 +121,7 @@ const ArticlesList: React.FC = () => {
 									chapter={article.chapter}
 								/>
 							))}
-							{articles.length > 9 && (
+							{articles.length > 0 && (
 								<div className={styles.articles__cards__pagination}>
 									<Pagination
 										count={pageCount}

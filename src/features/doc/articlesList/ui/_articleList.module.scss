@@ -1,8 +1,20 @@
-.importantCards{
+.content{
 	display: flex;
-	flex-direction: column;
-	gap: 24px;
+	gap: 30px;
+	@media(max-width:1350px){
+		gap: 0;
+	}
+	&__cards{
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		@media(max-width:1350px){
+			display: none;
+		}
+	}
 }
+
+
 
 .articles {
 	display: flex;
@@ -13,6 +25,9 @@
 	border-radius: 8px;
 	box-shadow: var(--mui-shadows-2);
 	width: 100%;
+	@media(max-width:700px){
+		padding: 20px;
+	}
 
 	&__title {
 		display: flex;
@@ -31,6 +46,9 @@
 
 	h2 {
 		font-size: 1.5rem;
+		@media(max-width:700px){
+			font-size: 1.2rem;
+		}
 	}
 
 	&__filter {

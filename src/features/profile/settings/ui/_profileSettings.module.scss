@@ -132,8 +132,9 @@
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	gap: 16px;
-	width: 400px;
+	align-items: center;
+	gap: 20px;
+	width: 100%;
 	h3{
 		margin-bottom: 16px;
 		font-weight: 600;

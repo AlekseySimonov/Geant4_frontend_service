@@ -1,3 +1,4 @@
+export { EmailUpdate } from "./profile/emailUpdate";
 export { LoginForm, RegistrationForm, ResetPasswordForm, EmailVerifyConfirmPage, ResetPasswordConfirm, } from "./auth";
 export { ProfileSettings } from "./profile/settings";
 export { ArticlesList, ImportantArticles } from "./doc/articlesList"

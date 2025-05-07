@@ -62,6 +62,13 @@ export const profileApi = createApi({
 				}),
 				providesTags: ['Examples'],
 			}),
+			updateEmail: query({
+				query: (token: string) => ({
+					url: `${URLS.UPDATE_EMAIL}${token}`,
+					method: 'GET',
+				}),
+				providesTags: ['Profile'],
+			}),
 		};
 	},
 });
@@ -72,4 +79,5 @@ export const {
 	useChangePasswordMutation,
 	useUpdateUsernameMutation,
 	useGetExamplesQuery,
+	useUpdateEmailQuery,
 } = profileApi;

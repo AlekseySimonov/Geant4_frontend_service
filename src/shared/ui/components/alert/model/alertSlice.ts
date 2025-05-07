@@ -23,6 +23,7 @@ const alertSlice = createSlice({
 		},
 		hideAlert(state) {
 			state.visible = false;
+			state.message = '';
 		},
 	},
 });
