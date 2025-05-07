@@ -8,6 +8,7 @@
 	background-color: var(--mui-palette-background-paper);
 	gap: 20px;
 	box-shadow: var(--mui-shadows-2);
+	margin-bottom: 10px;
 	&__title{
 		position: relative;
 		display: flex;
@@ -25,5 +26,12 @@
 			height: 1px;
 			background-color: var(--mui-palette-primary-main);
 		}
+	}
+	&__description{
+		display: -webkit-box;
+		-webkit-line-clamp: 4;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 }

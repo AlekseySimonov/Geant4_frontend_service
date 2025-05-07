@@ -39,7 +39,7 @@ const ArticlesList: React.FC = () => {
 	return (
 
 		<div className={styles.content}>
-			{/* <div className={styles.content__cards}>
+			<div className={styles.content__cards}>
 				{isWideScreen && (
 					<div className={styles.importantCards}>
 						{importantArticles.map(article => (
@@ -51,7 +51,7 @@ const ArticlesList: React.FC = () => {
 						))}
 					</div>
 				)}
-			</div> */}
+			</div>
 
 			<div className={styles.articles}>
 				<div className={styles.articles__title}>
