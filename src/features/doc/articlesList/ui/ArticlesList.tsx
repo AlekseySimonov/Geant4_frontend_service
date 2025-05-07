@@ -59,7 +59,7 @@ const ArticlesList: React.FC = () => {
 					<div>
 						{!isWideScreen && (
 							<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
-						)}import classNames from './../../../../app/global.d';
+						)}
 
 						{isStuff?.is_stuff && (
 						<IconButton className={styles.articles__title__addArticle}>
