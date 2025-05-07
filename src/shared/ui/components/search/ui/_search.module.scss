@@ -60,6 +60,7 @@
 		padding-block: 10px;
 		flex-direction: column;
 		z-index: 20;
+		overflow-y: auto;
 		&__item {
 			cursor: pointer; 
 			padding: 8px 12px 8px 44px; 
