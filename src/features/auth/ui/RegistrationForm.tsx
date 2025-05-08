@@ -34,7 +34,7 @@ export const RegistrationForm: React.FC = () => {
 
 				return (
 					<Form className={styles.form}>
-						<span>Добро пожаловать!</span>
+						<div className={styles.form__welcome}>Добро пожаловать!</div>
 						<h3>Регистрация</h3>
 
 						<FormField name="first_name" placeholder="Имя" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>

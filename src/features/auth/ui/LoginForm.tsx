@@ -25,7 +25,7 @@ export const LoginForm: React.FC = () => {
 			{({ errors, status, isValid, dirty, touched, setStatus }) => {
 				return (
 					<Form className={styles.form}>
-						<span>Добро пожаловать!</span>
+						<div className={styles.form__welcome}>Добро пожаловать!</div>
 						<h3>Вход в аккаунт</h3>
 
 						<FormField name="username" placeholder="Логин" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
