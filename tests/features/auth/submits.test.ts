@@ -1,174 +1,186 @@
-// import { useLoginMutation, usePasswordRecoveryMutation, useRegistrationMutation } from '@/pages/authPage/api/authApi';
-// import { FormikHelpers } from 'formik';
-// import { loginSubmit, registrationSubmit } from '@/features/auth/model';
-// import { FormValues } from '@/features/auth/types';
-// import { act, renderHook, waitFor } from '@testing-library/react';
-// import { createFormikHelpersMock } from '../../helpers/formikHelpersMock';
+import { loginSubmit, registrationSubmit, resetPasswordSubmit } from "@/features/auth/model";
+import { FormValues } from "@/features/auth/types";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
+import { createFormikHelpersMock } from "../../helpers/formikHelpersMock";
 
-// jest.mock('@/pages/authPage/api/authApi');
+jest.mock('@/pages/authPage/api/authApi');
+jest.mock('@/shared/ui/components/alert/model/alertSlice');
+const mockRegistration = jest.fn().mockReturnValue({
+	unwrap: jest.fn().mockResolvedValue({}),
+});
+const mockDispatch = jest.fn();
+const values: FormValues = {
+	first_name: "Иван",
+	last_name: "Иванов",
+	email: "ivan@example.com",
+	username: "ivan123",
+	password: "securePassword123",
+	password2: "securePassword123",
+};
+const helpers = createFormikHelpersMock()
+describe("registrationSubmit", () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+	});
 
-// const helpers = createFormikHelpersMock()
+	it("success registration", async () => {
+		mockRegistration.mockReturnValueOnce({
+			unwrap: jest.fn().mockResolvedValue({}),
+		});
+		const submit = registrationSubmit(mockRegistration);
+		await expect(submit(values, helpers, mockDispatch)).resolves.not.toThrow();
+		expect(mockRegistration).toHaveBeenCalledWith(values);
+		expect(mockDispatch).toHaveBeenCalledWith(
+			showAlert({
+				message: "Вы успешно зарегистрировались. Проверьте почту для подтверждения пароля",
+				severity: "info",
+			})
+		);
+	});
 
-// const mockUseLoginMutation = useLoginMutation as jest.Mock;
-// const mockUsePasswordRecoveryMutation = usePasswordRecoveryMutation as jest.Mock;
-// const mockUseRegistrationMutation = useRegistrationMutation as jest.Mock;
+	const errorCases = [
+		{
+			name: "status 400: username is exist",
+			error: { status: 400, data: { username: ["error"] } },
+			expected: () => expect(helpers.setErrors).toHaveBeenCalledWith({ username: "Этот логин уже занят" }),
+		},
+		{
+			name: "status 400: email is exist",
+			error: { status: 400, data: { email: ["error"] } },
+			expected: () => expect(helpers.setErrors).toHaveBeenCalledWith({ email: "Эта почта уже используется" }),
+		},
+		{
+			name: "status 400: unknown error",
+			error: { status: 400, data: { unknown: ["error"] } },
+			expected: () => expect(helpers.setStatus).toHaveBeenCalledWith("Произошла ошибка. Попробуйте снова."),
+		},
+		{
+			name: "status 500",
+			error: { status: 500 },
+			expected: () => expect(helpers.setStatus).toHaveBeenCalledWith("Произошла ошибка. Попробуйте снова."),
+		},
+	];
 
-// beforeEach(() => {
-// 	delete (window as any).location;
-// 	window.location = {
-// 		...window.location,
-// 		replace: jest.fn(),
-// 	} as any;
-// });
+	errorCases.forEach(({ name, error, expected }) => {
+		it(` ${name}`, async () => {
+			mockRegistration.mockReturnValueOnce({
+				unwrap: jest.fn().mockRejectedValue(error),
+			});
+			const submit = registrationSubmit(mockRegistration);
+			await expect(submit(values, helpers, mockDispatch)).resolves.not.toThrow();
+			expected();
+		});
+	});
+});
 
-// afterEach(() => {
-// 	jest.clearAllMocks();
-// });
+describe("loginSubmit", () => {
+	const values: FormValues = {
+		username: "ivan123",
+		password: "securePassword123",
+	};
+	const helpers = createFormikHelpersMock();
 
-// describe('loginSubmit', () => {
-// 	it('should call login mutation and redirect to main page on success', async () => {
-// 		const loginMutation = jest.fn().mockReturnValue({
-// 			unwrap: jest.fn().mockResolvedValue({}),
-// 		});
-// 		mockUseLoginMutation.mockReturnValue([loginMutation]);
+	beforeEach(() => {
+		jest.clearAllMocks();
+	});
 
-// 		const { result } = renderHook(() => loginSubmit(loginMutation));
+	it("successfully logs in and redirects", async () => {
+		const mockLogin = jest.fn().mockReturnValue({
+			unwrap: jest.fn().mockResolvedValue({}),
+		});
+		delete (window as any).location;
+		(window as any).location = { replace: jest.fn() };
 
-// 		const values: FormValues = { username: 'test', password: 'test' };
+		const submit = loginSubmit(mockLogin);
+		await expect(submit(values, helpers)).resolves.not.toThrow();
+		expect(mockLogin).toHaveBeenCalledWith(values);
+		expect(window.location.replace).toHaveBeenCalledWith("/main");
+	});
 
-// 		await act(async () => {
-// 			await result.current(values, helpers);
-// 		});
+	const errorCases = [
+		{
+			name: "status 400",
+			error: { status: 400 },
+			expected: () =>
+				expect(helpers.setStatus).toHaveBeenCalledWith("Неправильный ник или пароль"),
+		},
+		{
+			name: "status 500",
+			error: { status: 500 },
+			expected: () =>
+				expect(helpers.setStatus).toHaveBeenCalledWith("Произошла ошибка. Попробуйте снова."),
+		},
+	];
 
-// 		expect(loginMutation).toHaveBeenCalledTimes(1);
-// 		expect(loginMutation).toHaveBeenCalledWith(values);
-// 		expect(window.location.replace).toHaveBeenCalledTimes(1);
-// 		expect(window.location.replace).toHaveBeenCalledWith('/main');
-// 	});
+	errorCases.forEach(({ name, error, expected }) => {
+		it(`handles ${name} error`, async () => {
+			const mockLogin = jest.fn().mockReturnValue({
+				unwrap: jest.fn().mockRejectedValue(error),
+			});
+			const submit = loginSubmit(mockLogin);
+			await expect(submit(values, helpers)).resolves.not.toThrow();
+			expected();
+		});
+	});
+});
 
-// 	it('should call setStatus with error message on login mutation failure', async () => {
-// 		const loginMutation = jest.fn().mockReturnValue({
-// 			unwrap: jest.fn().mockRejectedValue({ status: 400 }),
-// 		});
-// 		mockUseLoginMutation.mockReturnValue([loginMutation]);
+describe("resetPasswordSubmit", () => {
+	const values: FormValues = {
+		email: "ivan@example.com",
+	};
+	const helpers = createFormikHelpersMock();
+	const mockDispatch = jest.fn();
 
-// 		const { result } = renderHook(() => loginSubmit(loginMutation));
+	beforeEach(() => {
+		jest.clearAllMocks();
+		jest.useFakeTimers();
+	});
 
-// 		const values: FormValues = { username: 'test', password: 'test' };
+	it("successfully initiates password recovery and redirects", async () => {
+		const mockRecovery = jest.fn().mockReturnValue({
+			unwrap: jest.fn().mockResolvedValue({}),
+		});
+		delete (window as any).location;
+		(window as any).location = { replace: jest.fn() };
 
-// 		await act(async () => {
-// 			await result.current(values, helpers);
-// 		});
+		const submit = resetPasswordSubmit(mockRecovery);
+		await expect(submit(values, helpers, mockDispatch)).resolves.not.toThrow();
 
-// 		expect(helpers.setStatus).toHaveBeenCalledTimes(1);
-// 		expect(helpers.setStatus).toHaveBeenCalledWith('Неправильный ник или пароль');
-// 	});
-// });
+		expect(mockRecovery).toHaveBeenCalledWith(values);
+		expect(mockDispatch).toHaveBeenCalledWith(
+			showAlert({
+				message: "Проверьте почту для сброса пароля",
+				severity: "info",
+			})
+		);
 
-// describe('registrationSubmit', () => {
-// 	it('should call registration mutation and redirect to login page on success', async () => {
-// 		const registrationMutation = jest.fn().mockReturnValue({
-// 			unwrap: jest.fn().mockResolvedValue({}),
-// 		});
-// 		mockUseRegistrationMutation.mockReturnValue([registrationMutation]);
+		jest.runAllTimers();
+		expect(window.location.replace).toHaveBeenCalledWith("/auth/login");
+	});
 
-// 		const { result } = renderHook(() => registrationSubmit(registrationMutation));
+	const errorCases = [
+		{
+			name: "status 400",
+			error: { status: 400 },
+			expected: () =>
+				expect(helpers.setStatus).toHaveBeenCalledWith("Неправильно указана Электронная почта"),
+		},
+		{
+			name: "status 500",
+			error: { status: 500 },
+			expected: () =>
+				expect(helpers.setStatus).toHaveBeenCalledWith("Произошла ошибка. Попробуйте снова"),
+		},
+	];
 
-// 		const values: FormValues = { username: 'test', email: 'test', password: 'test' };
-
-// 		await act(async () => {
-// 			await result.current(values, helpers);
-// 		});
-
-// 		expect(registrationMutation).toHaveBeenCalledTimes(1);
-// 		expect(registrationMutation).toHaveBeenCalledWith(values);
-// 		expect(window.location.replace).toHaveBeenCalledTimes(1);
-// 		expect(window.location.replace).toHaveBeenCalledWith('/auth/login');
-// 	});
-
-// 	it('should call setErrors with error messages on username conflict', async () => {
-// 		const registrationMutation = jest.fn().mockReturnValue({
-// 			unwrap: jest.fn().mockRejectedValue({
-// 				status: 400,
-// 				data: { username: 'test' },
-// 			}),
-// 		});
-// 		mockUseRegistrationMutation.mockReturnValue([registrationMutation]);
-
-// 		const { result } = renderHook(() => registrationSubmit(registrationMutation));
-
-// 		const values: FormValues = { username: 'test', email: 'test', password: 'test' };
-
-// 		await act(async () => {
-// 			await result.current(values, helpers);
-// 		});
-
-// 		expect(helpers.setErrors).toHaveBeenCalledTimes(1);
-// 		expect(helpers.setErrors).toHaveBeenCalledWith({
-// 			username: 'Этот логин уже занят',
-// 		});
-// 		expect(helpers.setStatus).not.toHaveBeenCalled();
-// 	});
-
-// 	it('should call setErrors with error messages on email conflict', async () => {
-// 		const registrationMutation = jest.fn().mockReturnValue({
-// 			unwrap: jest.fn().mockRejectedValue({
-// 				status: 400,
-// 				data: { email: 'test' },
-// 			}),
-// 		});
-// 		mockUseRegistrationMutation.mockReturnValue([registrationMutation]);
-
-// 		const { result } = renderHook(() => registrationSubmit(registrationMutation));
-
-// 		const values: FormValues = { username: 'test', email: 'test', password: 'test' };
-
-// 		await act(async () => {
-// 			await result.current(values, helpers);
-// 		});
-
-// 		expect(helpers.setErrors).toHaveBeenCalledTimes(1);
-// 		expect(helpers.setErrors).toHaveBeenCalledWith({
-// 			email: 'Эта почта уже используется',
-// 		});
-// 		expect(helpers.setStatus).not.toHaveBeenCalled();
-// 	});
-
-// 	it('should call setStatus with generic error if no error data present', async () => {
-// 		const registrationMutation = jest.fn().mockReturnValue({
-// 			unwrap: jest.fn().mockRejectedValue({ status: 400 }),
-// 		});
-// 		mockUseRegistrationMutation.mockReturnValue([registrationMutation]);
-
-// 		const { result } = renderHook(() => registrationSubmit(registrationMutation));
-
-// 		const values: FormValues = { username: 'test', email: 'test', password: 'test' };
-
-// 		await act(async () => {
-// 			await result.current(values, helpers);
-// 		});
-
-// 		expect(helpers.setStatus).toHaveBeenCalledTimes(1);
-// 		expect(helpers.setStatus).toHaveBeenCalledWith('Произошла ошибка. Попробуйте снова.');
-// 		expect(helpers.setErrors).not.toHaveBeenCalled();
-// 	});
-
-// 	it('should call setStatus with generic error on server error', async () => {
-// 		const registrationMutation = jest.fn().mockReturnValue({
-// 			unwrap: jest.fn().mockRejectedValue({ status: 500 }),
-// 		});
-// 		mockUseRegistrationMutation.mockReturnValue([registrationMutation]);
-
-// 		const { result } = renderHook(() => registrationSubmit(registrationMutation));
-
-// 		const values: FormValues = { username: 'test', email: 'test', password: 'test' };
-
-// 		await act(async () => {
-// 			await result.current(values, helpers);
-// 		});
-
-// 		expect(helpers.setStatus).toHaveBeenCalledTimes(1);
-// 		expect(helpers.setStatus).toHaveBeenCalledWith('Произошла ошибка. Попробуйте снова.');
-// 		expect(helpers.setErrors).not.toHaveBeenCalled();
-// 	});
-// });
+	errorCases.forEach(({ name, error, expected }) => {
+		it(`handles ${name} error`, async () => {
+			const mockRecovery = jest.fn().mockReturnValue({
+				unwrap: jest.fn().mockRejectedValue(error),
+			});
+			const submit = resetPasswordSubmit(mockRecovery);
+			await expect(submit(values, helpers, mockDispatch)).resolves.not.toThrow();
+			expected();
+		});
+	});
+});
