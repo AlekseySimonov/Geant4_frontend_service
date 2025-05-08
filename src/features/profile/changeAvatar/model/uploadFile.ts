@@ -20,20 +20,12 @@ export const uploadCroppedImage = async (
 
 		const formData = new FormData();
 		formData.append("image", croppedBlob, "avatar.png");
-
-		await dispatch(
-			hasAvatar ? patchAvatar(formData) : postAvatar(formData)
-		)
+		await dispatch(hasAvatar ? patchAvatar(formData) : postAvatar(formData))
 		dispatch(setAvatarLoading(true))
-		await new Promise((resolve) => setTimeout(resolve, 3000));
+		await new Promise((resolve) => globalThis.setTimeout(resolve, 3000));
 		await dispatch(getAvatar())
-		dispatch(setAvatarLoading(false))
+		dispatch(setAvatarLoading(false));
 	} catch (error) {
-		dispatch(
-			showAlert({
-				message: 'Не удалось загрузить аватар',
-				severity: 'error',
-			})
-		);
+		dispatch(showAlert({ message: 'Не удалось загрузить аватар', severity: 'error' }))
 	}
 };

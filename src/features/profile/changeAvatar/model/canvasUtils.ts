@@ -1,13 +1,20 @@
 import { Area } from "react-easy-crop";
 
-export const createImage = (url: string): Promise<HTMLImageElement> =>
-	new Promise((resolve, reject) => {
+export const createImage = (url: string): Promise<HTMLImageElement> => {
+	return new Promise((resolve, reject) => {
+		if (!url) {
+			return reject(new Error("Image URL is required"));
+		}
+
 		const image = new Image();
-		image.addEventListener("load", () => resolve(image));
-		image.addEventListener("error", (error) => reject(error));
-		image.setAttribute("crossOrigin", "anonymous");
+
+		image.onload = () => resolve(image);
+		image.onerror = () => reject(new Error("Failed to load image"));
+		
+		image.crossOrigin = "anonymous";
 		image.src = url;
 	});
+};
 
 export const getCroppedImg = async (
 	imageSrc: string,

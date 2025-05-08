@@ -51,8 +51,8 @@ const MainPage: React.FC = () => {
 				<Card
 					title="Загрузка"
 					text="Исходный код Geant4 и установочные файлы доступны для загрузки."
-					link="/"
-					btnLabel="Последняя версия: 11.3.0"
+					link="https://gitlab.cern.ch/geant4/geant4/-/archive/v11.3.2/geant4-v11.3.2.zip"
+					btnLabel="Последняя версия: 11.3.2"
 				/>
 				<Card
 					title="Документация"
@@ -63,7 +63,7 @@ const MainPage: React.FC = () => {
 				<Card
 					title="Сайт Geant4"
 					text="Узнайте больше о разработчиках Geant4 из прямого источника"
-					link="/"
+					link="https://geant4.web.cern.ch/"
 					btnLabel="Перейти на сайт"
 				/>
 				<Card

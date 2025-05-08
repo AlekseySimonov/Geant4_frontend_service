@@ -27,20 +27,22 @@ export const RegistrationForm: React.FC = () => {
 			onSubmit={(values, formikHelpers) =>
 				registrationSubmit(registration)(values, formikHelpers, dispatch)
 			}
+			validateOnChange={true}
+			validateOnBlur={true}
 		>
-			{({ errors, status, isValid, dirty }) => {
+			{({ errors, status, isValid, dirty, touched, setStatus }) => {
 
 				return (
 					<Form className={styles.form}>
 						<span>Добро пожаловать!</span>
 						<h3>Регистрация</h3>
 
-						<FormField name="first_name" placeholder="Имя" errors={errors} />
-						<FormField name="last_name" placeholder="Фамилия" errors={errors} />
-						<FormField name="email" placeholder="Электронная почта" errors={errors} />
-						<FormField name="username" placeholder="Логин" errors={errors} />
-						<FormField name="password" placeholder="Пароль" errors={errors} type="password" />
-						<FormField name="password2" placeholder="Повторите пароль" errors={errors} type="password" />
+						<FormField name="first_name" placeholder="Имя" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="last_name" placeholder="Фамилия" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="email" placeholder="Электронная почта" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="username" placeholder="Логин" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="password" placeholder="Пароль" errors={errors} type="password" touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="password2" placeholder="Повторите пароль" errors={errors} type="password" touched={touched} onChange={() => setStatus(undefined)}/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 

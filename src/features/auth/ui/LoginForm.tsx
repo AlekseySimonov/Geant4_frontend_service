@@ -22,14 +22,14 @@ export const LoginForm: React.FC = () => {
 			validationSchema={loginValidationSchema}
 			onSubmit={loginSubmit(login)}
 		>
-			{({ errors, status, isValid, dirty }) => {
+			{({ errors, status, isValid, dirty, touched, setStatus }) => {
 				return (
 					<Form className={styles.form}>
 						<span>Добро пожаловать!</span>
 						<h3>Вход в аккаунт</h3>
 
-						<FormField name="username" placeholder="Логин" errors={errors} />
-						<FormField name="password" placeholder="Пароль" errors={errors} type="password" />
+						<FormField name="username" placeholder="Логин" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="password" placeholder="Пароль" errors={errors} type="password" touched={touched} onChange={() => setStatus(undefined)}/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 

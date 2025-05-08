@@ -2,8 +2,8 @@ import * as Yup from 'yup';
 
 export const loginValidationSchema = Yup.object({
 	username: Yup.string()
-		.matches(/^[a-zA-Z0-9._-]+$/, "Некорректный ник")
-		.required("Ник обязателен"),
+		.matches(/^[a-zA-Z0-9._-]+$/, "Некорректный логин")
+		.required("Логин обязателен"),
 	password: Yup.string()
 		.min(8, 'Пароль должен быть не менее 8 символов'),
 });

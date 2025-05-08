@@ -5,6 +5,8 @@ import { FormValues } from "@/features/auth/types";
 import { changePasswordValidationSchema } from "../model/validation";
 import { FormField } from "@/shared";
 import { useChangePasswordMutation } from "@/pages/profilePage/api/profileApi";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
+import { useDispatch } from "react-redux";
 
 export const ChangePassword: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
@@ -14,6 +16,7 @@ export const ChangePassword: React.FC<{ onClose: () => void }> = ({ onClose }) =
 	}
 
 	const [changePassword] = useChangePasswordMutation()
+	const dispatch = useDispatch()
 
 	const handleSubmit = async (
 		values: typeof initialValues,
@@ -22,7 +25,12 @@ export const ChangePassword: React.FC<{ onClose: () => void }> = ({ onClose }) =
 		try {
 			await changePassword(values).unwrap();
 			resetForm();
-			alert("Пароль успешно изменен")
+			dispatch(
+				showAlert({
+					message: 'Проверьте почту для сброса пароля',
+					severity: 'info',
+				})
+			);
 			onClose()
 		} catch (error: any) {
 			if (error?.data?.non_field_errors?.length) {
@@ -39,13 +47,13 @@ export const ChangePassword: React.FC<{ onClose: () => void }> = ({ onClose }) =
 			validationSchema={changePasswordValidationSchema}
 			onSubmit={handleSubmit}
 		>
-			{({ errors, status, isValid, dirty }) => {
+			{({ errors, status, isValid, dirty, setStatus, touched }) => {
 				return (
 					<Form className={styles.form}>
 						<h3>Смена пароля</h3>
 
-						<FormField name="old_password" placeholder="Ваш текущий пароль" errors={errors} type="password" />
-						<FormField name="new_password" placeholder="Новый пароль" errors={errors} type="password" />
+						<FormField name="old_password" placeholder="Ваш текущий пароль" errors={errors} type="password" touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="new_password" placeholder="Новый пароль" errors={errors} type="password"touched={touched}  onChange={() => setStatus(undefined)}/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 
