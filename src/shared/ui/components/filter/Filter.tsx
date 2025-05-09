@@ -3,13 +3,16 @@ import styles from "./_filter.module.scss"
 import { useClickOutside } from "@/shared/hooks";
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { FilterProps, FilterTypes } from "./types/types";
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 export const Filter: React.FC<FilterProps> = ({
 	onOptionSelect,
 	label,
 	options,
 	width,
-	selectedOption
+	selectedOption,
+	addButtonText,
+	onAddButtonClick,
 }) => {
 	const [open, setOpen] = useState(false);
 	const filterRef = useRef<HTMLDivElement | null>(null);
@@ -44,17 +47,29 @@ export const Filter: React.FC<FilterProps> = ({
 							Ничего не найдено
 						</div>
 					) : (
-							options
-								.filter(option => option.title?.trim())
-								.map((option) => (
-							<div
-								key={option.id}
-								className={styles.filter__popper__item}
-								onClick={() => handleOptionClick(option)}
-							>
-								{option.title}
-							</div>
-						))
+						options
+							.filter(option => option.title?.trim())
+							.map((option) => (
+								<div
+									key={option.id}
+									className={styles.filter__popper__item}
+									onClick={() => handleOptionClick(option)}
+								>
+									{option.title}
+								</div>
+							))
+					)}
+					{onAddButtonClick && (
+						<div
+							className={styles.filter__popper__item}
+							onClick={() => {
+								setOpen(false);
+								onAddButtonClick();
+							}}
+						>
+							<AddRoundedIcon style={{ fontSize: 25 }}/>
+							{addButtonText || 'Добавить'}
+						</div>
 					)}
 				</div>)}
 		</div>

@@ -5,5 +5,5 @@ export interface ProfileTypes {
     username?: string;
     is_employee?: boolean;
     new_username?: string;
-    is_stuff?: boolean;
+    is_staff?: boolean;
 }

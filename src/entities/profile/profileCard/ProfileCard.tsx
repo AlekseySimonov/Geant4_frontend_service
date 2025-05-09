@@ -32,7 +32,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ data, onSettingsClick, avatar
                 </div>
                 <div className={styles.card__settings}>
                     <div>
-                        {data?.is_stuff && (<h3>Сотрудник</h3>)}
+                        {data?.is_staff && (<h3>Сотрудник</h3>)}
                         <IconButton color="primary">
                             <img src={settingsIcon} alt="Settings" onClick={onSettingsClick}/>
                         </IconButton>

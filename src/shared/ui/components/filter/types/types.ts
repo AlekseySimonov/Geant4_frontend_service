@@ -8,5 +8,7 @@ export interface FilterProps {
 	onOptionSelect?: (title: string) => void;
 	label: string;
 	selectedOption?: string | null;
-	width?: string
+	width?: string;
+	addButtonText?: string;
+	onAddButtonClick?: () => void;
 }

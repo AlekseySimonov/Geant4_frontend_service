@@ -67,7 +67,7 @@ const ProfileSettings: React.FC = () => {
 								<div className={styles.settings__title}>
 									<h2>Редактирование профиля</h2>
 								</div>
-								{data?.is_stuff && (<h3 className={styles.settings__employee}>Сотрудник</h3>)}
+								{data?.is_staff && (<h3 className={styles.settings__employee}>Сотрудник</h3>)}
 								<div className={styles.settings__body}>
 									<div className={styles.settings__avatar}>
 										<img

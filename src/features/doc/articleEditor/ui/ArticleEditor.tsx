@@ -1,15 +1,19 @@
-import { FormField } from "@/shared"
+import { FormField, Loader } from "@/shared"
 import styles from "./_articleEditor.module.scss"
 import { FieldArray, Form, Formik } from 'formik';
 import { ArticlesTypes } from '@/shared/types';
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
-import { EditorBlock } from "@/entities";
 import { useState } from "react";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useNavigate } from "react-router";
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy, arrayMove } from "@dnd-kit/sortable";
-import {restrictToVerticalAxis, restrictToWindowEdges} from '@dnd-kit/modifiers';
+import { SortableEditorBlocks } from "../../sortableEditorBlocks";
+import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
+import { useFilter } from "@/shared/ui/components/filter";
+import { ArticleFilters } from "./ArticleFilters";
+import { ModalWindow } from "@/shared/ui/components/modal";
+import { usePopup } from "@/shared/hooks";
+import { RootState } from "@/app/store";
+import { useSelector } from "react-redux";
 
 const initialValues: ArticlesTypes = {
 	title: '',
@@ -18,9 +22,19 @@ const initialValues: ArticlesTypes = {
 };
 
 const ArticleEditor: React.FC = () => {
+	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading)
+
 	const [blocks, setBlocks] = useState<number[]>([]);
 	const [blockCounter, setBlockCounter] = useState(0);
 	const navigate = useNavigate()
+	const { data: categories } = useGetCategoriesQuery()
+	const { data: chapters } = useGetChaptersQuery()
+
+	const addCategory = usePopup()
+	const addChapter = usePopup()
+
+	const { selectedOption: selectedCategory, handleChange: handleCategoryChange } = useFilter();
+	const { selectedOption: selectedChapter, handleChange: handleChapterChange } = useFilter();
 
 	return (
 		<div className={styles.editor}>
@@ -30,49 +44,38 @@ const ArticleEditor: React.FC = () => {
 					console.log("Submitted values:", values);
 				}}
 			>
-				{({ values, setFieldValue  }) => (
+				{({ values, setFieldValue }) => (
 					<Form className={styles.editor__form}>
 						<div className={styles.editor__form__title}>
-							<ArrowBackIosRoundedIcon style={{ fontSize: 30 }} onClick={()=> navigate('/documentation/articles')}/>
+							<ArrowBackIosRoundedIcon style={{ fontSize: 30 }} onClick={() => navigate('/documentation/articles')} />
 							<h2>Редактор статьи</h2>
 						</div>
 
 						<FormField name="title" placeholder="Название статьи" />
+
+						<ArticleFilters
+							categories={categories}
+							chapters={chapters}
+							selectedCategory={selectedCategory}
+							selectedChapter={selectedChapter}
+							onCategoryChange={handleCategoryChange}
+							onChapterChange={handleChapterChange}
+							onAddCategoryClick={addCategory.openPopup}
+							onAddChapterClick={addChapter.openPopup}
+						/>
+
 						<FormField name="description" placeholder="Описание" isMultiline />
 
 						<FieldArray name="subscriptions">
 							{({ push, remove }) => (
 								<>
-									<DndContext
-										collisionDetection={closestCenter}
-										modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
-										onDragEnd={({ active, over }) => {
-											if (active.id !== over?.id) {
-												const oldIndex = values.subscriptions.findIndex((_, i) => `block-${i}` === active.id);
-												const newIndex = values.subscriptions.findIndex((_, i) => `block-${i}` === over?.id);
+									<SortableEditorBlocks
+										subscriptions={values.subscriptions}
+										setFieldValue={setFieldValue}
+										push={push}
+										remove={remove}
+									/>
 
-												if (oldIndex !== -1 && newIndex !== -1) {
-													const newItems = arrayMove(values.subscriptions, oldIndex, newIndex);
-													setFieldValue("subscriptions", newItems);
-												}
-											}
-										}}
-									>
-										<SortableContext
-											items={values.subscriptions.map((_, i) => `block-${i}`)}
-											strategy={verticalListSortingStrategy}
-										>
-											{values.subscriptions.map((_, index) => (
-												<EditorBlock
-													key={`block-${index}`}
-													id={`block-${index}`}
-													index={index}
-													onRemove={() => remove(index)}
-												/>
-											))}
-										</SortableContext>
-									</DndContext>
-									
 									<SecondaryButton
 										label="Добавить блок"
 										fullWidth
@@ -86,11 +89,17 @@ const ArticleEditor: React.FC = () => {
 								</>
 							)}
 						</FieldArray>
-						<PrimaryButton label="Опубликовать" fullWidth type = "submit"/>
+						<PrimaryButton label="Опубликовать" fullWidth type="submit" />
 					</Form>
 				)}
 
 			</Formik>
+			<ModalWindow open={addCategory.isVisible} onClose={addCategory.closePopup}>
+				{globalLoading && <Loader />}
+			</ModalWindow>
+			<ModalWindow open={addChapter.isVisible} onClose={addChapter.closePopup}>
+				{globalLoading && <Loader />}
+			</ModalWindow>
 		</div>
 	);
 };

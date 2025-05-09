@@ -45,9 +45,9 @@ export const docApi = createApi({
 					method: 'GET',
 				}),
 			}),
-			getStuff: query<{is_stuff: boolean}, void>({
+			getStaff: query<{is_staff: boolean}, void>({
 				query: () => ({
-					url: URLS.IS_STUFF,
+					url: URLS.IS_STAFF,
 					method: 'GET',
 				}),
 			}),
@@ -59,5 +59,5 @@ export const {
 	useGetCategoriesQuery,
 	useGetChaptersQuery,
 	useGetArticlesQuery,
-	useGetStuffQuery,
+	useGetStaffQuery,
 } = docApi;
