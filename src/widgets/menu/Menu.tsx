@@ -14,10 +14,8 @@ export const Menu: React.FC = () => {
 
 	const menuItems = [
 		{ label: "Документация", to: "/documentation" },
-		{ label: "Форум", to: "/forum" },
 		{ label: "Моделирование", to: "/modeling" },
 		{ label: "Профиль", to: "/profile" },
-		{ label: "Хранилище", to: "/storage" },
 	];
 
 	return (

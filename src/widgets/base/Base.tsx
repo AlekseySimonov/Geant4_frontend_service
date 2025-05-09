@@ -13,7 +13,7 @@ export const Base = () => {
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
 	return (
-		<Container maxWidth='xl' sx={{ overflowY: 'auto' }}>
+		<Container maxWidth='xl' sx={{ paddingBottom: '50px'}}>
 			<Menu />
 			<Outlet />
 			<AlertPopup/>

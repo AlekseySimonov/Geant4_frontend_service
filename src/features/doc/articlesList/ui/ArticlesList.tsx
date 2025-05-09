@@ -62,11 +62,11 @@ const ArticlesList: React.FC = () => {
 						)}
 
 						{isStaff?.is_staff && (
-						<IconButton className={styles.articles__title__addArticle}>
-							<AddRoundedIcon
-								style={{ fontSize: 30 }}
-								onClick={() => navigate('/documentation/articles/editor')}
-							/>
+							<IconButton className={styles.articles__title__addArticle}>
+								<AddRoundedIcon
+									style={{ fontSize: 30 }}
+									onClick={() => navigate('/documentation/articles/editor')}
+								/>
 							</IconButton>
 						)}
 					</div>
@@ -83,14 +83,15 @@ const ArticlesList: React.FC = () => {
 							options={categories}
 							label="Категории"
 							width={isMobile ? '140px' : '230px'}
-							onOptionSelect={(title) => handleCategoryChange(title)}
+							onOptionSelect={handleCategoryChange}
 							selectedOption={selectedCategory}
 						/>
+
 						<Filter
 							options={chapters}
 							label="Разделы"
 							width={isMobile ? '120px' : '200px'}
-							onOptionSelect={(title) => handleChapterChange(title)}
+							onOptionSelect={handleChapterChange}
 							selectedOption={selectedChapter}
 						/>
 						{isMobile ? (

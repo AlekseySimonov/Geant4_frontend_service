@@ -4,11 +4,11 @@ export interface FilterTypes {
 }
 
 export interface FilterProps {
-	options: FilterTypes[];
-	onOptionSelect?: (title: string) => void;
+	onOptionSelect?: (option: FilterTypes) => void;
 	label: string;
-	selectedOption?: string | null;
+	options: FilterTypes[];
 	width?: string;
+	selectedOption: FilterTypes | null;
 	addButtonText?: string;
 	onAddButtonClick?: () => void;
 }

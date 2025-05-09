@@ -1,17 +1,17 @@
 import { useMediaQuery } from "@mui/material";
-import { Filter, useFilter } from "@/shared/ui/components/filter";
+import { Filter } from "@/shared/ui/components/filter";
 import styles from "./_articleEditor.module.scss";
 import { FilterTypes } from '@/shared/ui/components/filter/types/types';
 
 interface ArticleFiltersProps {
 	categories?: FilterTypes[];
 	chapters?: FilterTypes[];
-	selectedCategory: string;
-	selectedChapter: string;
-	onCategoryChange: (value: string) => void;
-	onChapterChange: (value: string) => void;
-	onAddCategoryClick: () => void;
-	onAddChapterClick: () => void;
+	selectedCategory: FilterTypes | null;
+	selectedChapter: FilterTypes | null;
+	onCategoryChange: (value: FilterTypes) => void;
+	onChapterChange: (value: FilterTypes) => void; 
+	onEditCategoryClick: () => void;
+	onEditChapterClick: () => void;
 }
 
 export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
@@ -21,8 +21,8 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 	selectedChapter,
 	onCategoryChange,
 	onChapterChange,
-	onAddCategoryClick,
-	onAddChapterClick
+	onEditCategoryClick,
+	onEditChapterClick
 }) => {
 	const isMobile = useMediaQuery('(max-width: 700px)');
 
@@ -34,8 +34,7 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 				width={isMobile ? '140px' : '230px'}
 				onOptionSelect={onCategoryChange}
 				selectedOption={selectedCategory}
-				addButtonText="Добавить категорию"
-				onAddButtonClick={onAddCategoryClick}
+				onAddButtonClick={onEditCategoryClick}
 			/>
 			<Filter
 				options={chapters}
@@ -43,8 +42,7 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 				width={isMobile ? '120px' : '200px'}
 				onOptionSelect={onChapterChange}
 				selectedOption={selectedChapter}
-				addButtonText="Добавить раздел"
-				onAddButtonClick={onAddChapterClick}
+				onAddButtonClick={onEditChapterClick}
 			/>
 		</div>
 	);

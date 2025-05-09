@@ -1,5 +1,5 @@
 import { usePostCategoryMutation, usePostChapterMutation } from "@/pages/documentationPage/api/docApi";
-import styles from "./_addingOption.module.scss";
+import styles from "./_editOptions.module.scss";
 import { PrimaryButton } from "@/shared/ui/components/buttons";
 import { FormField } from "@/shared";
 import { Form, Formik } from "formik";
@@ -17,7 +17,7 @@ interface FormValues {
 	title: string;
 }
 
-export const AddingOption: React.FC<AddingOptionProps> = ({ type, label, onClose }) => {
+export const EditOptions: React.FC<AddingOptionProps> = ({ type, label, onClose }) => {
 	const [postCategory] = usePostCategoryMutation();
 	const [postChapter] = usePostChapterMutation();
 
@@ -41,7 +41,7 @@ export const AddingOption: React.FC<AddingOptionProps> = ({ type, label, onClose
 			resetForm();
 			onClose()
 		} catch (error) {
-			setStatus("Не удалось сменить пароль. Попробуйте позже.")
+			setStatus("Не удалось сохранить изменения. Попробуйте позже.")
 		}
 	};
 
@@ -65,7 +65,7 @@ export const AddingOption: React.FC<AddingOptionProps> = ({ type, label, onClose
 					{status && <div className={styles.form_errorMessage}>{status}</div>}
 
 					<PrimaryButton
-						label="Добавить"
+						label="Сохранить"
 						type="submit"
 						disabled={!(isValid && dirty)}
 						fullWidth

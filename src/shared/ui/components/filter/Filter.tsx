@@ -3,7 +3,7 @@ import styles from "./_filter.module.scss"
 import { useClickOutside } from "@/shared/hooks";
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { FilterProps, FilterTypes } from "./types/types";
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 
 export const Filter: React.FC<FilterProps> = ({
 	onOptionSelect,
@@ -11,7 +11,6 @@ export const Filter: React.FC<FilterProps> = ({
 	options,
 	width,
 	selectedOption,
-	addButtonText,
 	onAddButtonClick,
 }) => {
 	const [open, setOpen] = useState(false);
@@ -21,7 +20,7 @@ export const Filter: React.FC<FilterProps> = ({
 
 	const handleOptionClick = (option: FilterTypes) => {
 		setOpen(false);
-		onOptionSelect?.(option.title);
+		onOptionSelect?.(option);
 	};
 
 	return (
@@ -32,7 +31,7 @@ export const Filter: React.FC<FilterProps> = ({
 		>
 			<div className={`${styles.filter__button} ${open ? styles.open : ''}`} onClick={() => setOpen(prev => !prev)}>
 				<div className={styles.filter__button__label}>
-					{selectedOption ? selectedOption : label}
+					{selectedOption ? selectedOption.title : label}
 				</div>
 				<KeyboardArrowDownRoundedIcon
 					className={open ? styles.iconOpen : ''}
@@ -67,8 +66,8 @@ export const Filter: React.FC<FilterProps> = ({
 								onAddButtonClick();
 							}}
 						>
-							<AddRoundedIcon style={{ fontSize: 25 }}/>
-							{addButtonText || 'Добавить'}
+							<CreateOutlinedIcon style={{ fontSize: 25 }}/>
+							<p>Редактировать список</p>
 						</div>
 					)}
 				</div>)}

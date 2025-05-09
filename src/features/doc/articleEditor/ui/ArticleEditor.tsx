@@ -3,7 +3,6 @@ import styles from "./_articleEditor.module.scss"
 import { FieldArray, Form, Formik } from 'formik';
 import { ArticlesTypes } from '@/shared/types';
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
-import { useState } from "react";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useNavigate } from "react-router";
 import { SortableEditorBlocks } from "../../sortableEditorBlocks";
@@ -14,7 +13,7 @@ import { ModalWindow } from "@/shared/ui/components/modal";
 import { usePopup } from "@/shared/hooks";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
-import { AddingOption } from "../../addingOption";
+import { EditOptions } from "../../editOptions";
 
 const initialValues: ArticlesTypes = {
 	title: '',
@@ -25,14 +24,12 @@ const initialValues: ArticlesTypes = {
 const ArticleEditor: React.FC = () => {
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading)
 
-	const [blocks, setBlocks] = useState<number[]>([]);
-	const [blockCounter, setBlockCounter] = useState(0);
 	const navigate = useNavigate()
 	const { data: categories } = useGetCategoriesQuery()
 	const { data: chapters } = useGetChaptersQuery()
 
-	const addCategory = usePopup()
-	const addChapter = usePopup()
+	const editCategory = usePopup()
+	const editChapter = usePopup()
 
 	const { selectedOption: selectedCategory, handleChange: handleCategoryChange } = useFilter();
 	const { selectedOption: selectedChapter, handleChange: handleChapterChange } = useFilter();
@@ -42,7 +39,12 @@ const ArticleEditor: React.FC = () => {
 			<Formik
 				initialValues={initialValues}
 				onSubmit={(values) => {
-					console.log("Submitted values:", values);
+					const dataToSubmit = {
+						...values,
+						category: selectedCategory.id,
+						chapter: selectedChapter.id,
+					};
+					console.log("Submitted data:", dataToSubmit);
 				}}
 			>
 				{({ values, setFieldValue }) => (
@@ -61,8 +63,8 @@ const ArticleEditor: React.FC = () => {
 							selectedChapter={selectedChapter}
 							onCategoryChange={handleCategoryChange}
 							onChapterChange={handleChapterChange}
-							onAddCategoryClick={addCategory.openPopup}
-							onAddChapterClick={addChapter.openPopup}
+							onEditCategoryClick={editCategory.openPopup}
+							onEditChapterClick={editChapter.openPopup}
 						/>
 
 						<FormField name="description" placeholder="Описание" isMultiline />
@@ -95,12 +97,12 @@ const ArticleEditor: React.FC = () => {
 				)}
 
 			</Formik>
-			<ModalWindow open={addCategory.isVisible} onClose={addCategory.closePopup}>
-				<AddingOption type="category" label="категории" onClose={addCategory.closePopup}/>
+			<ModalWindow open={editCategory.isVisible} onClose={editCategory.closePopup}>
+				<EditOptions type="category" label="категории" onClose={editCategory.closePopup}/>
 				{globalLoading && <Loader />}
 			</ModalWindow>
-			<ModalWindow open={addChapter.isVisible} onClose={addChapter.closePopup}>
-			<AddingOption type="chapter" label="раздела" onClose={addChapter.closePopup} />
+			<ModalWindow open={editChapter.isVisible} onClose={editChapter.closePopup}>
+				<EditOptions type="chapter" label="раздела" onClose={editChapter.closePopup} />
 				{globalLoading && <Loader />}
 			</ModalWindow>
 		</div>

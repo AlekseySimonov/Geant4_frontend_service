@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArticlesTypes } from "@/shared/types";
 import { useLazySearchArticlesQuery } from "@/pages/documentationPage/api/queryDoc";
+import { FilterTypes } from "@/shared/ui/components/filter/types/types";
 
 export const useArticlesList = () => {
 	const [searchArticle] = useLazySearchArticlesQuery();
@@ -8,16 +9,16 @@ export const useArticlesList = () => {
 	const [page, setPage] = useState(1);
 	const [pageCount, setPageCount] = useState(1);
 
-	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-	const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
+	const [selectedCategory, setSelectedCategory] = useState<FilterTypes | null>(null);
+	const [selectedChapter, setSelectedChapter] = useState<FilterTypes | null>(null);
 	const [searchQuery, setSearchQuery] = useState<string>('');
 	const [articles, setArticles] = useState<ArticlesTypes[]>([]);
 	
 	const fetchData = async (customPage = page,  customQuery = searchQuery) => {
 		const result = await searchArticle({
 			query: customQuery,
-			category: selectedCategory,
-			chapter: selectedChapter,
+			category: selectedCategory?.title || '',
+			chapter: selectedChapter?.title || '',
 			page: customPage,
 		});
 		if ('data' in result) {
@@ -59,7 +60,11 @@ export const useArticlesList = () => {
 	};
 
 	const handleSearchEnter = async (selectedTitle: string) => {
-		const result = await searchArticle({ query: selectedTitle, category: selectedCategory, chapter: selectedChapter });
+		const result = await searchArticle({
+			query: selectedTitle,
+			category: selectedCategory?.title || '',
+			chapter: selectedChapter?.title || '',
+		});
 		if ('data' in result) {
 			const articles = result.data.filter((item: any) => !('pages_count' in item));
 			setArticles(articles);
@@ -67,15 +72,16 @@ export const useArticlesList = () => {
 		}
 	};
 
-	const handleCategoryChange = (categoryTitle: string) => {
-		setSelectedCategory(categoryTitle);
-		setPage(1)
+	const handleCategoryChange = (category: FilterTypes) => {
+		setSelectedCategory(category);
+		setPage(1);
 	};
-
-	const handleChapterChange = (chapterTitle: string) => {
-		setSelectedChapter(chapterTitle);
-		setPage(1)
+	
+	const handleChapterChange = (chapter: FilterTypes) => {
+		setSelectedChapter(chapter);
+		setPage(1);
 	};
+	
 
 	const handleReset = () => {
 		setSelectedCategory(null);

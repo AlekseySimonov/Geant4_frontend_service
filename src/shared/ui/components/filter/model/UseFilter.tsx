@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { FilterTypes } from "../types/types";
 
-export const useFilter = (initialValue: string = '') => {
-	const [selectedOption, setSelectedOption] = useState(initialValue);
+export const useFilter = (initialValue: FilterTypes | null = null) => {
+	const [selectedOption, setSelectedOption] = useState<FilterTypes | null>(initialValue);
 
-	const handleChange = (option: string) => {
+	const handleChange = (option: FilterTypes) => {
 		setSelectedOption(option);
 	};
 
 	const resetFilter = () => {
-		setSelectedOption('');
+		setSelectedOption(null);
 	};
 
 	return {
