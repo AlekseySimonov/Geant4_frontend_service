@@ -5,7 +5,7 @@ import { globalLoading } from "@/shared/model";
 import { apiBaseQuery } from "@/shared/api";
 
 export interface CategoryOrChapter {
-	id: number;
+	id?: number;
 	title: string;
 }
 
@@ -38,18 +38,36 @@ export const docApi = createApi({
 					url: URLS.CATEGORIES,
 					method: 'GET',
 				}),
+				providesTags: ['Doc'],
 			}),
 			getChapters: query<CategoryOrChapter[], void>({
 				query: () => ({
 					url: URLS.CHAPTERS,
 					method: 'GET',
 				}),
+				providesTags: ['Doc'],
 			}),
 			getStaff: query<{is_staff: boolean}, void>({
 				query: () => ({
 					url: URLS.IS_STAFF,
 					method: 'GET',
 				}),
+			}),
+			postChapter: mutation({
+				query: (body: CategoryOrChapter) => ({
+					url: URLS.CHAPTERS,
+					method: 'POST',
+					body,
+				}),
+				invalidatesTags: ['Doc'],
+			}),
+			postCategory: mutation({
+				query: (body: CategoryOrChapter) => ({
+					url: URLS.CATEGORIES,
+					method: 'POST',
+					body,
+				}),
+				invalidatesTags: ['Doc'],
 			}),
 		};
 	},
@@ -60,4 +78,6 @@ export const {
 	useGetChaptersQuery,
 	useGetArticlesQuery,
 	useGetStaffQuery,
+	usePostCategoryMutation,
+	usePostChapterMutation,
 } = docApi;

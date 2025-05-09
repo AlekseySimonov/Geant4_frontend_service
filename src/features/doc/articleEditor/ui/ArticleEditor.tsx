@@ -14,6 +14,7 @@ import { ModalWindow } from "@/shared/ui/components/modal";
 import { usePopup } from "@/shared/hooks";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
+import { AddingOption } from "../../addingOption";
 
 const initialValues: ArticlesTypes = {
 	title: '',
@@ -95,9 +96,11 @@ const ArticleEditor: React.FC = () => {
 
 			</Formik>
 			<ModalWindow open={addCategory.isVisible} onClose={addCategory.closePopup}>
+				<AddingOption type="category" label="категории" onClose={addCategory.closePopup}/>
 				{globalLoading && <Loader />}
 			</ModalWindow>
 			<ModalWindow open={addChapter.isVisible} onClose={addChapter.closePopup}>
+			<AddingOption type="chapter" label="раздела" onClose={addChapter.closePopup} />
 				{globalLoading && <Loader />}
 			</ModalWindow>
 		</div>

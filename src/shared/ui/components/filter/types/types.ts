@@ -1,5 +1,5 @@
 export interface FilterTypes {
-	id: number;
+	id?: number;
 	title: string;
 }
 
