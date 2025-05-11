@@ -14,6 +14,7 @@ import { usePopup } from "@/shared/hooks";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { EditOptions } from "../../editOptions";
+import { GraphUploader } from "../../graphUploader";
 
 const initialValues: ArticlesTypes = {
 	title: '',
@@ -92,6 +93,7 @@ const ArticleEditor: React.FC = () => {
 								</>
 							)}
 						</FieldArray>
+						<GraphUploader/>
 						<PrimaryButton label="Опубликовать" fullWidth type="submit" />
 					</Form>
 				)}
