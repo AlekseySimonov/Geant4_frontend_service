@@ -6,10 +6,9 @@ import {
 	VictoryTheme,
 	VictoryTooltip,
 	VictoryZoomContainer,
-	VictoryLegend,
 	ZoomDomain,
 } from "victory";
-import { Checkbox, useTheme } from "@mui/material";
+import { Checkbox, useMediaQuery, useTheme } from "@mui/material";
 import { DataSeries } from "../model/types";
 import { useEffect, useState } from "react";
 import { victoryStyles } from "../lib/victoryStyles";
@@ -46,6 +45,8 @@ export const Graph = ({ data }: Props) => {
 		y: [0, 500],
 	});
 
+	const isSmallScreen = useMediaQuery('(max-width:600px)');
+
 	return (
 		<div className={styles.graph}>
 			<div className={styles.graph__legend}>
@@ -57,7 +58,7 @@ export const Graph = ({ data }: Props) => {
 							sx={{
 								padding: 0,
 								'& .MuiSvgIcon-root': {
-									fontSize: 'clamp(14px, 1.5vw, 24px)', // адаптивно: от 14 до 24px
+									fontSize: 'clamp(14px, 1.5vw, 24px)'
 								},
 							}}
 						/>
@@ -68,11 +69,12 @@ export const Graph = ({ data }: Props) => {
 
 			<VictoryChart
 				theme={VictoryTheme.material}
-				width={1000}
-				height={500}
+				width={isSmallScreen ? 500 : 1000}
+				height={isSmallScreen ? 500 : 500}
 				padding={{ top: 50, bottom: 60, left: 70, right: 50 }}
 				containerComponent={
 					<VictoryZoomContainer
+						responsive={true}
 						downsample
 						minimumZoom={{ x: 1e-4, y: 1 }}
 						onZoomDomainChange={setZoomDomain}
@@ -82,7 +84,7 @@ export const Graph = ({ data }: Props) => {
 				}
 				scale={{ x: "linear", y: "linear" }}
 			>
-				<VictoryAxis label={data[0]?.yUnit || ''} crossAxis {...graphStyles.axis} />
+				<VictoryAxis label={data[0]?.yUnit || ''} {...graphStyles.axis} />
 				<VictoryAxis label={data[0]?.xUnit || ''} dependentAxis {...graphStyles.axis} />
 
 				{data.map(series =>

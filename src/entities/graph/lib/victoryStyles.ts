@@ -6,7 +6,7 @@ export const victoryStyles = (theme: Theme) => ({
 			axis: { stroke: theme.palette.primary.main },
 			tickLabels: {
 				fill: theme.palette.text.secondary,
-				fontSize: 14,
+				fontSize: '16px',
 			},
 			grid: {
 				stroke: theme.palette.info.light,
@@ -14,9 +14,10 @@ export const victoryStyles = (theme: Theme) => ({
 			},
 			axisLabel: {
 				fill: theme.palette.primary.main,
-				fontSize: 16,
+				fontSize: '18px',
 				padding: 40,
 			},
+			ticks: { size: 5 },
 		},
 	},
 	scatter: {

@@ -93,7 +93,6 @@ const ArticleEditor: React.FC = () => {
 								</>
 							)}
 						</FieldArray>
-						<GraphUploader/>
 						<PrimaryButton label="Опубликовать" fullWidth type="submit" />
 					</Form>
 				)}

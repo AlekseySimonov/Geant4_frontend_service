@@ -22,9 +22,11 @@ export const GraphUploader = () => {
 	return (
 		<div>
 			<input type="file" accept=".csv" onChange={handleFileUpload} />
-			<div style={{ width: '100%', height: 'max-content', padding: '10px' }}>
-				<Graph data={data} />
-			</div>
+			{data.length > 0 &&
+				<div style={{ width: '100%', padding: '10px' }}>
+					<Graph data={data} />
+				</div>
+			}
 		</div>
 	);
 };

@@ -17,4 +17,15 @@
 			cursor: pointer;
 		}
 	}
+	&__addElement{
+		align-items: center;
+		justify-content: center;
+		display: flex;
+		gap: 24px;
+		font-weight: 500;
+		&__icons{
+			display: flex;
+			gap: 24px;
+		}
+	}
 }
