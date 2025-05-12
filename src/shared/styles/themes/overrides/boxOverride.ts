@@ -11,6 +11,9 @@ export const OutlinedBox = styled(Box)(({ theme }) => ({
 	'&:hover': {
 		borderColor: theme.palette.primary.dark,
 	},
+	'&.MuiBox-root': {
+		margin: 0,
+	},
 	'&.Mui-error': {
 		borderColor: theme.palette.error.main,
 	},

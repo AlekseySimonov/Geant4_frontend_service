@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Graph } from "@/entities/graph";
 import { DataSeries } from "@/entities/graph/model/types";
 import { parseGraphCSV } from "@/entities/graph/model/parseGraphCSV";
+import { FileUploadInput } from "@/shared/ui/components/fileUploadInput";
 
 export const GraphUploader = () => {
 	const [data, setData] = useState<DataSeries[]>([]);
@@ -21,7 +22,7 @@ export const GraphUploader = () => {
 
 	return (
 		<div>
-			<input type="file" accept=".csv" onChange={handleFileUpload} />
+			<FileUploadInput accept=".csv" onChange={handleFileUpload} />
 			{data.length > 0 &&
 				<div style={{ width: '100%', padding: '10px' }}>
 					<Graph data={data} />
