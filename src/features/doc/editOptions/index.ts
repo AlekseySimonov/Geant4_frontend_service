@@ -1,1 +1,1 @@
-export { EditOptions } from "./EditOptions";
+export { EditOptions } from "./ui/EditOptions";

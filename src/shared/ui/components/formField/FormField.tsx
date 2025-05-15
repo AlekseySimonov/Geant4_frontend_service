@@ -1,7 +1,7 @@
 import { Field, ErrorMessage, FormikTouched } from 'formik';
 import styles from './_formField.module.scss';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
-import { Visibility, VisibilityOff, WidthFull } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
 
 interface FormFieldProps {

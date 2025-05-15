@@ -69,6 +69,38 @@ export const docApi = createApi({
 				}),
 				invalidatesTags: ['Doc'],
 			}),
+			postCategories: mutation({
+				query: (body: CategoryOrChapter[]) => ({
+					url: URLS.CATEGORIES_BULK_CREATE,
+					method: 'POST',
+					body,
+				}),
+				invalidatesTags: ['Doc'],
+			}),
+			deleteCategories: mutation({
+				query: (ids: number[]) => ({
+					url: URLS.CHAPTERS_BULK_DELETE,
+					method: 'DELETE',
+					body: ids,
+				}),
+				invalidatesTags: ['Doc'],
+			}),
+			postChapters: mutation({
+				query: (body: CategoryOrChapter[]) => ({
+					url: URLS.CHAPTERS_BULK_CREATE,
+					method: 'POST',
+					body,
+				}),
+				invalidatesTags: ['Doc'],
+			}),
+			deleteChapters: mutation({
+				query: (ids: number[]) => ({
+					url: URLS.CHAPTERS_BULK_DELETE,
+					method: 'DELETE',
+					body: ids,
+				}),
+				invalidatesTags: ['Doc'],
+			}),
 		};
 	},
 });
@@ -80,4 +112,8 @@ export const {
 	useGetStaffQuery,
 	usePostCategoryMutation,
 	usePostChapterMutation,
+	usePostCategoriesMutation,
+	usePostChaptersMutation,
+	useDeleteCategoriesMutation,
+	useDeleteChaptersMutation,
 } = docApi;

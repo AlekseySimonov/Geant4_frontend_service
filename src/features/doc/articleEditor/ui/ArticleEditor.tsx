@@ -98,11 +98,11 @@ const ArticleEditor: React.FC = () => {
 
 			</Formik>
 			<ModalWindow open={editCategory.isVisible} onClose={editCategory.closePopup}>
-				<EditOptions type="category" label="категории" onClose={editCategory.closePopup}/>
+				<EditOptions type="category" existingOptions={categories} onClose={editCategory.closePopup}/>
 				{globalLoading && <Loader />}
 			</ModalWindow>
 			<ModalWindow open={editChapter.isVisible} onClose={editChapter.closePopup}>
-				<EditOptions type="chapter" label="раздела" onClose={editChapter.closePopup} />
+				<EditOptions type="chapter" existingOptions={chapters}  onClose={editChapter.closePopup} />
 				{globalLoading && <Loader />}
 			</ModalWindow>
 		</div>
