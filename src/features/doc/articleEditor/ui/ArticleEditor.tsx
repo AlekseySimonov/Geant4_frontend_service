@@ -85,7 +85,7 @@ const ArticleEditor: React.FC = () => {
 										onClick={() =>
 											push({
 												title: '',
-												elements: [{ text: '', }]
+												elements: []
 											})
 										}
 									/>

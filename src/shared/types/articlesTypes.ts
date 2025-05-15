@@ -12,9 +12,9 @@ export interface ArticlesTypes {
 export interface SubscriptionElement {
 	text: string;
 	element_order: number;
-	type: 'text' | 'image' | 'video' | 'other';
+	type: 'text' | 'image' |'graph';
 	files: Array<{
-		format: 'webp' | 'jpg' | 'png' | 'pdf' | 'other';
+		format: 'webp' | 'jpg' | 'png' | 'pdf' |'csv' | 'other';
 	}>;
 }
 

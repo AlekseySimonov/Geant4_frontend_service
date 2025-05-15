@@ -1,5 +1,4 @@
 import styles from "./_editorBlock.module.scss"
-import { ArticlesTypes } from "@/shared/types";
 import { FormField } from "@/shared";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { useSortable } from "@dnd-kit/sortable";
@@ -8,40 +7,42 @@ import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import { Box, IconButton, InputLabel } from "@mui/material";
-import { useState } from "react";
 import { GraphUploader } from "@/features/doc/graphUploader";
 import { OutlinedBox } from "@/shared/styles/themes/overrides";
 import LatexTextField from "@/entities/latexTextField";
+import { EditorBlockProps, ElementType } from "../model/types";
+import { SubscriptionElement } from "@/shared/types";
 
-const initialValues: ArticlesTypes = {
-	title: '',
-	description: '',
-};
-
-type ElementType = 'text' | 'image' | 'graph';
-
-interface EditorBlockProps {
-	index: number;
-	id: string;
-	onRemove: () => void;
-}
-
-const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, onRemove }) => {
-	const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id })
+const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValue, onRemove }) => {
+	const { attributes, listeners, setNodeRef, transform, isDragging } = useSortable({ id });
 	const style = {
-		transform: transform
-			? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-			: undefined,
+		transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
 		opacity: isDragging ? 0.5 : 1,
 		border: '1px solid #ccc',
 	};
 
-	const [elements, setElements] = useState<ElementType[]>(['text']);
+	const elements = data?.elements || [];
+
 	const addElement = (type: ElementType) => {
-		setElements((prev) => [...prev, type]);
+		if (!setFieldValue) return;
+		const newElement: SubscriptionElement = {
+			text: "",
+			element_order: elements.length,
+			type,
+			files: [],
+		};
+		setFieldValue(
+			`subscriptions.${index}.elements`,
+			[...elements, newElement]
+		);
 	};
-	const handleRemoveElement = (i: number) => {
-		setElements((prev) => prev.filter((_, idx) => idx !== i));
+
+	const removeElement = (i: number) => {
+		if (!setFieldValue) return;
+		const updated = elements
+			.filter((_, idx) => idx !== i)
+			.map((el, idx) => ({ ...el, element_order: idx }));
+		setFieldValue(`subscriptions.${index}.elements`, updated);
 	};
 
 	return (
@@ -51,17 +52,16 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, onRemove }) => {
 			style={style}
 			{...attributes}
 		>
-			<div className={styles.block__buttons} >
+			<div className={styles.block__buttons}>
 				<DragIndicatorRoundedIcon style={{ fontSize: 25, cursor: 'grab' }} {...listeners} />
 				<ClearRoundedIcon onClick={onRemove} style={{ fontSize: 25 }} />
 			</div>
 			<FormField name={`subscriptions.${index}.title`} placeholder="Заголовок блока" />
-			{elements.map((type, i) => {
-				const fieldName = `subscriptions.${index}.elements[${i}]`;
+			{elements.map((element, i) => {
 				return (
 					<div className={styles.block__element} key={i}>
 						<ClearRoundedIcon
-							onClick={() => handleRemoveElement(i)}
+							onClick={() => removeElement(i)}
 							sx={{
 								position: 'absolute',
 								top: 4,
@@ -71,11 +71,11 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, onRemove }) => {
 								zIndex: 1,
 							}}
 						/>
-						{type === 'text' && (
-							<LatexTextField/>
+						{element.type === 'text' && (
+							<LatexTextField name={`subscriptions.${index}.elements[${i}].text`} />
 						)}
 
-						{type === 'image' && (
+						{element.type === 'image' && (
 							<OutlinedBox sx={{ position: 'relative', mt: 2 }}>
 								<InputLabel shrink htmlFor={`custom-image-${i}`}>
 									Редактирование изображения
@@ -86,7 +86,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, onRemove }) => {
 							</OutlinedBox>
 						)}
 
-						{type === 'graph' && (
+						{element.type === 'graph' && (
 							<OutlinedBox sx={{ position: 'relative', mt: 2 }}>
 								<InputLabel shrink htmlFor={`custom-graph-${i}`}>
 									Редактирование графика
@@ -102,17 +102,15 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, onRemove }) => {
 			<div className={styles.block__addElement}>
 				Добавить элемент
 				<div className={styles.block__addElement__icons}>
-					<div className={styles.block__addElement__icons}>
-						<IconButton color="primary" onClick={() => addElement('text')}>
-							<NotesRoundedIcon style={{ fontSize: 30 }} />
-						</IconButton>
-						<IconButton color="primary" onClick={() => addElement('image')}>
-							<PhotoSizeSelectActualOutlinedIcon style={{ fontSize: 30 }} />
-						</IconButton>
-						<IconButton color="primary" onClick={() => addElement('graph')}>
-							<TimelineRoundedIcon style={{ fontSize: 30 }} />
-						</IconButton>
-					</div>
+					<IconButton color="primary" onClick={() => addElement('text')}>
+						<NotesRoundedIcon style={{ fontSize: 30 }} />
+					</IconButton>
+					<IconButton color="primary" onClick={() => addElement('image')}>
+						<PhotoSizeSelectActualOutlinedIcon style={{ fontSize: 30 }} />
+					</IconButton>
+					<IconButton color="primary" onClick={() => addElement('graph')}>
+						<TimelineRoundedIcon style={{ fontSize: 30 }} />
+					</IconButton>
 				</div>
 			</div>
 		</div>

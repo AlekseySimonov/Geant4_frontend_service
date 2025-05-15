@@ -1,13 +1,13 @@
-
 import { useState } from "react";
 import styles from "./_latexTextField.module.scss"
 import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import { FormField } from "@/shared";
-import { Formik } from "formik";
+import { Formik, useField } from "formik";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 
-const LatexTextField: React.FC = () => {
+const LatexTextField: React.FC<{ name: string }> = ({ name }) => {
 	const [showLatex, setShowLatex] = useState(false);
+	const [field, meta] = useField(name);
 
 	const toggleLatex = () => {
 		setShowLatex((prev) => !prev);
@@ -21,36 +21,29 @@ const LatexTextField: React.FC = () => {
 	};
 
 	return (
-		<Formik
-			initialValues={{ latex: "" }}
-			onSubmit={() => { }}
-		>
-			{({ values, errors, touched }) => (
-				<div className = {styles.latex__form}>
-					<FormField
-						name="latex"
-						placeholder="Текстовое поле"
-						isMultiline
-						errors={errors}
-						touched={touched}
-					/>
+		<div className={styles.latex__form}>
+			<FormField
+				name={name}
+				placeholder="Текстовое поле"
+				isMultiline
+				errors={meta.error ? { [name]: meta.error } : undefined}
+				touched={meta.touched ? { [name]: meta.touched } : undefined}
+			/>
 
-					<SecondaryButton
-						label={showLatex ? "Скрыть текст" : "Показать текст"}
-						type="button"
-						onClick={toggleLatex}
-					/>
+			<SecondaryButton
+				label={showLatex ? "Скрыть текст" : "Показать текст"}
+				type="button"
+				onClick={toggleLatex}
+			/>
 
-					{showLatex && values.latex && (
-						<MathJaxContext version={3} config={config}>
-							<div style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '8px', marginTop: '1rem' }}>
-								<MathJax dynamic>{values.latex}</MathJax>
-							</div>
-						</MathJaxContext>
-					)}
-				</div>
+			{showLatex && field.value && (
+				<MathJaxContext version={3} config={config}>
+					<div className={styles.latex__text}>
+						<MathJax dynamic>{field.value}</MathJax>
+					</div>
+				</MathJaxContext>
 			)}
-		</Formik>
+		</div>
 	);
 };
 
