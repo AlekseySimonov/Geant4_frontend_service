@@ -1,0 +1,9 @@
+.latex{
+	text-wrap: wrap;
+	overflow: hidden;
+	&__form{
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+}

@@ -11,6 +11,7 @@ import { Box, IconButton, InputLabel } from "@mui/material";
 import { useState } from "react";
 import { GraphUploader } from "@/features/doc/graphUploader";
 import { OutlinedBox } from "@/shared/styles/themes/overrides";
+import LatexTextField from "@/entities/latexTextField";
 
 const initialValues: ArticlesTypes = {
 	title: '',
@@ -71,11 +72,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, onRemove }) => {
 							}}
 						/>
 						{type === 'text' && (
-							<FormField
-								name={`${fieldName}.text`}
-								placeholder="Текстовый элемент"
-								isMultiline
-							/>
+							<LatexTextField/>
 						)}
 
 						{type === 'image' && (

@@ -14,7 +14,6 @@ import { usePopup } from "@/shared/hooks";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { EditOptions } from "../../editOptions";
-import { GraphUploader } from "../../graphUploader";
 
 const initialValues: ArticlesTypes = {
 	title: '',
