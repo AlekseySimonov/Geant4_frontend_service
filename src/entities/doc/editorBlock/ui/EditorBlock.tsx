@@ -7,7 +7,7 @@ import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import { Box, IconButton, InputLabel } from "@mui/material";
-import { GraphUploader } from "@/features/doc/graphUploader";
+import { GraphUploader, ImageUploader } from "@/features/doc/uploaders";
 import { OutlinedBox } from "@/shared/styles/themes/overrides";
 import LatexTextField from "@/entities/latexTextField";
 import { EditorBlockProps, ElementType } from "../model/types";
@@ -81,7 +81,10 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 									Редактирование изображения
 								</InputLabel>
 								<Box id={`custom-image-${i}`}>
-									<div>Редактирование изображения</div>
+									<ImageUploader
+										fieldName={`subscriptions.${index}.elements[${i}].files`}
+										setFieldValue={setFieldValue}
+									/>
 								</Box>
 							</OutlinedBox>
 						)}

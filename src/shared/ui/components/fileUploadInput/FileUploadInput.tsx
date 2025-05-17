@@ -29,7 +29,6 @@ export const FileUploadInput: React.FC<FileUploadInputProps> = ({ accept, onChan
 					ref={fileInputRef}
 					type="file"
 					accept={accept}
-					style={{ display: 'none' }}
 					onChange={handleFileChange}
 				/>
 				<SecondaryButton label={fileName ? 'Изменить файл' : 'Добавить файл'} onClick={handleButtonClick} />

@@ -1,0 +1,79 @@
+.imgUploader {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	&__input {
+		text-align: center;
+
+		input {
+			display: none;
+		}
+	}
+
+	&__slider {
+		display: flex;
+		justify-content: center;
+
+		&__container {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+		}
+
+		&__track {
+			display: flex;
+			gap: 12px;
+			transition: all 0.3s ease;
+		}
+	}
+
+	&__image {
+		position: relative;
+
+		img {
+			width: 120px;
+			height: 120px;
+			object-fit: cover;
+			border-radius: 8px;
+			transition: transform 0.3s ease;
+			@media(max-width: 800px){
+				width: 80px;
+				height: 80px;
+			}
+		}
+
+		button {
+			position: absolute;
+			top: 4px;
+			right: 4px;
+			background: var(--mui-palette-background-default);
+			color: var(--mui-palette-primary-main);
+			border: none;
+			border-radius: 50%;
+			width: 20px;
+			height: 20px;
+			cursor: pointer;
+			line-height: 20px;
+			text-align: center;
+		}
+	}
+
+	&__arrow {
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		svg {
+			font-size: 24px;
+		}
+
+		&:disabled {
+			opacity: 0.3;
+		}
+	}
+}
