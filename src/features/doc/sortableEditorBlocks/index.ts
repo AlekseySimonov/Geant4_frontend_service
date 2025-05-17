@@ -1,1 +1,1 @@
-export {default as SortableEditorBlocks} from "./SortableEditorBlocks"
+export {default as SortableEditorBlocks} from "./ui/SortableEditorBlocks"

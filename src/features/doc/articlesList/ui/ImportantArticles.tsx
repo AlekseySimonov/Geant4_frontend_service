@@ -3,11 +3,12 @@ import { ArticleCard } from "@/entities/doc";
 import { Pagination } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import { useImportantArticles } from "../model";
+import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
 
 const ImportantArticles: React.FC = () => {
-	const {
-		importantArticles,
-	} = useImportantArticles();
+	const { data: categories } = useGetCategoriesQuery()
+	const { data: chapters } = useGetChaptersQuery()
+	const { importantArticles } = useImportantArticles();
 
 	const articles = importantArticles
 
@@ -26,8 +27,8 @@ const ImportantArticles: React.FC = () => {
 								key={article.id}
 								title={article.title}
 								description={article.description}
-								category={article.category}
-								chapter={article.chapter}
+								category={categories.find(c => c.id === article.category)?.title || ''}
+								chapter={chapters.find(c => c.id === article.category)?.title || ''}
 							/>
 						))}
 						{articles.length > 9 && (

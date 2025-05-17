@@ -1,22 +1,13 @@
-import { FC } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, verticalListSortingStrategy, arrayMove, } from "@dnd-kit/sortable";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis, restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { EditorBlock } from "@/entities";
-import { Subscription } from "@/shared/types";
+import { handleRemoveSubscription, handleSubscriptionDragEnd } from "../model/handlesSubscription";
+import { SortableEditorBlocksProps } from "../model/types";
 
-interface SortableEditorBlocksProps {
-	subscriptions: Subscription[];
-	setFieldValue: (field: string, value: any) => void;
-	push: (obj: any) => void;
-	remove: (index: number) => void;
-}
-
-const SortableEditorBlocks: FC<SortableEditorBlocksProps> = ({
+const SortableEditorBlocks: React.FC<SortableEditorBlocksProps> = ({
 	subscriptions,
-	setFieldValue,
-	push,
-	remove,
+	setFieldValue
 }) => {
 	return (
 		<>
@@ -25,14 +16,8 @@ const SortableEditorBlocks: FC<SortableEditorBlocksProps> = ({
 					collisionDetection={closestCenter}
 					modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
 					onDragEnd={({ active, over }) => {
-						if (active && over && active.id !== over?.id) {
-							const oldIndex = subscriptions.findIndex((_, i) => `block-${i}` === active.id);
-							const newIndex = subscriptions.findIndex((_, i) => `block-${i}` === over.id);
-
-							if (oldIndex !== -1 && newIndex !== -1) {
-								const newItems = arrayMove( subscriptions, oldIndex, newIndex);
-								setFieldValue("subscriptions", newItems);
-							}
+						if (active && over) {
+							handleSubscriptionDragEnd(active.id as string, over.id as string, subscriptions, setFieldValue);
 						}
 					}}
 				>
@@ -46,7 +31,7 @@ const SortableEditorBlocks: FC<SortableEditorBlocksProps> = ({
 								id={`block-${index}`}
 								index={index}
 								data={subscription}
-								onRemove={() => remove(index)}
+								onRemove={() => handleRemoveSubscription(subscriptions, index, setFieldValue)}
 								setFieldValue={setFieldValue}
 							/>
 						))}

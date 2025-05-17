@@ -86,13 +86,16 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 							</OutlinedBox>
 						)}
 
-						{element.type === 'graph' && (
+						{element.type === 'csv' && (
 							<OutlinedBox sx={{ position: 'relative', mt: 2 }}>
 								<InputLabel shrink htmlFor={`custom-graph-${i}`}>
 									Редактирование графика
 								</InputLabel>
 								<Box id={`custom-graph-${i}`}>
-									<GraphUploader />
+									<GraphUploader
+									fieldName={`subscriptions.${index}.elements[${i}].files`}
+									setFieldValue={setFieldValue}
+								/>
 								</Box>
 							</OutlinedBox>
 						)}
@@ -108,7 +111,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 					<IconButton color="primary" onClick={() => addElement('image')}>
 						<PhotoSizeSelectActualOutlinedIcon style={{ fontSize: 30 }} />
 					</IconButton>
-					<IconButton color="primary" onClick={() => addElement('graph')}>
+					<IconButton color="primary" onClick={() => addElement('csv')}>
 						<TimelineRoundedIcon style={{ fontSize: 30 }} />
 					</IconButton>
 				</div>

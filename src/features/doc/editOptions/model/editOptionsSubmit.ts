@@ -22,9 +22,9 @@ export const useEditOptionsSubmit = () => {
 		try {
 			if (deletedIds.length > 0) {
 				if (type === 'category') {
-					await deleteCategories({ ids: deletedIds }).unwrap();
+					await deleteCategories(deletedIds).unwrap();
 				} else {
-					await deleteChapters({ ids: deletedIds }).unwrap();
+					await deleteChapters(deletedIds).unwrap();
 				}
 			}
 

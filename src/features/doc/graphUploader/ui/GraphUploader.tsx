@@ -4,20 +4,22 @@ import { DataSeries } from "@/entities/graph/model/types";
 import { parseGraphCSV } from "@/entities/graph/model/parseGraphCSV";
 import { FileUploadInput } from "@/shared/ui/components/fileUploadInput";
 
-export const GraphUploader = () => {
+interface GraphUploaderProps {
+	fieldName: string;
+	setFieldValue: (field: string, value: any) => void;
+}
+
+export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFieldValue }) => {
 	const [data, setData] = useState<DataSeries[]>([]);
 
-	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files?.[0];
 		if (!file) return;
 
-		const reader = new FileReader();
-		reader.onload = () => {
-			const text = reader.result as string;
-			const parsed = parseGraphCSV(text);
-			setData(parsed);
-		};
-		reader.readAsText(file);
+		setFieldValue(fieldName, [file]);
+
+		const text = await file.text();
+		setData(parseGraphCSV(text));
 	};
 
 	return (

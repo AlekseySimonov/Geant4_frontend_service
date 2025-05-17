@@ -27,9 +27,8 @@ const ArticlesList: React.FC = () => {
 	} = useArticlesList();
 
 	const { importantArticles } = useImportantArticles();
-
-	const { data: categories } = useGetCategoriesQuery()
-	const { data: chapters } = useGetChaptersQuery()
+	const { data: categories = [] } = useGetCategoriesQuery();
+	const { data: chapters = [] } = useGetChaptersQuery();
 	const { data: isStaff } = useGetStaffQuery()
 
 	const isWideScreen = useMediaQuery('(min-width:1350px)')
@@ -119,8 +118,8 @@ const ArticlesList: React.FC = () => {
 									key={article.id}
 									title={article.title}
 									description={article.description}
-									category={article.category}
-									chapter={article.chapter}
+									category={categories.find(c => c.id === article.category)?.title || ''}
+									chapter={chapters.find(c => c.id === article.category)?.title || ''}
 								/>
 							))}
 							{articles.length > 0 && (

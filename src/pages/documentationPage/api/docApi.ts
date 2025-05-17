@@ -1,8 +1,9 @@
 import { ArticlesTypes } from "@/shared/types";
 import { URLS } from "./urls";
-import { createApi} from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { globalLoading } from "@/shared/model";
 import { apiBaseQuery } from "@/shared/api";
+import { ArticleResponse } from "@/shared/types/articlesTypes";
 
 export interface CategoryOrChapter {
 	id?: number;
@@ -14,12 +15,11 @@ export const docApi = createApi({
 	baseQuery: apiBaseQuery(process.env.API_BASE_URL),
 	tagTypes: ['Doc'],
 	endpoints: (builder) => {
-		const mutation = (options: any) =>
-			builder.mutation({
+		const mutation = <TData = any, TArgs = any>(options: Parameters<typeof builder.mutation<TData, TArgs>>[0]) =>
+			builder.mutation<TData, TArgs>({
 				...options,
 				onQueryStarted: globalLoading,
 			});
-
 		const query = <TData, TArgs>(options: any) =>
 			builder.query<TData, TArgs>({
 				...options,
@@ -32,6 +32,25 @@ export const docApi = createApi({
 					url: `${URLS.ARTICLES}?page=${page}&limit=${limit}`,
 					method: 'GET',
 				}),
+			}),
+			postArticle: mutation<ArticleResponse, ArticlesTypes>({
+				query: (body) => ({
+					url: URLS.ARTICLES,
+					method: 'POST',
+					body,
+				}),
+				invalidatesTags: ['Doc'],
+				}),
+			uploadFile: mutation({
+				query: ({ uploadUrl, file }: { uploadUrl: string; file: File }) => {
+					const formData = new FormData();
+					formData.append('file', file);
+					return {
+						url: uploadUrl,
+						method: 'POST',
+						body: formData,
+					};
+				},
 			}),
 			getCategories: query<CategoryOrChapter[], void>({
 				query: () => ({
@@ -47,7 +66,7 @@ export const docApi = createApi({
 				}),
 				providesTags: ['Doc'],
 			}),
-			getStaff: query<{is_staff: boolean}, void>({
+			getStaff: query<{ is_staff: boolean }, void>({
 				query: () => ({
 					url: URLS.IS_STAFF,
 					method: 'GET',
@@ -116,4 +135,6 @@ export const {
 	usePostChaptersMutation,
 	useDeleteCategoriesMutation,
 	useDeleteChaptersMutation,
+	usePostArticleMutation,
+	useUploadFileMutation,
 } = docApi;

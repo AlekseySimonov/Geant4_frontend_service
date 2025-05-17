@@ -6,7 +6,7 @@ import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useNavigate } from "react-router";
 import { SortableEditorBlocks } from "../../sortableEditorBlocks";
-import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
+import { useGetCategoriesQuery, useGetChaptersQuery, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
 import { useFilter } from "@/shared/ui/components/filter";
 import { ArticleFilters } from "./ArticleFilters";
 import { ModalWindow } from "@/shared/ui/components/modal";
@@ -14,6 +14,7 @@ import { usePopup } from "@/shared/hooks";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { EditOptions } from "../../editOptions";
+import { handleSubmit } from "../model/handleSubmit";
 
 const initialValues: ArticlesTypes = {
 	title: '',
@@ -28,6 +29,9 @@ const ArticleEditor: React.FC = () => {
 	const { data: categories } = useGetCategoriesQuery()
 	const { data: chapters } = useGetChaptersQuery()
 
+	const [createArticle] = usePostArticleMutation();
+	const [uploadFile] = useUploadFileMutation();
+
 	const editCategory = usePopup()
 	const editChapter = usePopup()
 
@@ -38,13 +42,21 @@ const ArticleEditor: React.FC = () => {
 		<div className={styles.editor}>
 			<Formik
 				initialValues={initialValues}
-				onSubmit={(values) => {
-					const dataToSubmit = {
-						...values,
-						category: selectedCategory.id,
-						chapter: selectedChapter.id,
-					};
-					console.log("Submitted data:", dataToSubmit);
+				onSubmit={async (values, { setSubmitting, setErrors, setStatus }) => {
+					try {
+						await handleSubmit({
+							values,
+							createArticle,
+							uploadFile,
+							selectedCategory: { id: selectedCategory?.id ?? 0 },
+							selectedChapter: { id: selectedChapter?.id ?? 0 },
+						});
+						setSubmitting(false);
+						navigate('/documentation/articles');
+					} catch (err) {
+						setSubmitting(false);
+						setStatus({ submitError: 'Ошибка при сохранении статьи' });
+					}
 				}}
 			>
 				{({ values, setFieldValue }) => (
@@ -85,7 +97,8 @@ const ArticleEditor: React.FC = () => {
 										onClick={() =>
 											push({
 												title: '',
-												elements: []
+												elements: [],
+												subscription_order: values.subscriptions.length,
 											})
 										}
 									/>
@@ -98,11 +111,11 @@ const ArticleEditor: React.FC = () => {
 
 			</Formik>
 			<ModalWindow open={editCategory.isVisible} onClose={editCategory.closePopup}>
-				<EditOptions type="category" existingOptions={categories} onClose={editCategory.closePopup}/>
+				<EditOptions type="category" existingOptions={categories} onClose={editCategory.closePopup} />
 				{globalLoading && <Loader />}
 			</ModalWindow>
 			<ModalWindow open={editChapter.isVisible} onClose={editChapter.closePopup}>
-				<EditOptions type="chapter" existingOptions={chapters}  onClose={editChapter.closePopup} />
+				<EditOptions type="chapter" existingOptions={chapters} onClose={editChapter.closePopup} />
 				{globalLoading && <Loader />}
 			</ModalWindow>
 		</div>
