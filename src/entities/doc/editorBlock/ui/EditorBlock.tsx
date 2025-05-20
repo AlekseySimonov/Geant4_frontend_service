@@ -75,7 +75,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 							<LatexTextField name={`subscriptions.${index}.elements[${i}].text`} />
 						)}
 
-						{element.type === 'image' && (
+						{element.type === 'webp' && (
 							<OutlinedBox sx={{ position: 'relative', mt: 2 }}>
 								<InputLabel shrink htmlFor={`custom-image-${i}`}>
 									Редактирование изображения
@@ -111,7 +111,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 					<IconButton color="primary" onClick={() => addElement('text')}>
 						<NotesRoundedIcon style={{ fontSize: 30 }} />
 					</IconButton>
-					<IconButton color="primary" onClick={() => addElement('image')}>
+					<IconButton color="primary" onClick={() => addElement('webp')}>
 						<PhotoSizeSelectActualOutlinedIcon style={{ fontSize: 30 }} />
 					</IconButton>
 					<IconButton color="primary" onClick={() => addElement('csv')}>

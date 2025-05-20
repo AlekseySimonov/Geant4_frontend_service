@@ -1,7 +1,7 @@
 import { ArticlesTypes } from "@/shared/types";
 
 export const preparePayload = (values: ArticlesTypes, selectedCategory: number, selectedChapter: number): ArticlesTypes => {
-	return {
+		return {
 		...values,
 		category: selectedCategory,
 		chapter: selectedChapter,
@@ -11,8 +11,9 @@ export const preparePayload = (values: ArticlesTypes, selectedCategory: number, 
 				...el,
 				files: el.files.map((f) => {
 					if (f instanceof File) {
-						const extension = f.name.split('.').pop()?.toLowerCase() || 'other';
-						return { format:  getAllowedFormat(extension) };
+						return {
+							format: el.type === 'csv' ? 'csv' : 'webp',
+						};
 					}
 					return f;
 				}),

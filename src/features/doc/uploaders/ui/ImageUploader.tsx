@@ -7,11 +7,6 @@ interface ImageUploaderProps {
 	setFieldValue: (field: string, value: File[]) => void;
 }
 
-interface ImageUploaderProps {
-	fieldName: string;
-	setFieldValue: (field: string, value: File[]) => void;
-}
-
 export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFieldValue }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [images, setImages] = useState<File[]>([]);

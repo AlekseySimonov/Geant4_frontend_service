@@ -7,7 +7,7 @@ export interface ArticlesTypes {
 		elements: {
 			text: string;
 			element_order: number;
-			type: 'text' | 'image' | 'csv';
+			type: 'text' | 'webp' | 'csv';
 			files: ServerFile[];
 		}[];
 	}[];
@@ -25,7 +25,7 @@ export interface FileFormat {
 export interface SubscriptionElement {
 	text: string;
 	element_order: number;
-	type: 'text' | 'image' | 'csv';
+	type: 'text' | 'webp' | 'csv';
 	files: FileFormat[];
 }
 
