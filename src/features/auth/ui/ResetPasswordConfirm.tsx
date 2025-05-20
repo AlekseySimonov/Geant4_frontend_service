@@ -54,13 +54,13 @@ export const ResetPasswordConfirm: React.FC = () => {
 			validationSchema={passwordConfirmValidationSchema}
 			onSubmit={handleSubmit}
 		>
-			{({ errors, status, isValid, dirty, touched, setStatus }) => {
+			{({ status, isValid, dirty, setStatus }) => {
 				return (
 					<Form className={styles.form}>
 						<h3>Восстановление пароля</h3>
 
-						<FormField name="new_password" placeholder="Пароль" errors={errors} type="password"  touched={touched} onChange={() => setStatus(undefined)}/>
-						<FormField name="new_password2" placeholder="Повторите пароль" errors={errors} type = "password"  touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="new_password" placeholder="Пароль" type="password" onChange={() => setStatus(undefined)}/>
+						<FormField name="new_password2" placeholder="Повторите пароль" type = "password" onChange={() => setStatus(undefined)}/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 

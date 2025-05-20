@@ -61,8 +61,6 @@ export const EditOptions: React.FC<AddingOptionProps> = ({ type, existingOptions
 									<FormField
 										name="title"
 										placeholder={typePlaceholders[type] || 'Название новой опции'}
-										touched={touched}
-										errors={typeof errors.title === 'string' ? { title: errors.title } : {}}
 									/>
 
 									<SecondaryButton

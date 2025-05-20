@@ -1,18 +1,7 @@
 import { useMediaQuery } from "@mui/material";
 import { Filter } from "@/shared/ui/components/filter";
 import styles from "./_articleEditor.module.scss";
-import { FilterTypes } from '@/shared/ui/components/filter/types/types';
-
-interface ArticleFiltersProps {
-	categories?: FilterTypes[];
-	chapters?: FilterTypes[];
-	selectedCategory: FilterTypes | null;
-	selectedChapter: FilterTypes | null;
-	onCategoryChange: (value: FilterTypes) => void;
-	onChapterChange: (value: FilterTypes) => void; 
-	onEditCategoryClick: () => void;
-	onEditChapterClick: () => void;
-}
+import { ArticleFiltersProps } from "../model/types";
 
 export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 	categories = [],
@@ -22,7 +11,9 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 	onCategoryChange,
 	onChapterChange,
 	onEditCategoryClick,
-	onEditChapterClick
+	onEditChapterClick,
+	categoryError,
+	chapterError
 }) => {
 	const isMobile = useMediaQuery('(max-width: 700px)');
 
@@ -35,6 +26,7 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 				onOptionSelect={onCategoryChange}
 				selectedOption={selectedCategory}
 				onAddButtonClick={onEditCategoryClick}
+				hasError={categoryError}
 			/>
 			<Filter
 				options={chapters}
@@ -43,6 +35,7 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 				onOptionSelect={onChapterChange}
 				selectedOption={selectedChapter}
 				onAddButtonClick={onEditChapterClick}
+				hasError={chapterError}
 			/>
 		</div>
 	);

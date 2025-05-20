@@ -11,4 +11,5 @@ export interface FilterProps {
 	selectedOption: FilterTypes | null;
 	addButtonText?: string;
 	onAddButtonClick?: () => void;
+	hasError?: boolean;
 }

@@ -18,6 +18,9 @@
 		@media (max-width: 400px){
 			padding: 8px 8px 8px 22px; 
 		}
+		&.error {
+			border-color: var(--mui-palette-error-main);
+		}
 		&__label{
 			overflow: hidden;
 		}

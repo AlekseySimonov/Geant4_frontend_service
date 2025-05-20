@@ -37,12 +37,12 @@ export const RegistrationForm: React.FC = () => {
 						<div className={styles.form__welcome}>Добро пожаловать!</div>
 						<h3>Регистрация</h3>
 
-						<FormField name="first_name" placeholder="Имя" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
-						<FormField name="last_name" placeholder="Фамилия" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
-						<FormField name="email" placeholder="Электронная почта" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
-						<FormField name="username" placeholder="Логин" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
-						<FormField name="password" placeholder="Пароль" errors={errors} type="password" touched={touched} onChange={() => setStatus(undefined)}/>
-						<FormField name="password2" placeholder="Повторите пароль" errors={errors} type="password" touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="first_name" placeholder="Имя" onChange={() => setStatus(undefined)}/>
+						<FormField name="last_name" placeholder="Фамилия" onChange={() => setStatus(undefined)}/>
+						<FormField name="email" placeholder="Электронная почта" onChange={() => setStatus(undefined)}/>
+						<FormField name="username" placeholder="Логин" onChange={() => setStatus(undefined)}/>
+						<FormField name="password" placeholder="Пароль" type="password" onChange={() => setStatus(undefined)}/>
+						<FormField name="password2" placeholder="Повторите пароль" type="password" onChange={() => setStatus(undefined)}/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 

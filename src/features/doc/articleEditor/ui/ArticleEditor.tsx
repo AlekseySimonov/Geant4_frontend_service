@@ -15,11 +15,14 @@ import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { EditOptions } from "../../editOptions";
 import { handleSubmit } from "../model/handleSubmit";
+import { articleValidationSchema } from "../model/validationSchemas";
 
 const initialValues: ArticlesTypes = {
 	title: '',
 	description: '',
 	subscriptions: [],
+	category: 0,
+	chapter: 0
 };
 
 const ArticleEditor: React.FC = () => {
@@ -42,7 +45,8 @@ const ArticleEditor: React.FC = () => {
 		<div className={styles.editor}>
 			<Formik
 				initialValues={initialValues}
-				onSubmit={async (values, { setSubmitting, setErrors, setStatus }) => {
+				validationSchema={articleValidationSchema}
+				onSubmit={async (values, { setSubmitting, setStatus }) => {
 					try {
 						await handleSubmit({
 							values,
@@ -59,7 +63,7 @@ const ArticleEditor: React.FC = () => {
 					}
 				}}
 			>
-				{({ values, setFieldValue }) => (
+				{({ values, setFieldValue, dirty, isValid, isSubmitting, status, errors, touched }) => (
 					<Form className={styles.editor__form}>
 						<div className={styles.editor__form__title}>
 							<ArrowBackIosRoundedIcon style={{ fontSize: 30 }} onClick={() => navigate('/documentation/articles')} />
@@ -73,10 +77,18 @@ const ArticleEditor: React.FC = () => {
 							chapters={chapters}
 							selectedCategory={selectedCategory}
 							selectedChapter={selectedChapter}
-							onCategoryChange={handleCategoryChange}
-							onChapterChange={handleChapterChange}
+							onCategoryChange={(option) => {
+								handleCategoryChange(option);
+								setFieldValue('category', option?.id ?? 0);
+							}}
+							onChapterChange={(option) => {
+								handleChapterChange(option);
+								setFieldValue('chapter', option?.id ?? 0);
+							}}
 							onEditCategoryClick={editCategory.openPopup}
 							onEditChapterClick={editChapter.openPopup}
+							categoryError={!!(errors.category)}
+							chapterError={!!(errors.chapter)}
 						/>
 
 						<FormField name="description" placeholder="Описание" isMultiline />
@@ -105,7 +117,15 @@ const ArticleEditor: React.FC = () => {
 								</>
 							)}
 						</FieldArray>
-						<PrimaryButton label="Опубликовать" fullWidth type="submit" />
+						{status?.submitError && (
+							<div className={styles.errorMessage}>{status.submitError}</div>
+						)}
+						<PrimaryButton
+							label="Опубликовать"
+							fullWidth
+							type="submit"
+							disabled={!dirty || !isValid || isSubmitting}
+						/>
 					</Form>
 				)}
 

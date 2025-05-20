@@ -21,14 +21,3 @@ export const preparePayload = (values: ArticlesTypes, selectedCategory: number, 
 		})),
 	};
 };
-
-const getAllowedFormat = (ext: string): "csv" | "webp" | "other" => {
-	switch (ext) {
-		case "csv":
-			return "csv";
-		case "webp":
-			return "webp";
-		default:
-			return "other";
-	}
-};

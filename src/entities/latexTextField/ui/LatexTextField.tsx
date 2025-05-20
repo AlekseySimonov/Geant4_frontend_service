@@ -2,12 +2,12 @@ import { useState } from "react";
 import styles from "./_latexTextField.module.scss"
 import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import { FormField } from "@/shared";
-import { Formik, useField } from "formik";
+import { useField } from "formik";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 
 const LatexTextField: React.FC<{ name: string }> = ({ name }) => {
 	const [showLatex, setShowLatex] = useState(false);
-	const [field, meta] = useField(name);
+	const [field] = useField(name);
 
 	const toggleLatex = () => {
 		setShowLatex((prev) => !prev);
@@ -26,8 +26,6 @@ const LatexTextField: React.FC<{ name: string }> = ({ name }) => {
 				name={name}
 				placeholder="Текстовое поле"
 				isMultiline
-				errors={meta.error ? { [name]: meta.error } : undefined}
-				touched={meta.touched ? { [name]: meta.touched } : undefined}
 			/>
 
 			<SecondaryButton

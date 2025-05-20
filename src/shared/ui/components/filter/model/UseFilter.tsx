@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FilterTypes } from "../types/types";
+import { FilterTypes } from "./types";
 
 export const useFilter = (initialValue: FilterTypes | null = null) => {
 	const [selectedOption, setSelectedOption] = useState<FilterTypes | null>(initialValue);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ArticlesTypes } from "@/shared/types";
 import { useLazySearchArticlesQuery } from "@/pages/documentationPage/api/queryDoc";
-import { FilterTypes } from "@/shared/ui/components/filter/types/types";
+import { FilterTypes } from "@/shared/ui/components/filter/model/types";
 
 export const useArticlesList = () => {
 	const [searchArticle] = useLazySearchArticlesQuery();

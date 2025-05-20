@@ -47,13 +47,13 @@ export const ChangePassword: React.FC<{ onClose: () => void }> = ({ onClose }) =
 			validationSchema={changePasswordValidationSchema}
 			onSubmit={handleSubmit}
 		>
-			{({ errors, status, isValid, dirty, setStatus, touched }) => {
+			{({ status, isValid, dirty, setStatus }) => {
 				return (
 					<Form className={styles.form}>
 						<h3>Смена пароля</h3>
 
-						<FormField name="old_password" placeholder="Ваш текущий пароль" errors={errors} type="password" touched={touched} onChange={() => setStatus(undefined)}/>
-						<FormField name="new_password" placeholder="Новый пароль" errors={errors} type="password"touched={touched}  onChange={() => setStatus(undefined)}/>
+						<FormField name="old_password" placeholder="Ваш текущий пароль" type="password" onChange={() => setStatus(undefined)}/>
+						<FormField name="new_password" placeholder="Новый пароль" type="password" onChange={() => setStatus(undefined)}/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 

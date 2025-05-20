@@ -24,12 +24,12 @@ export const ResetPasswordForm: React.FC = () => {
 				resetPasswordSubmit(recovery)(values, formikHelpers, dispatch)
 			}
 		>
-			{({ errors, status, isValid, dirty, touched, setStatus }) => {
+			{({ status, isValid, dirty, setStatus }) => {
 				return (
 					<Form className={styles.form}>
 						<h3>Восстановление пароля</h3>
 
-						<FormField name="email" placeholder="email" errors={errors} touched={touched} onChange={() => setStatus(undefined)}/>
+						<FormField name="email" placeholder="email" onChange={() => setStatus(undefined)}/>
 
 						{status && <div className={styles.form_errorMessage}>{status}</div>}
 

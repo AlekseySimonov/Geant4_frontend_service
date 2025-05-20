@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import styles from "./_filter.module.scss"
 import { useClickOutside } from "@/shared/hooks";
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import { FilterProps, FilterTypes } from "./types/types";
+import { FilterProps, FilterTypes } from "./model/types";
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 
 export const Filter: React.FC<FilterProps> = ({
@@ -12,6 +12,7 @@ export const Filter: React.FC<FilterProps> = ({
 	width,
 	selectedOption,
 	onAddButtonClick,
+	hasError,
 }) => {
 	const [open, setOpen] = useState(false);
 	const filterRef = useRef<HTMLDivElement | null>(null);
@@ -29,7 +30,13 @@ export const Filter: React.FC<FilterProps> = ({
 			ref={filterRef}
 			style={{ minWidth: width || 'max-content' }}
 		>
-			<div className={`${styles.filter__button} ${open ? styles.open : ''}`} onClick={() => setOpen(prev => !prev)}>
+			<div className={`
+					${styles.filter__button} 
+					${open ? styles.open : ''} 
+					${hasError ? styles.error : ''}
+				`}
+				onClick={() => setOpen(prev => !prev)}
+			>
 				<div className={styles.filter__button__label}>
 					{selectedOption ? selectedOption.title : label}
 				</div>
@@ -66,7 +73,7 @@ export const Filter: React.FC<FilterProps> = ({
 								onAddButtonClick();
 							}}
 						>
-							<CreateOutlinedIcon style={{ fontSize: 25 }}/>
+							<CreateOutlinedIcon style={{ fontSize: 25 }} />
 							<p>Редактировать список</p>
 						</div>
 					)}

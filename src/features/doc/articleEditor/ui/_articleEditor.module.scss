@@ -31,3 +31,8 @@
 		gap: 40px;
 	}
 }
+.errorMessage {
+	color: var(--mui-palette-error-main);
+	padding-left: 14px;
+	font-size: 0.9rem;
+}

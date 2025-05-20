@@ -62,7 +62,7 @@ const ProfileSettings: React.FC = () => {
 							)
 						}
 					>
-						{({ errors, status, isValid, dirty, touched }) => (
+						{({ status, isValid, dirty }) => (
 							<>
 								<div className={styles.settings__title}>
 									<h2>Редактирование профиля</h2>
@@ -80,12 +80,12 @@ const ProfileSettings: React.FC = () => {
 
 									<Form className={styles.settings__form}>
 										<div className={styles.settings__form__row}>
-											<FormField name="first_name" placeholder="Имя" errors={errors} touched={touched} />
-											<FormField name="last_name" placeholder="Фамилия" errors={errors} touched={touched} />
+											<FormField name="first_name" placeholder="Имя" />
+											<FormField name="last_name" placeholder="Фамилия" />
 										</div>
 										<div className={styles.settings__form__row}>
-											<FormField name="email" placeholder="email" errors={errors} touched={touched} />
-											<FormField name="new_username" placeholder="Логин" errors={errors} touched={touched} />
+											<FormField name="email" placeholder="email" />
+											<FormField name="new_username" placeholder="Логин" />
 										</div>
 
 										{status && (

@@ -1,4 +1,4 @@
-import { Field, ErrorMessage, FormikTouched } from 'formik';
+import { Field, FormikTouched } from 'formik';
 import styles from './_formField.module.scss';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -8,22 +8,20 @@ interface FormFieldProps {
 	name: string;
 	type?: string;
 	placeholder: string;
-	errors?: Record<string, string | undefined>;
 	isMultiline?: boolean;
-	touched?: FormikTouched<any>;
 	onChange?: () => void;
 }
 
 export const FormField: React.FC<FormFieldProps> =
-	({ name, type = 'text', placeholder, errors = {}, isMultiline = false, touched = {}, onChange }) => {
-		
+	({ name, type = 'text', placeholder, isMultiline = false, onChange }) => {
+
 		const [showPassword, setShowPassword] = useState(false);
 		const handleClickShowPassword = () => setShowPassword((show) => !show);
 
 		return (
-			<div className={`${styles.form_field} ${errors[name] && touched[name] ? styles.error : ''}`}>
+			<div className={styles.form_field}>
 				<Field name={name}>
-					{({ field }: any) => (
+					{({ field, meta }: any) => (
 						<TextField
 							{...field}
 							id={name}
@@ -34,34 +32,37 @@ export const FormField: React.FC<FormFieldProps> =
 							fullWidth
 							multiline={isMultiline}
 							minRows={isMultiline ? 3 : undefined}
-							error={!!(errors[name] && touched[name])}
+							error={Boolean(meta.touched && meta.error)}
+							helperText={meta.touched && meta.error}
 							onChange={(e) => {
 								field.onChange(e);
 								if (onChange) onChange();
 							}}
-							InputProps={ type === 'password' ? {
-								endAdornment: (
-									<InputAdornment position="end">
-										<IconButton
-											aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-											onClick={handleClickShowPassword}
-											edge="end"
-										>
-											{showPassword ? <VisibilityOff sx={{ fontSize: 20 }}/> : <Visibility sx={{ fontSize: 20 }}/>}
-										</IconButton>
-									</InputAdornment>
-								),
-								sx: { paddingRight: '22px' }
-						} : undefined}
+							InputProps={
+								type === 'password'
+									? {
+										endAdornment: (
+											<InputAdornment position="end">
+												<IconButton
+													aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+													onClick={handleClickShowPassword}
+													edge="end"
+												>
+													{showPassword ? (
+														<VisibilityOff sx={{ fontSize: 20 }} />
+													) : (
+														<Visibility sx={{ fontSize: 20 }} />
+													)}
+												</IconButton>
+											</InputAdornment>
+										),
+										sx: { paddingRight: '22px' },
+									}
+									: undefined
+							}
 						/>
 					)}
 				</Field>
-
-				<ErrorMessage
-					name={name}
-					component="p"
-					className={styles.form_field__errorMessage}
-				/>
 			</div>
 		);
 	};
