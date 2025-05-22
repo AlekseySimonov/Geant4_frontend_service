@@ -6,6 +6,7 @@ interface ArticleCardTypes {
 	chapter?: string;
 	description?: string;
 	title?: string;
+	onClick?: () => void;
 }
 
 const ArticleCard: React.FC<ArticleCardTypes> = ({
@@ -13,9 +14,10 @@ const ArticleCard: React.FC<ArticleCardTypes> = ({
 	description,
 	category,
 	chapter,
+	onClick
 }) => {
 	return (
-		<div className={styles.card}>
+		<div className={styles.card} onClick={onClick}>
 			<h2>{title?.trim() ? title : 'Без названия'}</h2>
 			<div className={styles.card__tags}>
 				{category?.trim() && <Tag label={category} defaultStyle />}

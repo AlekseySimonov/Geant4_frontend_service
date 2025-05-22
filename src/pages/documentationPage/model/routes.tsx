@@ -1,3 +1,4 @@
+import { Article } from "@/entities";
 import { ArticlesList, ImportantArticles } from "@/features";
 import { lazy } from "react";
 import { Navigate } from "react-router";
@@ -13,6 +14,6 @@ export const docRoutes = {
 		{ path: "articles", element: <ArticlesList /> },
 		{ path: "articles/important", element: <ImportantArticles /> },
 		{ path: "articles/editor", element: <ArticleEditor /> },
-		
+		{ path: "articles/:id", element: <Article /> },
 	],
 };

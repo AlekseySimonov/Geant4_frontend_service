@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styles from "./_latexTextField.module.scss"
-import { MathJaxContext, MathJax } from 'better-react-mathjax';
 import { FormField } from "@/shared";
 import { useField } from "formik";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
+import { LatexPreview } from "./LatexPreview";
 
 const LatexTextField: React.FC<{ name: string }> = ({ name }) => {
 	const [showLatex, setShowLatex] = useState(false);
@@ -11,13 +11,6 @@ const LatexTextField: React.FC<{ name: string }> = ({ name }) => {
 
 	const toggleLatex = () => {
 		setShowLatex((prev) => !prev);
-	};
-
-	const config = {
-		tex: {
-			inlineMath: [['$', '$'], ['\\(', '\\)']],
-			displayMath: [['$$', '$$'], ['\\[', '\\]']],
-		},
 	};
 
 	return (
@@ -34,13 +27,7 @@ const LatexTextField: React.FC<{ name: string }> = ({ name }) => {
 				onClick={toggleLatex}
 			/>
 
-			{showLatex && field.value && (
-				<MathJaxContext version={3} config={config}>
-					<div className={styles.latex__text}>
-						<MathJax dynamic>{field.value}</MathJax>
-					</div>
-				</MathJaxContext>
-			)}
+			{showLatex && <LatexPreview value={field.value} withBorder />}
 		</div>
 	);
 };

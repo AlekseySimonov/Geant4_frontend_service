@@ -4,6 +4,9 @@ import './index.module.scss'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { store } from './app/store'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const root = document.getElementById('root')
 

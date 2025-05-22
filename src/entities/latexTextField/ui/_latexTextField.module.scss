@@ -8,7 +8,9 @@
 	}
 	&__text{
 		padding: 1rem;
-		border: 1px solid var(--mui-palette-primary-main);
 		border-radius: 8px;
+	}
+	.withBorder {
+		border: 1px solid var(--mui-palette-primary-main);
 	}
 }

@@ -33,6 +33,13 @@ export const docApi = createApi({
 					method: 'GET',
 				}),
 			}),
+			getArticle: query<ArticleResponse, number>({
+				query: (id: number) => ({
+					url: `${URLS.ARTICLES}${id}`,
+					method: 'GET',
+				}),
+				providesTags: ['Doc'],
+			}),
 			postArticle: mutation<ArticleResponse, ArticlesTypes>({
 				query: (body) => ({
 					url: URLS.ARTICLES,
@@ -40,7 +47,7 @@ export const docApi = createApi({
 					body,
 				}),
 				invalidatesTags: ['Doc'],
-				}),
+			}),
 			uploadFile: mutation({
 				query: ({ uploadUrl, file }: { uploadUrl: string; file: File }) => {
 					const formData = new FormData();
@@ -51,6 +58,14 @@ export const docApi = createApi({
 						body: formData,
 					};
 				},
+			}),
+			getGraph: query<string, string>({
+				query: (url:string) => ({
+					url: url,
+					method: 'GET',
+				}),
+				responseHandler: (response: Response) => response.text(),
+				providesTags: ['Doc'],
 			}),
 			getCategories: query<CategoryOrChapter[], void>({
 				query: () => ({
@@ -128,6 +143,7 @@ export const {
 	useGetCategoriesQuery,
 	useGetChaptersQuery,
 	useGetArticlesQuery,
+	useGetArticleQuery,
 	useGetStaffQuery,
 	usePostCategoryMutation,
 	usePostChapterMutation,
@@ -137,4 +153,5 @@ export const {
 	useDeleteChaptersMutation,
 	usePostArticleMutation,
 	useUploadFileMutation,
+	useGetGraphQuery,
 } = docApi;

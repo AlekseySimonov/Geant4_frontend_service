@@ -120,6 +120,7 @@ const ArticlesList: React.FC = () => {
 									description={article.description}
 									category={categories.find(c => c.id === article.category)?.title || ''}
 									chapter={chapters.find(c => c.id === article.category)?.title || ''}
+									onClick={() => navigate(`/documentation/articles/${article.id}`)}
 								/>
 							))}
 							{articles.length > 0 && (

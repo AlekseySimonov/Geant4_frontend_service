@@ -5,7 +5,7 @@ declare module '*.module.scss' {
     const classNames: IClassNames;
     export default classNames;
 }
-
+declare module '*.css';
 declare module 'react-katex' {
     import * as React from 'react';
 
@@ -19,7 +19,7 @@ declare module 'react-katex' {
     export const BlockMath: React.FC<MathProps>;
 }
 
-
+declare module '*.webp'
 declare module '*.png'
 declare module '*.jpg'
 declare module '*.jpeg'
