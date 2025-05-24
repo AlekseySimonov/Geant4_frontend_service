@@ -1,15 +1,22 @@
-.latex{
+.latex {
 	text-wrap: wrap;
 	overflow: hidden;
-	&__form{
+	container-type: inline-size;
+
+	&__form {
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
 	}
-	&__text{
+
+	&__text {
 		padding: 1rem;
 		border-radius: 8px;
+		text-align: justify;
+		white-space: pre-wrap;
+		word-break: break-word;
 	}
+
 	.withBorder {
 		border: 1px solid var(--mui-palette-primary-main);
 	}

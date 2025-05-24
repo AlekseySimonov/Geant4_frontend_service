@@ -23,10 +23,10 @@ const AuthPage: React.FC = () => {
 	const isMobile = useMediaQuery ('(max-width: 600px)') 
 
 	return (
-		<div className={styles.container}>
-			{!isMobile && (
-				<img src={authBackground} alt="#" className={styles.container__background} />
-			)}
+		<div
+			className={styles.container}
+			style={!isMobile ? { backgroundImage: `url(${authBackground})` } : undefined}
+		>
 			<AlertPopup/>
 			<div className={styles.container__content}>
 				<div className={styles.container__content_header}>

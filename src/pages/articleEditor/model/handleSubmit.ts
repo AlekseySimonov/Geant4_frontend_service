@@ -6,8 +6,6 @@ import { preparePayload } from "./preparePayload";
 interface SubmitDeps {
 	values: ArticlesTypes;
 	createArticle: ReturnType<typeof usePostArticleMutation>[0];
-	selectedCategory: { id: number };
-	selectedChapter: { id: number };
 	uploadFile: ReturnType<typeof useUploadFileMutation>[0];
 }
 
@@ -16,11 +14,9 @@ export const handleSubmit = async ({
 	values,
 	createArticle,
 	uploadFile,
-	selectedCategory,
-	selectedChapter,
 }: SubmitDeps): Promise<void> => {
 	try {
-		const payload = preparePayload( values, selectedCategory.id, selectedChapter.id)
+		const payload = preparePayload( values)
 
 		const response = await createArticle(payload).unwrap();
 

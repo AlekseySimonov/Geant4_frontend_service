@@ -27,8 +27,8 @@ const ImportantArticles: React.FC = () => {
 								key={article.id}
 								title={article.title}
 								description={article.description}
-								category={categories.find(c => c.id === article.category)?.title || ''}
-								chapter={chapters.find(c => c.id === article.category)?.title || ''}
+								category={article?.category || ''}
+								chapter={article?.chapter|| ''}
 							/>
 						))}
 						{articles.length > 9 && (

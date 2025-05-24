@@ -5,7 +5,6 @@ import { ArticlesTypes } from '@/shared/types';
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useNavigate } from "react-router";
-import { SortableEditorBlocks } from "../../sortableEditorBlocks";
 import { useGetCategoriesQuery, useGetChaptersQuery, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
 import { useFilter } from "@/shared/ui/components/filter";
 import { ArticleFilters } from "./ArticleFilters";
@@ -13,16 +12,16 @@ import { ModalWindow } from "@/shared/ui/components/modal";
 import { usePopup } from "@/shared/hooks";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
-import { EditOptions } from "../../editOptions";
 import { handleSubmit } from "../model/handleSubmit";
 import { articleValidationSchema } from "../model/validationSchemas";
+import { EditOptions, SortableEditorBlocks } from "@/features";
 
 const initialValues: ArticlesTypes = {
 	title: '',
 	description: '',
 	subscriptions: [],
-	category: 0,
-	chapter: 0
+	category: null,
+	chapter: null
 };
 
 const ArticleEditor: React.FC = () => {
@@ -52,8 +51,6 @@ const ArticleEditor: React.FC = () => {
 							values,
 							createArticle,
 							uploadFile,
-							selectedCategory: { id: selectedCategory?.id ?? 0 },
-							selectedChapter: { id: selectedChapter?.id ?? 0 },
 						});
 						setSubmitting(false);
 						navigate('/documentation/articles');

@@ -74,9 +74,6 @@ const MainPage: React.FC = () => {
 				/>
 
 			</div>
-			<div className={styles.main__footer}>
-				<div className={styles.main__footer__background}></div>
-			</div>
 		</div>
 	)
 }

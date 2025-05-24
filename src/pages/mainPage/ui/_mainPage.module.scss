@@ -104,16 +104,4 @@
 			}
 		}
 	}
-	&__footer{
-		height: 150px;
-		margin-top: 80px;
-		&__background{
-			position: absolute;
-			left: 0;
-			width: 100vw;
-			height: -webkit-fill-available;
-			background: var(--mui-palette-background-paper);
-			box-shadow: var(--mui-shadows-3);
-		}
-	}
 }

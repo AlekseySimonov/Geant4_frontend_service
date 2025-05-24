@@ -1,10 +1,7 @@
 import { useGetCategoriesQuery, useGetChaptersQuery, useGetStaffQuery } from "@/pages/documentationPage/api/docApi";
 import { useArticlesList, useImportantArticles } from "../model";
 import styles from "./_articleList.module.scss"
-import { ArticleCard, ImportantArticleCard } from "@/entities/doc";
-import { Filter } from "@/shared/ui/components/filter";
-import { Search } from "@/shared/ui/components/search";
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { ArticleCard, ArticleFilters, ImportantArticleCard } from "@/entities/doc";
 import { IconButton, Pagination, useMediaQuery } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -32,7 +29,6 @@ const ArticlesList: React.FC = () => {
 	const { data: isStaff } = useGetStaffQuery()
 
 	const isWideScreen = useMediaQuery('(min-width:1350px)')
-	const isMobile = useMediaQuery('(max-width: 700px)');
 	const navigate = useNavigate()
 
 	return (
@@ -61,54 +57,28 @@ const ArticlesList: React.FC = () => {
 						)}
 
 						{isStaff?.is_staff && (
-							<IconButton className={styles.articles__title__addArticle}>
-								<AddRoundedIcon
-									style={{ fontSize: 30 }}
-									onClick={() => navigate('/documentation/articles/editor')}
-								/>
+							<IconButton
+								className={styles.articles__title__addArticle}
+								onClick={() => navigate('/documentation/articles/editor')}
+							>
+								<AddRoundedIcon style={{ fontSize: 30 }}/>
 							</IconButton>
 						)}
 					</div>
 				</div>
 
-				<div className={styles.articles__filter}>
-					<Search
-						onSearch={fetchSearchData}
-						onOptionSelect={handleSearchEnter}
-						searchValue={searchQuery}
-					/>
-					<div className={styles.articles__filter__filters}>
-						<Filter
-							options={categories}
-							label="Категории"
-							width={isMobile ? '140px' : '230px'}
-							onOptionSelect={handleCategoryChange}
-							selectedOption={selectedCategory}
-						/>
-
-						<Filter
-							options={chapters}
-							label="Разделы"
-							width={isMobile ? '120px' : '200px'}
-							onOptionSelect={handleChapterChange}
-							selectedOption={selectedChapter}
-						/>
-						{isMobile ? (
-							<SecondaryButton
-								label="Сбросить"
-								onClick={handleReset}
-							/>
-						) : (
-							<IconButton>
-								<ClearRoundedIcon
-									onClick={handleReset}
-									style={{ fontSize: 30 }}
-									className={styles.articles__filter__reset}
-								/>
-							</IconButton>
-						)}
-					</div>
-				</div>
+				<ArticleFilters
+					selectedCategory={selectedCategory}
+					selectedChapter={selectedChapter}
+					searchQuery={searchQuery}
+					categories={categories}
+					chapters={chapters}
+					onSearch={fetchSearchData}
+					onSearchEnter={handleSearchEnter}
+					onCategoryChange={handleCategoryChange}
+					onChapterChange={handleChapterChange}
+					onReset={handleReset}
+				/>
 
 				<div className={styles.articles__cards}>
 					{articles.length > 0 ? (
@@ -118,8 +88,8 @@ const ArticlesList: React.FC = () => {
 									key={article.id}
 									title={article.title}
 									description={article.description}
-									category={categories.find(c => c.id === article.category)?.title || ''}
-									chapter={chapters.find(c => c.id === article.category)?.title || ''}
+									category={article?.category || ''}
+									chapter={article?.chapter || ''}
 									onClick={() => navigate(`/documentation/articles/${article.id}`)}
 								/>
 							))}

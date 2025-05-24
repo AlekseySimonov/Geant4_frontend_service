@@ -1,6 +1,6 @@
 export interface ArticlesTypes {
 	id?: number;
-	category?: number;
+	category?: string;
 	subscriptions?: {
 		title: string;
 		subscription_order: number;
@@ -11,7 +11,7 @@ export interface ArticlesTypes {
 			files: ServerFile[];
 		}[];
 	}[];
-	chapter?: number;
+	chapter?: string;
 	description?: string;
 	title?: string;
 	chosen?: true;
@@ -37,8 +37,8 @@ export interface Subscription {
 
 export interface ArticleResponse {
 	id: number;
-	chapter: number;
-	category: number;
+	chapter: number | string;
+	category: number | string;
 	subscriptions: ServerSubscription[];
 	title: string;
 	description: string;
