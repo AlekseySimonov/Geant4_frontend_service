@@ -1,6 +1,7 @@
-import { ArticlesTypes } from "@/shared/types";
 
-export const preparePayload = (values: ArticlesTypes): ArticlesTypes => {
+import { ExtendedArticlesTypes } from "@/shared/types/articlesTypes";
+
+export const preparePayload = (values: ExtendedArticlesTypes): ExtendedArticlesTypes => {
 		return {
 		...values,
 		subscriptions: values.subscriptions.map((sub) => ({

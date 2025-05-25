@@ -1,10 +1,9 @@
 import { usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
-import { ArticlesTypes } from "@/shared/types";
-import { ServerFile } from "@/shared/types/articlesTypes";
+import { ExtendedArticlesTypes, ServerFile } from "@/shared/types/articlesTypes";
 import { preparePayload } from "./preparePayload";
 
 interface SubmitDeps {
-	values: ArticlesTypes;
+	values: ExtendedArticlesTypes;
 	createArticle: ReturnType<typeof usePostArticleMutation>[0];
 	uploadFile: ReturnType<typeof useUploadFileMutation>[0];
 }

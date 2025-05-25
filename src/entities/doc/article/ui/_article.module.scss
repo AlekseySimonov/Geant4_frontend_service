@@ -32,6 +32,11 @@
 		h2{
 			font-weight: 700px;
 		}
+		.devTools{
+			gap: 10px;
+			display: flex;
+			align-items: center;
+		}
 	}
 	&__block{
 		display: flex;

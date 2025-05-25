@@ -3,7 +3,7 @@ import { URLS } from "./urls";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { globalLoading } from "@/shared/model";
 import { apiBaseQuery } from "@/shared/api";
-import { ArticleResponse } from "@/shared/types/articlesTypes";
+import { ArticleResponse, ExtendedArticlesTypes } from "@/shared/types/articlesTypes";
 
 export interface CategoryOrChapter {
 	id?: number;
@@ -40,7 +40,7 @@ export const docApi = createApi({
 				}),
 				providesTags: ['Doc'],
 			}),
-			postArticle: mutation<ArticleResponse, ArticlesTypes>({
+			postArticle: mutation<ArticleResponse, ExtendedArticlesTypes>({
 				query: (body) => ({
 					url: URLS.ARTICLES,
 					method: 'POST',

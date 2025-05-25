@@ -18,6 +18,11 @@ export interface ArticlesTypes {
 	pages_count?: number;
 }
 
+export type ExtendedArticlesTypes = Omit<ArticlesTypes, 'category' | 'chapter'> & {
+	category: number | null;
+	chapter: number | null;
+};
+
 export interface FileFormat {
 	format: 'csv' | 'webp' | 'other';
 }
@@ -37,8 +42,8 @@ export interface Subscription {
 
 export interface ArticleResponse {
 	id: number;
-	chapter: number | string;
-	category: number | string;
+	chapter: number;
+	category: number;
 	subscriptions: ServerSubscription[];
 	title: string;
 	description: string;
@@ -54,10 +59,10 @@ export interface ServerSubscription {
 
 export interface ServerSubscriptionElement {
 	id?: number;
-	text: string;
-	element_order: number;
-	type: string;
-	files: ServerFile[];
+	text?: string;
+	element_order?: number;
+	type?: string;
+	files?: ServerFile[];
 }
 
 export interface ServerFile extends FileFormat {

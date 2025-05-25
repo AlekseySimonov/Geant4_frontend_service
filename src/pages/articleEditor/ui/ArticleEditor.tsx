@@ -4,8 +4,8 @@ import { FieldArray, Form, Formik } from 'formik';
 import { ArticlesTypes } from '@/shared/types';
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import { useNavigate } from "react-router";
-import { useGetCategoriesQuery, useGetChaptersQuery, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
+import { useNavigate, useParams } from "react-router";
+import { useGetArticleQuery, useGetCategoriesQuery, useGetChaptersQuery, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
 import { useFilter } from "@/shared/ui/components/filter";
 import { ArticleFilters } from "./ArticleFilters";
 import { ModalWindow } from "@/shared/ui/components/modal";
@@ -15,16 +15,15 @@ import { useSelector } from "react-redux";
 import { handleSubmit } from "../model/handleSubmit";
 import { articleValidationSchema } from "../model/validationSchemas";
 import { EditOptions, SortableEditorBlocks } from "@/features";
-
-const initialValues: ArticlesTypes = {
-	title: '',
-	description: '',
-	subscriptions: [],
-	category: null,
-	chapter: null
-};
+import { initialValues } from "../model/initialValues";
 
 const ArticleEditor: React.FC = () => {
+
+	const { id } = useParams();
+	const isEditMode = !!id;
+	const { data: existingArticle } = useGetArticleQuery(Number(id), {
+		skip: !isEditMode,
+	});
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading)
 
 	const navigate = useNavigate()
@@ -37,13 +36,26 @@ const ArticleEditor: React.FC = () => {
 	const editCategory = usePopup()
 	const editChapter = usePopup()
 
-	const { selectedOption: selectedCategory, handleChange: handleCategoryChange } = useFilter();
-	const { selectedOption: selectedChapter, handleChange: handleChapterChange } = useFilter();
+	const {
+		selectedOption: selectedCategory,
+		handleChange: handleCategoryChange,
+		resetFilter: resetCategory,
+	} = useFilter(existingArticle?.category ?? null, categories);
+
+	const {
+		selectedOption: selectedChapter,
+		handleChange: handleChapterChange,
+		resetFilter: resetChapter,
+	} = useFilter(existingArticle?.chapter ?? null, chapters);
+
+	if (isEditMode && (!categories || !chapters || !existingArticle)) {
+		return undefined;
+	}
 
 	return (
 		<div className={styles.editor}>
 			<Formik
-				initialValues={initialValues}
+				initialValues={initialValues({ isEditMode, existingArticle })}
 				validationSchema={articleValidationSchema}
 				onSubmit={async (values, { setSubmitting, setStatus }) => {
 					try {
@@ -65,6 +77,7 @@ const ArticleEditor: React.FC = () => {
 						<div className={styles.editor__form__title}>
 							<ArrowBackIosRoundedIcon style={{ fontSize: 30 }} onClick={() => navigate('/documentation/articles')} />
 							<h2>Редактор статьи</h2>
+
 						</div>
 
 						<FormField name="title" placeholder="Название статьи" />
