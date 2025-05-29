@@ -1,11 +1,10 @@
 import { FormField, Loader } from "@/shared"
 import styles from "./_articleEditor.module.scss"
 import { FieldArray, Form, Formik } from 'formik';
-import { ArticlesTypes } from '@/shared/types';
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useNavigate, useParams } from "react-router";
-import { useGetArticleQuery, useGetCategoriesQuery, useGetChaptersQuery, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
+import { useGetArticleQuery, useGetCategoriesQuery, useGetChaptersQuery, usePatchArticleMutation, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
 import { useFilter } from "@/shared/ui/components/filter";
 import { ArticleFilters } from "./ArticleFilters";
 import { ModalWindow } from "@/shared/ui/components/modal";
@@ -31,6 +30,7 @@ const ArticleEditor: React.FC = () => {
 	const { data: chapters } = useGetChaptersQuery()
 
 	const [createArticle] = usePostArticleMutation();
+	const [patchArticle] = usePatchArticleMutation()
 	const [uploadFile] = useUploadFileMutation();
 
 	const editCategory = usePopup()
@@ -61,7 +61,11 @@ const ArticleEditor: React.FC = () => {
 					try {
 						await handleSubmit({
 							values,
+							isEditMode,
+							id: Number(id),
+							existingArticle: initialValues({ isEditMode, existingArticle }),
 							createArticle,
+							patchArticle,
 							uploadFile,
 						});
 						setSubmitting(false);
@@ -131,7 +135,7 @@ const ArticleEditor: React.FC = () => {
 							<div className={styles.errorMessage}>{status.submitError}</div>
 						)}
 						<PrimaryButton
-							label="Опубликовать"
+							label={isEditMode ? "Сохранить" : "Опубликовать"}
 							fullWidth
 							type="submit"
 							disabled={!dirty || !isValid || isSubmitting}

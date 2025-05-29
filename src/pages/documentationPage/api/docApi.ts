@@ -48,6 +48,17 @@ export const docApi = createApi({
 				}),
 				invalidatesTags: ['Doc'],
 			}),
+			patchArticle: mutation<
+				ArticleResponse,
+				{ id: number; changes: Partial<ExtendedArticlesTypes> }
+			>({
+				query: ({ id, changes }) => ({
+					url: `${URLS.ARTICLES}${id}`,
+					method: 'PATCH',
+					body: changes,
+				}),
+				invalidatesTags: ['Doc'],
+			}),
 			uploadFile: mutation({
 				query: ({ uploadUrl, file }: { uploadUrl: string; file: File }) => {
 					const formData = new FormData();
@@ -60,7 +71,7 @@ export const docApi = createApi({
 				},
 			}),
 			getGraph: query<string, string>({
-				query: (url:string) => ({
+				query: (url: string) => ({
 					url: url,
 					method: 'GET',
 				}),
@@ -152,6 +163,7 @@ export const {
 	useDeleteCategoriesMutation,
 	useDeleteChaptersMutation,
 	usePostArticleMutation,
+	usePatchArticleMutation,
 	useUploadFileMutation,
 	useGetGraphQuery,
 } = docApi;

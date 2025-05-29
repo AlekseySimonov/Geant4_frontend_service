@@ -84,6 +84,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 									<ImageUploader
 										fieldName={`subscriptions.${index}.elements[${i}].files`}
 										setFieldValue={setFieldValue}
+										initialUrls={element.files?.filter(f => 'url' in f).map(f => (f as any).url)}
 									/>
 								</Box>
 							</OutlinedBox>

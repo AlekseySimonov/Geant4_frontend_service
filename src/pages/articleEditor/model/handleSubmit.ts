@@ -1,42 +1,70 @@
-import { usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
+import { usePatchArticleMutation, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
 import { ExtendedArticlesTypes, ServerFile } from "@/shared/types/articlesTypes";
-import { preparePayload } from "./preparePayload";
+import { preparePayloadForPatch, preparePayloadForPost } from "./preparePayload";
+import { getDirtyValues } from "@/shared/model";
 
 interface SubmitDeps {
 	values: ExtendedArticlesTypes;
+	isEditMode: boolean;
+	id?: number;
+	existingArticle?: ExtendedArticlesTypes;
 	createArticle: ReturnType<typeof usePostArticleMutation>[0];
+	patchArticle: ReturnType<typeof usePatchArticleMutation>[0];
 	uploadFile: ReturnType<typeof useUploadFileMutation>[0];
 }
 
 
 export const handleSubmit = async ({
 	values,
+	isEditMode,
+	id,
+	existingArticle,
 	createArticle,
+	patchArticle,
 	uploadFile,
 }: SubmitDeps): Promise<void> => {
 	try {
-		const payload = preparePayload( values)
+		let response;
 
-		const response = await createArticle(payload).unwrap();
+		if (isEditMode) {
+			if (!id || !existingArticle) {
+				throw new Error("Для редактирования нужны `id` и `existingArticle`");
+			}
 
-		if (!Array.isArray(response.subscriptions)) {
-			throw new Error('Invalid response: subscriptions missing');
+			const dirty = getDirtyValues(existingArticle, values);
+			const payload = preparePayloadForPatch(dirty);
+			response = await patchArticle({ id, changes: payload }).unwrap();
+		} else {
+			const payload = preparePayloadForPost(values);
+			response = await createArticle(payload).unwrap();
 		}
 
-		const uploadTasks: Promise<any>[] = [];
+		const filesToUpload: Promise<any>[] = [];
 
-		response.subscriptions.forEach((srvSub, subIdx) => {
+		response.subscriptions?.forEach((srvSub, subIdx) => {
 			const localSub = values.subscriptions?.[subIdx];
-			if (!localSub) return;
+			const originalSub = existingArticle?.subscriptions?.[subIdx];
 
-			srvSub.elements.forEach((srvEl, elIdx) => {
-				const localEl = localSub.elements[elIdx];
-				if (!localEl) return;
+			srvSub.elements?.forEach((srvEl, elIdx) => {
+				const localEl = localSub?.elements?.[elIdx];
+				const originalEl = originalSub?.elements?.[elIdx];
 
-				srvEl.files.forEach((srvFile: ServerFile, fileIdx) => {
-					const fileToUpload = localEl.files[fileIdx];
-					if (fileToUpload instanceof File && srvFile.url) {
-						uploadTasks.push(
+				srvEl.files?.forEach((srvFile, fileIdx) => {
+					const fileToUpload = localEl?.files?.[fileIdx];
+					const originalFile = originalEl?.files?.[fileIdx];
+
+					const isChanged = !isEditMode || (
+						fileToUpload instanceof File &&
+						!(
+							originalFile instanceof File &&
+							fileToUpload.name === originalFile.name &&
+							fileToUpload.size === originalFile.size &&
+							fileToUpload.lastModified === originalFile.lastModified
+						)
+					);
+
+					if (fileToUpload instanceof File && srvFile.url && isChanged) {
+						filesToUpload.push(
 							uploadFile({
 								uploadUrl: srvFile.url,
 								file: fileToUpload,
@@ -47,8 +75,7 @@ export const handleSubmit = async ({
 			});
 		});
 
-		await Promise.all(uploadTasks);
-
+		await Promise.all(filesToUpload);
 	} catch (err) {
 		console.error('Error during submission:', err);
 		throw err;

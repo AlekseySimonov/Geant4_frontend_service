@@ -1,17 +1,36 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./_uploader.module.scss"
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 interface ImageUploaderProps {
 	fieldName: string;
 	setFieldValue: (field: string, value: File[]) => void;
+	initialUrls?: string[];
 }
 
-export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFieldValue }) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFieldValue, initialUrls }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [images, setImages] = useState<File[]>([]);
 	const [previews, setPreviews] = useState<string[]>([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
+
+	async function urlToFileAuto(url: string): Promise<File> {
+		const response = await fetch(url);
+		const blob = await response.blob();
+		const contentType = response.headers.get("Content-Type") || "application/octet-stream";
+		const filename = url.split("/").pop() || "file";
+		return new File([blob], filename, { type: contentType });
+	}
+
+	useEffect(() => {
+	if (!initialUrls?.length) return;
+
+		Promise.all(initialUrls.map(url => urlToFileAuto(url))).then(files => {
+			setImages(files);
+			setPreviews(files.map(file => URL.createObjectURL(file)));
+			setFieldValue(fieldName, files);
+		});
+	}, [initialUrls]);
 
 	const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const files = Array.from(e.target.files || []).filter(file => file.type.startsWith("image/"));
