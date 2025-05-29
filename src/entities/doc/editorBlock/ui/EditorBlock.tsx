@@ -9,7 +9,7 @@ import NotesRoundedIcon from '@mui/icons-material/NotesRounded';
 import { Box, IconButton, InputLabel } from "@mui/material";
 import { GraphUploader, ImageUploader } from "@/features/doc/uploaders";
 import { OutlinedBox } from "@/shared/styles/themes/overrides";
-import LatexTextField from "@/entities/latexTextField";
+import MarkdownTextField from "@/entities/markdownTextField";
 import { EditorBlockProps, ElementType } from "../model/types";
 import { SubscriptionElement } from "@/shared/types";
 
@@ -72,7 +72,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 							}}
 						/>
 						{element.type === 'text' && (
-							<LatexTextField name={`subscriptions.${index}.elements[${i}].text`} />
+							<MarkdownTextField name={`subscriptions.${index}.elements[${i}].text`} />
 						)}
 
 						{element.type === 'webp' && (

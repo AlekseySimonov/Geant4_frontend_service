@@ -2,12 +2,12 @@ import { useNavigate, useParams } from "react-router";
 import styles from "./_article.module.scss"
 import { useGetArticleQuery, useGetStaffQuery } from "@/pages/documentationPage/api/docApi";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import { LatexPreview } from "@/entities/latexTextField";
 import { CsvGraph } from "./CsvGraph";
 import { ImageSlider } from "./ImageSlider";
 import { IconButton } from "@mui/material";
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { Preview } from "@/entities/markdownTextField";
 
 const Article: React.FC = () => {
 	const { data: isStaff } = useGetStaffQuery()
@@ -48,7 +48,7 @@ const Article: React.FC = () => {
 					{block.elements.map((element, elIdx) => (
 						<div key={element.id || elIdx} className={styles.article__element}>
 							{element.type === "text" && (
-								<LatexPreview value={element.text} />
+								<Preview value={element.text} />
 							)}
 							{element.type === "csv" && element.files.length > 0 && (
 								<CsvGraph url={element.files[0].url} />

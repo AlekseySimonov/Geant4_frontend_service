@@ -15,6 +15,13 @@
 		text-align: justify;
 		white-space: pre-wrap;
 		word-break: break-word;
+		color: var(--mui-palette-primary-main);
+
+		.preview{
+			color: var(--mui-palette-primary-main);
+			background-color: var(--mui-palette-background-paper);
+			font-family: "Inter", "Manrope", sans-serif;
+		}
 	}
 
 	.withBorder {

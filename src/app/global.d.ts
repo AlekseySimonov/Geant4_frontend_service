@@ -6,6 +6,8 @@ declare module '*.module.scss' {
     export default classNames;
 }
 declare module '*.css';
+
+declare module "katex";
 declare module 'react-katex' {
     import * as React from 'react';
 
