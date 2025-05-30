@@ -6,7 +6,7 @@
 		position: absolute;
 		margin-bottom: 1rem;
 		background: white;
-		font-size: clamp(14px, 1.5vw, 20px);
+		font-size: clamp(12px, 1.5vw, 20px);
 		padding: 5px;
 		border-radius: 8px;
 		right: 5%;
@@ -18,5 +18,8 @@
 			align-items: center;
 			gap: 0.25rem;
 		}
+	}
+	&__graph{
+		color: var(--mui-palette-primary-main);
 	}
 }

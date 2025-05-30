@@ -7,6 +7,8 @@ declare module '*.module.scss' {
 }
 declare module '*.css';
 
+declare module 'react-plotly.js'
+
 declare module "katex";
 declare module 'react-katex' {
     import * as React from 'react';
