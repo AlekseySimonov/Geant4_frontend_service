@@ -4,7 +4,7 @@ import styles from "./_profileSettings.module.scss";
 import { ProfileTypes } from "@/shared/types";
 import { FormField, Loader } from "@/shared";
 import { useGetProfileQuery, usePatchProfileMutation, useUpdateUsernameMutation } from "@/pages/profilePage/api/profileApi";
-import { useErrorHandler, usePopup } from "@/shared/hooks";
+import { usePopup } from "@/shared/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { ModalWindow } from "@/shared/ui/components/modal";
@@ -18,11 +18,10 @@ import { useNavigate } from "react-router";
 
 const ProfileSettings: React.FC = () => {
 
-	const { data, isError } = useGetProfileQuery();
+	const { data } = useGetProfileQuery();
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading)
 	const [patchProfile] = usePatchProfileMutation();
 	const [updateUsername] = useUpdateUsernameMutation();
-	useErrorHandler(isError)
 
 	const { url: avatarUrl, isLoading: avatarLoading } = useSelector(
 		(state: RootState) => state.avatar

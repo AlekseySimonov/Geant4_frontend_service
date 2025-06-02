@@ -38,6 +38,30 @@ export const FormField: React.FC<FormFieldProps> =
 								field.onChange(e);
 								if (onChange) onChange();
 							}}
+							onKeyDown={(e) => {
+								if (isMultiline && e.key === 'Tab') {
+									e.preventDefault();
+									const el = e.target as HTMLTextAreaElement;
+									const { selectionStart, selectionEnd, value } = el;
+
+									const newValue =
+										value.substring(0, selectionStart) + '\t' + value.substring(selectionEnd);
+
+									const event = {
+										...e,
+										target: {
+											...e.target,
+											name,
+											value: newValue,
+										},
+									};
+									field.onChange(event);
+
+									requestAnimationFrame(() => {
+										el.selectionStart = el.selectionEnd = selectionStart + 1;
+									});
+								}
+							}}
 							InputProps={
 								type === 'password'
 									? {

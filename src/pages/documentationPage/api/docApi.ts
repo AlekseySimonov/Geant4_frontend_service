@@ -59,6 +59,13 @@ export const docApi = createApi({
 				}),
 				invalidatesTags: ['Doc'],
 			}),
+			deleteArticle: mutation({
+				query: (id: number) => ({
+					url: `${URLS.ARTICLES}${id}`,
+					method: 'DELETE',
+				}),
+				invalidatesTags: ['Doc'],
+			}),
 			uploadFile: mutation({
 				query: ({ uploadUrl, file }: { uploadUrl: string; file: File }) => {
 					const formData = new FormData();
@@ -155,6 +162,7 @@ export const {
 	useGetChaptersQuery,
 	useGetArticlesQuery,
 	useGetArticleQuery,
+	useDeleteArticleMutation,
 	useGetStaffQuery,
 	usePostCategoryMutation,
 	usePostChapterMutation,
