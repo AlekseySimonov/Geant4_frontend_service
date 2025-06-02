@@ -27,6 +27,7 @@ const AuthPage: React.FC = () => {
 			className={styles.container}
 			style={!isMobile ? { backgroundImage: `url(${authBackground})` } : undefined}
 		>
+			<Loader/>
 			<AlertPopup/>
 			<div className={styles.container__content}>
 				<div className={styles.container__content_header}>

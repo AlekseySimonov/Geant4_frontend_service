@@ -25,7 +25,6 @@ export const SecondaryButton: React.FC<SecondaryButtonProps> = ({
 	return (
 		<Button
 			variant="outlined"
-			color="primary"
 			component={Link}
 			to={link}
 			onClick={onClick}

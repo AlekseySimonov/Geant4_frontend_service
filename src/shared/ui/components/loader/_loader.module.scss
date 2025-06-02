@@ -28,6 +28,7 @@
 		border: 8px solid var(--mui-palette-secondary-light);
 		border-radius: 50%;
 		border-top: 8px solid var(--mui-palette-primary-main);
+		position: fixed;
 		width: 60px;
 		height: 60px;
 		-webkit-animation: spin 1s linear infinite;
