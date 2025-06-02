@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import styles from "./_article.module.scss"
 import { useGetArticleQuery, useGetStaffQuery } from "@/pages/documentationPage/api/docApi";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
@@ -15,12 +15,11 @@ const Article: React.FC = () => {
 	const { data: article, error } = useGetArticleQuery(Number(id));
 
 	const navigate = useNavigate()
+	const location = useLocation()
 
 	const handleBackClick = () => {
-		const referrer = document.referrer;
-
-		if (referrer.includes('/documentation/articles')) {
-			navigate(-1);
+		if (location.state?.from) {
+			navigate(location.state?.from);
 		} else {
 			navigate('/documentation/articles');
 		}

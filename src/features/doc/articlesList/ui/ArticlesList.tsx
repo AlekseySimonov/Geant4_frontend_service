@@ -61,7 +61,9 @@ const ArticlesList: React.FC = () => {
 								key={article.id}
 								title={article.title}
 								description={article.description}
-								onClick={() => navigate(`/documentation/articles/view/${article.id}`)}
+								onClick={() => navigate(`/documentation/articles/view/${article.id}`, {
+									state: { from: location.pathname + location.search }
+								})}
 							/>
 						))}
 					</div>
@@ -102,7 +104,9 @@ const ArticlesList: React.FC = () => {
 									description={article.description}
 									category={article?.category || ''}
 									chapter={article?.chapter || ''}
-									onClick={() => navigate(`/documentation/articles/view/${article.id}`)}
+									onClick={() => navigate(`/documentation/articles/view/${article.id}`, {
+										state: { from: location.pathname + location.search }
+									})}
 								/>
 							))}
 							<div className={styles.articles__cards__pagination}>

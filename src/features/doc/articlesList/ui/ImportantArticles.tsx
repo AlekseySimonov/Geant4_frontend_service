@@ -27,7 +27,9 @@ const ImportantArticles: React.FC = () => {
 								description={article.description}
 								category={article?.category || ''}
 								chapter={article?.chapter || ''}
-								onClick={() => navigate(`/documentation/articles/view/${article.id}`)}
+								onClick={() => navigate(`/documentation/articles/view/${article.id}`, {
+									state: { from: location.pathname + location.search }
+								})}
 							/>
 						))}
 						{articles.length > 9 && (
