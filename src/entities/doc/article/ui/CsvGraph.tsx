@@ -13,7 +13,6 @@ export const CsvGraph: React.FC<CsvGraphProps> = ({ url }) => {
 
 	const [data, setData] = useState<DataSeries[]>([]);
 	const [parseError, setParseError] = useState<string | null>(null);
-	console.log(data)
 	useEffect(() => {
 		if (csvText) {
 			try {

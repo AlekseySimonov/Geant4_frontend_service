@@ -4,6 +4,8 @@ import { Checkbox, useMediaQuery } from "@mui/material";
 import { DataSeries } from "../model/types";
 import styles from "./_graph.module.scss";
 import { usePlotlyStyles } from "../lib/plotlyStyles";
+import { SecondaryButton } from "@/shared/ui/components/buttons";
+import { DataSeriesTable } from "@/entities/table";
 
 type Props = {
   data: DataSeries[];
@@ -13,6 +15,7 @@ export const Graph = ({ data }: Props) => {
   const [visibleSeries, setVisibleSeries] = useState<Record<string, boolean>>({});
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
+  const [showTable, setShowTable] = useState(false);
   const plotlyStyles = usePlotlyStyles()
 
   useEffect(() => {
@@ -68,45 +71,55 @@ export const Graph = ({ data }: Props) => {
   };
 
   const config: Partial<Plotly.Config> = {
-    responsive: true,
     displaylogo: false,
     modeBarButtonsToRemove: ["select2d", "lasso2d"],
     scrollZoom: true,
+    doubleClick: "reset",
   };
 
   return (
-    <div className={styles.graph}>
-      <div className={styles.graph__legend}>
-        {data.map(series => (
-          <label key={series.id}>
-            <Checkbox
-              checked={visibleSeries[series.id] ?? true}
-              onChange={() => toggleSeries(series.id)}
-              sx={{
-                padding: 0,
-                '& .MuiSvgIcon-root': {
-                  fontSize: 'clamp(12px, 1.5vw, 24px)',
-                  color: series.color,
-                },
-              }}
-            />
-            <span style={{ color: series.color }}>{series.id}</span>
-          </label>
-        ))}
-      </div>
+    <div className={styles.container}>
+      <div className={styles.graph}>
+        <div className={styles.graph__legend}>
+          {data.map(series => (
+            <label key={series.id}>
+              <Checkbox
+                checked={visibleSeries[series.id] ?? true}
+                onChange={() => toggleSeries(series.id)}
+                sx={{
+                  padding: 0,
+                  '& .MuiSvgIcon-root': {
+                    fontSize: 'clamp(12px, 1.5vw, 24px)',
+                    color: series.color,
+                  },
+                }}
+              />
+              <span style={{ color: series.color }}>{series.id}</span>
+            </label>
+          ))}
+        </div>
 
-      <Plot
-        data={plotData}
-        layout={{
-          ...layout,
-          width: undefined,
-          height: isSmallScreen ? 400 : 600,
-        }}
-        config={config}
-        useResizeHandler
-        style={{ width: "100%", height: "100%" }}
-        className={styles.graph__plot}
+        <Plot
+          data={plotData}
+          layout={{
+            ...layout,
+            height: isSmallScreen ? 400 : 600,
+          }}
+          config={config}
+          className={styles.graph__plot}
+        />
+      </div>
+      <SecondaryButton
+        label={showTable ? "Скрыть таблицу" : "Показать таблицу"}
+        type="button"
+        onClick={() => setShowTable((prev) => !prev)}
       />
+      {showTable && (
+        <div data-color-mode="light">
+          <DataSeriesTable data={data} />
+        </div>
+      )}
     </div>
+
   );
 };

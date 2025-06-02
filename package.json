@@ -75,7 +75,6 @@
     "react-router": "^7.1.5",
     "rehype-rewrite": "^4.0.2",
     "swiper": "^11.2.7",
-    "victory": "^37.3.6",
     "yup": "^1.6.1"
   }
 }

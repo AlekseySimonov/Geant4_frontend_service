@@ -1,3 +1,4 @@
+export { tableOverride } from "./tableOverride";
 export { OutlinedBox } from "./boxOverride";
 export { alertOverride } from "./alertOverride";
 export { iconButtonOverride } from "./iconButtonOverride";

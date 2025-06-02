@@ -7,8 +7,8 @@ export const usePlotlyStyles = (): Partial<Plotly.Layout> => {
 
 	return {
 		margin: isMobile
-			? { l: 20, r: 20, t: 20, b: 30 }
-			: { l: 60, r: 30, t: 40, b: 60 },
+			? { l: 50, r: 50, t: 20, b: 20 }
+			: { l: 80, r: 80, t: 20, b: 20},
 		font: {
 				family: "'Inter', sans-serif",
 				size: isMobile ? 10 : 14,

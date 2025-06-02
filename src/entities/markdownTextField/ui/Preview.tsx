@@ -5,6 +5,7 @@ import katex from 'katex';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import "katex/dist/katex.css";
+import { useMediaQuery } from "@mui/material";
 
 interface PreviewProps {
 	value: string;
@@ -12,7 +13,8 @@ interface PreviewProps {
 }
 
 export const Preview: React.FC<PreviewProps> = ({ value, withBorder }) => {
-	if (!value) return null;;
+	if (!value) return null;
+	const isMobile = useMediaQuery("(max-width:600px)");
 
 	return (
 		<div data-color-mode="light" className={`${styles.latex__text} ${withBorder ? styles.withBorder : ""}`}>
@@ -26,11 +28,15 @@ export const Preview: React.FC<PreviewProps> = ({ value, withBorder }) => {
 								throwOnError: false,
 							});
 							return <div style={{ textAlign: 'center' }}>
-									<code
+								<code
 									dangerouslySetInnerHTML={{ __html: html }}
-									style={{ background: 'transparent', fontSize: '1.3rem' }}
-									/>
-								</div>
+									style={{
+										background: 'transparent',
+										fontSize: isMobile ? '1rem' : '1.3rem',
+										overflowWrap: 'anywhere',
+									}}
+								/>
+							</div>
 						}
 						const code = props.node && props.node.children ? getCodeString(props.node.children) : children;
 						if (

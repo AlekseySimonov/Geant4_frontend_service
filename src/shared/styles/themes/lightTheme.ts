@@ -1,6 +1,14 @@
 import { createTheme, Shadows } from "@mui/material";
 import commonSettings from "./commonSettings";
-import { backdropOverride, outlinedInputOverride, paperOverride, inputLabelOverride, iconButtonOverride, alertOverride } from "./overrides";
+import {
+	backdropOverride,
+	outlinedInputOverride,
+	paperOverride,
+	inputLabelOverride,
+	iconButtonOverride,
+	alertOverride,
+	tableOverride,
+} from "./overrides";
 
 const lightTheme = createTheme({
 	...commonSettings,
@@ -21,7 +29,7 @@ const lightTheme = createTheme({
 		},
 		info: {
 			main: 'rgba(74,85,131, 0.8)',
-			light:'#CADDFF',
+			light: '#CADDFF',
 			dark: '#929EC7',
 		},
 		text: {
@@ -32,7 +40,7 @@ const lightTheme = createTheme({
 			main: '#B5003F',
 			light: '#E09B9C'
 		},
-		success:{
+		success: {
 			main: '#4F834A',
 			light: '#87AB89'
 		},
@@ -59,6 +67,14 @@ const lightTheme = createTheme({
 		MuiInputLabel: inputLabelOverride,
 		MuiIconButton: iconButtonOverride,
 		MuiAlert: alertOverride,
+		MuiTableContainer: tableOverride,
+		MuiTableCell: {
+			styleOverrides: {
+				root: ({ theme }) => ({
+					color: theme.palette.primary.main,
+				}),
+			},
+		}
 	}
 })
 
