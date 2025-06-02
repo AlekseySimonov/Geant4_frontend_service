@@ -14,7 +14,7 @@ type Props = {
 export const Graph = ({ data }: Props) => {
   const [visibleSeries, setVisibleSeries] = useState<Record<string, boolean>>({});
   const [showTable, setShowTable] = useState(false);
-  const [viewLayout, setViewLayout] = useState<Partial<Plotly.Layout>>({}); // храним текущий zoom/пан
+  const [viewLayout, setViewLayout] = useState<Partial<Plotly.Layout>>({});
 
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const plotlyStyles = usePlotlyStyles();
@@ -68,7 +68,7 @@ export const Graph = ({ data }: Props) => {
       automargin: true,
     },
     hovermode: "closest",
-    dragmode: "pan",
+    dragmode: 'pan',
     showlegend: false,
   }), [data, plotlyStyles]);
 
@@ -89,6 +89,10 @@ export const Graph = ({ data }: Props) => {
       };
     }
 
+    const hasX = event["xaxis.range[0]"] !== undefined && event["xaxis.range[1]"] !== undefined;
+    const hasY = event["yaxis.range[0]"] !== undefined && event["yaxis.range[1]"] !== undefined;
+    if (!hasX && !hasY) return;
+
     setViewLayout((prev) => ({ ...prev, ...newLayout }));
   };
 
@@ -99,10 +103,12 @@ export const Graph = ({ data }: Props) => {
   };
 
   const config: Partial<Plotly.Config> = {
+    responsive: true,
     displaylogo: false,
     modeBarButtonsToRemove: ["select2d", "lasso2d"],
     scrollZoom: true,
     doubleClick: "reset",
+    displayModeBar: true,
   };
 
   return (
@@ -130,6 +136,7 @@ export const Graph = ({ data }: Props) => {
         <Plot
           data={plotData}
           layout={mergedLayout}
+          useResizeHandler
           config={config}
           onRelayout={handleRelayout}
           className={styles.graph__plot}

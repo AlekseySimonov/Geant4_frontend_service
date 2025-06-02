@@ -13,6 +13,10 @@ interface SubmitDeps {
 	uploadFile: ReturnType<typeof useUploadFileMutation>[0];
 }
 
+interface SubmitResult {
+	articleId: number;
+}
+
 
 export const handleSubmit = async ({
 	values,
@@ -22,7 +26,7 @@ export const handleSubmit = async ({
 	createArticle,
 	patchArticle,
 	uploadFile,
-}: SubmitDeps): Promise<void> => {
+}: SubmitDeps): Promise<SubmitResult> => {
 	try {
 		let response;
 
@@ -76,6 +80,7 @@ export const handleSubmit = async ({
 		});
 
 		await Promise.all(filesToUpload);
+		return { articleId: response.id };
 	} catch (err) {
 		console.error('Error during submission:', err);
 		throw err;

@@ -59,7 +59,7 @@ const ArticleEditor: React.FC = () => {
 				validationSchema={articleValidationSchema}
 				onSubmit={async (values, { setSubmitting, setStatus }) => {
 					try {
-						await handleSubmit({
+						const { articleId } = await handleSubmit({
 							values,
 							isEditMode,
 							id: Number(id),
@@ -69,7 +69,7 @@ const ArticleEditor: React.FC = () => {
 							uploadFile,
 						});
 						setSubmitting(false);
-						navigate('/documentation/articles');
+						navigate(`/documentation/articles/${articleId}`)
 					} catch (err) {
 						setSubmitting(false);
 						setStatus({ submitError: 'Ошибка при сохранении статьи' });
@@ -131,8 +131,8 @@ const ArticleEditor: React.FC = () => {
 								</>
 							)}
 						</FieldArray>
-						{status?.submitError && (
-							<div className={styles.errorMessage}>{status.submitError}</div>
+						{status && (
+							<div className={styles.errorMessage}>{status}</div>
 						)}
 						<PrimaryButton
 							label={isEditMode ? "Сохранить" : "Опубликовать"}

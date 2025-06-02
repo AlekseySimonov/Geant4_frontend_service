@@ -97,9 +97,10 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 								</InputLabel>
 								<Box id={`custom-graph-${i}`}>
 									<GraphUploader
-									fieldName={`subscriptions.${index}.elements[${i}].files`}
-									setFieldValue={setFieldValue}
-								/>
+										fieldName={`subscriptions.${index}.elements[${i}].files`}
+										setFieldValue={setFieldValue}
+										initialUrls={element.files?.filter(f => 'url' in f).map(f => (f as any).url)} // <-- добавь это
+									/>
 								</Box>
 							</OutlinedBox>
 						)}
