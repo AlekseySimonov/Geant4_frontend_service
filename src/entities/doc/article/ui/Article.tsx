@@ -16,12 +16,22 @@ const Article: React.FC = () => {
 
 	const navigate = useNavigate()
 
+	const handleBackClick = () => {
+		const referrer = document.referrer;
+
+		if (referrer.includes('/documentation/articles')) {
+			navigate(-1);
+		} else {
+			navigate('/documentation/articles');
+		}
+	};
+
 	if (!article) return null;
 
 	return (
 		<div className={styles.article}>
 			<div className={styles.article__title}>
-				<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={() => navigate('/documentation/articles')} />
+				<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={handleBackClick} />
 				<h2>{article.title}</h2>
 				{isStaff?.is_staff && (
 					<div className={styles.devTools}>

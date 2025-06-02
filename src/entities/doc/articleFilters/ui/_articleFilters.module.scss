@@ -9,6 +9,7 @@
 		display: flex;
 		gap: 24px;
 		align-items: center;
+		flex: 1;
 
 		@media (max-width: 700px) {
 			flex-wrap: wrap;

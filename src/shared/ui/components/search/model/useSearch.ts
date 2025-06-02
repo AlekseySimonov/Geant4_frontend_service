@@ -9,20 +9,31 @@ export const useSearch = ({ onSearch, onOptionSelect, searchValue }: UseSearchPr
 	const [open, setOpen] = useState(false);
 	const [options, setOptions] = useState<readonly ArticlesTypes[]>([]);
 	const [loading, setLoading] = useState(false);
-	const [searchText, setSearchText] = useState('');
+	const [searchText, setSearchText] = useState(searchValue ?? "");
+
 	const searchRef = useRef<HTMLDivElement | null>(null);
 	const debouncedSearchText = useDebounce(searchText, 500);
 
-	useClickOutside(searchRef, () => setOpen(false));
+	const didMountRef = useRef(false);
 	const suppressNextSearchRef = useRef(false);
 
+	useClickOutside(searchRef, () => setOpen(false));
+
 	useEffect(() => {
+		if (!didMountRef.current) {
+			setOpen(false);
+			didMountRef.current = true;
+			return;
+		}
+
 		if (suppressNextSearchRef.current) {
 			suppressNextSearchRef.current = false;
 			return;
 		}
-		if (debouncedSearchText.length <= 3) {
+
+		if (debouncedSearchText.length <= 2) {
 			setOpen(false);
+			setOptions([]);
 			return;
 		}
 
@@ -31,8 +42,7 @@ export const useSearch = ({ onSearch, onOptionSelect, searchValue }: UseSearchPr
 			setOpen(true);
 
 			try {
-				const results = await onSearch(debouncedSearchText);
-
+				const results = await onSearch?.(debouncedSearchText);
 				if (!results || !Array.isArray(results)) {
 					setOptions([]);
 					return;
@@ -41,11 +51,13 @@ export const useSearch = ({ onSearch, onOptionSelect, searchValue }: UseSearchPr
 				setOptions(
 					results.filter(
 						(article) =>
-							article && typeof article.title === 'string' && article.id != null
+							article &&
+							typeof article.title === "string" &&
+							typeof article.id === "number"
 					)
 				);
 			} catch (error) {
-				console.error('Error fetching data:', error);
+				console.error("Error fetching search results:", error);
 				setOptions([]);
 				setOpen(false);
 			} finally {
@@ -56,28 +68,24 @@ export const useSearch = ({ onSearch, onOptionSelect, searchValue }: UseSearchPr
 		fetchData();
 	}, [debouncedSearchText]);
 
-	useEffect(() => {
-		if (searchValue !== searchText) {
-			setSearchText(searchValue);
-		}
-	}, [searchValue]);
-
 	const handleSearchClick = () => {
-		searchRef.current?.querySelector('input')?.focus();
+		searchRef.current?.querySelector("input")?.focus();
 	};
 
 	const handleOptionClick = (option: ArticlesTypes) => {
-		if (!option || typeof option.title !== 'string') {
-			console.error('Invalid option:', option);
+		if (!option || typeof option.title !== "string") {
+			console.error("Invalid option:", option);
 			return;
 		}
+
 		suppressNextSearchRef.current = true;
 		setSearchText(option.title);
 		setOpen(false);
+
 		try {
 			onOptionSelect?.(option.title);
 		} catch (error) {
-			console.error('Error in onOptionSelect:', error);
+			console.error("Error in onOptionSelect:", error);
 		}
 	};
 
@@ -92,3 +100,4 @@ export const useSearch = ({ onSearch, onOptionSelect, searchValue }: UseSearchPr
 		options,
 	};
 };
+

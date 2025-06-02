@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import styles from "./_search.module.scss"
 import searchIcon from "@/shared/ui/assets/icons/search.svg"
-import crossIcon from "@/shared/ui/assets/icons/cross.svg"
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { CircularProgress } from "@mui/material";
 import { SearchProps } from "../model/types";
 import { useSearch } from "../model/useSearch";
@@ -36,15 +36,18 @@ export const Search: React.FC<SearchProps> = ({
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
 							e.preventDefault();
-							if (searchText.trim()) {
-								e.preventDefault();
-								handleOptionClick({ title: searchText.trim(), id: -1 });
-							}
+							handleOptionClick({ title: searchText.trim(), id: -1 });
 						}
 					}}
 				/>
 				{searchText && (
-					<img className={styles.search__input__cross} src={crossIcon} alt="#" onClick={() => setSearchText('')} />
+					<ClearRoundedIcon
+						style={{ fontSize: 20, cursor: 'pointer' }}
+						onClick={() => {
+							setSearchText('');
+							handleOptionClick({ title: '', id: -1 });
+						}}
+					/>
 				)}
 				{loading && (
 					<div className={styles.search__input__loader}>

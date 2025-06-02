@@ -4,13 +4,11 @@ import { Pagination } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import { useImportantArticles } from "../model";
 import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
+import { useNavigate } from "react-router";
 
 const ImportantArticles: React.FC = () => {
-	const { data: categories } = useGetCategoriesQuery()
-	const { data: chapters } = useGetChaptersQuery()
-	const { importantArticles } = useImportantArticles();
-
-	const articles = importantArticles
+	const { importantArticles: articles } = useImportantArticles();
+	const navigate = useNavigate();
 
 	return (
 		<div className={styles.articles}>
@@ -28,7 +26,8 @@ const ImportantArticles: React.FC = () => {
 								title={article.title}
 								description={article.description}
 								category={article?.category || ''}
-								chapter={article?.chapter|| ''}
+								chapter={article?.chapter || ''}
+								onClick={() => navigate(`/documentation/articles/view/${article.id}`)}
 							/>
 						))}
 						{articles.length > 9 && (

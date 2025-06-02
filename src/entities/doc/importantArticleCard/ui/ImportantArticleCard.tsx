@@ -4,14 +4,16 @@ import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRound
 interface ArticleCardTypes {
 	description?: string;
 	title?: string;
+	onClick?: () => void;
 }
 
 const ImportantArticleCard: React.FC<ArticleCardTypes> = ({
 	title,
 	description,
+	onClick,
 }) => {
 	return (
-		<div className={styles.card}>
+		<div className={styles.card} onClick={onClick}>
 			<div className={styles.card__title}>
 				<h2>{title?.trim() ? title : 'Без названия'}</h2>
 				<ArrowForwardIosRoundedIcon style={{ fontSize: 20 }}/>

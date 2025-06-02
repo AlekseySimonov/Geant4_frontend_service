@@ -14,7 +14,7 @@ export const docRoutes = {
 		{ path: "articles", element: <ArticlesList /> },
 		{ path: "articles/important", element: <ImportantArticles /> },
 		{ path: "articles/editor", element: <ArticleEditor /> },
-		{ path: "articles/editor/:id?", element: <ArticleEditor />},
-		{ path: "articles/:id", element: <Article /> },
+		{ path: "articles/editor/:id", element: <ArticleEditor /> },
+		{ path: "articles/view/:id", element: <Article /> },
 	],
 };
