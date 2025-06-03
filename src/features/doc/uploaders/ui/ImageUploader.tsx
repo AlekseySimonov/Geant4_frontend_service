@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./_uploader.module.scss"
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
+import { useDispatch } from "react-redux";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 interface ImageUploaderProps {
 	fieldName: string;
 	setFieldValue: (field: string, value: File[]) => void;
@@ -13,6 +15,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 	const [images, setImages] = useState<File[]>([]);
 	const [previews, setPreviews] = useState<string[]>([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const dispatch = useDispatch()
 
 	async function urlToFileAuto(url: string): Promise<File> {
 		const response = await fetch(url);
@@ -23,7 +26,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 	}
 
 	useEffect(() => {
-	if (!initialUrls?.length) return;
+		if (!initialUrls?.length) return;
 
 		Promise.all(initialUrls.map(url => urlToFileAuto(url))).then(files => {
 			setImages(files);
@@ -33,7 +36,19 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 	}, [initialUrls]);
 
 	const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const files = Array.from(e.target.files || []).filter(file => file.type.startsWith("image/"));
+		const MAX_FILE_SIZE = 2*1024*1024
+		const files = Array.from(e.target.files || []).filter(file =>
+			file.type.startsWith("image/") && file.size <= MAX_FILE_SIZE
+		);
+
+		if (files.length < (e.target.files?.length || 0)) {
+			dispatch(
+				showAlert({
+					message: 'Файл(ы) превышают максимальный размер и не были добавлены',
+					severity: 'error',
+				})
+			);
+		}
 
 		const newFiles = [...images, ...files].slice(0, 5);
 		setImages(newFiles);

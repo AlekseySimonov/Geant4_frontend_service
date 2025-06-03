@@ -10,13 +10,16 @@ import { ArticleFilters } from "./ArticleFilters";
 import { ModalWindow } from "@/shared/ui/components/modal";
 import { usePopup } from "@/shared/hooks";
 import { RootState } from "@/app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleSubmit } from "../model/handleSubmit";
 import { articleValidationSchema } from "../model/validationSchemas";
 import { EditOptions, SortableEditorBlocks } from "@/features";
 import { initialValues } from "../model/initialValues";
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 
 const ArticleEditor: React.FC = () => {
+
+	const dispatch = useDispatch()
 
 	const { id } = useParams();
 	const isEditMode = !!id;
@@ -69,6 +72,12 @@ const ArticleEditor: React.FC = () => {
 							uploadFile,
 						});
 						setSubmitting(false);
+						dispatch(
+							showAlert({
+								message: 'Статья успешно опубликована',
+								severity: 'info',
+							})
+						);
 						navigate(`/documentation/articles/${articleId}`)
 					} catch (err) {
 						setSubmitting(false);
