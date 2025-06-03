@@ -81,7 +81,7 @@ const ArticleEditor: React.FC = () => {
 						navigate(`/documentation/articles/${articleId}`)
 					} catch (err) {
 						setSubmitting(false);
-						setStatus({ submitError: 'Ошибка при сохранении статьи' });
+						setStatus('Ошибка при сохранении статьи');
 					}
 				}}
 			>

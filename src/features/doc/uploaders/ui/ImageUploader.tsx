@@ -36,7 +36,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 	}, [initialUrls]);
 
 	const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const MAX_FILE_SIZE = 2*1024*1024
+		const MAX_FILE_SIZE = 1.5*1024*1024
 		const files = Array.from(e.target.files || []).filter(file =>
 			file.type.startsWith("image/") && file.size <= MAX_FILE_SIZE
 		);
