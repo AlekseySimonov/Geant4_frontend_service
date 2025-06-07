@@ -84,7 +84,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 									<ImageUploader
 										fieldName={`subscriptions.${index}.elements[${i}].files`}
 										setFieldValue={setFieldValue}
-										initialUrls={element.files?.filter(f => 'url' in f).map(f => (f as any).url)}
+										initialValues={element.files}
 									/>
 								</Box>
 							</OutlinedBox>
@@ -99,7 +99,7 @@ const EditorBlock: React.FC<EditorBlockProps> = ({ id, index, data, setFieldValu
 									<GraphUploader
 										fieldName={`subscriptions.${index}.elements[${i}].files`}
 										setFieldValue={setFieldValue}
-										initialUrls={element.files?.filter(f => 'url' in f).map(f => (f as any).url)} // <-- добавь это
+										initialValues={element.files}
 									/>
 								</Box>
 							</OutlinedBox>

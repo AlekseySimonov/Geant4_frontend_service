@@ -6,7 +6,7 @@ import { hideAlert } from '../model/alertSlice';
 import styles from "./alert.module.scss";
 
 export const AlertPopup = () => {
-	const { message, visible, severity } = useSelector((state: RootState) => state.alert);
+	const { message, visible, severity, id } = useSelector((state: RootState) => state.alert);
 	const dispatch: AppDispatch = useDispatch();
 
 	useEffect(() => {
@@ -14,7 +14,7 @@ export const AlertPopup = () => {
 			const timer = setTimeout(() => dispatch(hideAlert()), 5000);
 			return () => clearTimeout(timer);
 		}
-	}, [visible, dispatch]);
+	}, [id, dispatch]);
 
 	return (
 		<div className={styles.alert}>

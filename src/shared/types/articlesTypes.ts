@@ -19,18 +19,18 @@ export interface ArticlesTypes {
 }
 
 export type ExtendedArticlesTypes = Omit<ArticlesTypes, 'category' | 'chapter'> & {
-	category: number | null;
-	chapter: number | null;
+	category?: number | null;
+	chapter?: number | null;
 };
 
 export interface FileFormat {
-	format: 'csv' | 'webp' | 'other';
+	format: 'csv' | 'webp' | 'text';
 }
 
 export interface SubscriptionElement {
-	text: string;
-	element_order: number;
-	type: 'text' | 'webp' | 'csv';
+	text?: string;
+	element_order?: number;
+	type?: 'text' | 'webp' | 'csv';
 	files: FileFormat[];
 }
 
@@ -69,4 +69,8 @@ export interface ServerFile extends FileFormat {
 	id?: number;
 	uuid?: string;
 	url?: string;
+}
+
+export interface LocalServerFile extends ServerFile {
+	file?: File;
 }

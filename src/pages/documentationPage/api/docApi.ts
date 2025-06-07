@@ -38,7 +38,7 @@ export const docApi = createApi({
 					url: `${URLS.ARTICLES}${id}`,
 					method: 'GET',
 				}),
-				providesTags: ['Doc'],
+				providesTags: (id: number) => [{ type: 'Doc' as const, id }],
 			}),
 			postArticle: mutation<ArticleResponse, ExtendedArticlesTypes>({
 				query: (body) => ({
@@ -64,7 +64,7 @@ export const docApi = createApi({
 					url: `${URLS.ARTICLES}${id}`,
 					method: 'DELETE',
 				}),
-				invalidatesTags: ['Doc'],
+				invalidatesTags: (id) => [{ type: 'Doc' as const, id }],
 			}),
 			uploadFile: mutation({
 				query: ({ uploadUrl, file }: { uploadUrl: string; file: File }) => {

@@ -1,6 +1,5 @@
 import { ArticlesTypes } from "@/shared/types";
 import { ArticleResponse, ExtendedArticlesTypes, ServerSubscription } from "@/shared/types/articlesTypes";
-import { FilterTypes } from "@/shared/ui/components/filter";
 interface InitialValuesProps {
 	isEditMode: boolean;
 	existingArticle?: ArticleResponse;
@@ -39,7 +38,9 @@ function normalizeServerSubscriptions(
 			text: el.text,
 			element_order: el.element_order,
 			type: el.type as 'text' | 'webp' | 'csv',
-			files: el.files,
+			files: el.files?.map((f) => ({
+				...f
+			})) ?? [],
 		})),
 	}));
 }

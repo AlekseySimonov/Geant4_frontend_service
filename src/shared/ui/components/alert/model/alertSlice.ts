@@ -3,13 +3,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface AlertState {
 	message: string;
 	visible: boolean;
-	severity: 'info' | 'error' ;
+	severity: 'info' | 'error';
+	id: number;
 }
 
 const initialState: AlertState = {
 	message: '',
 	visible: false,
 	severity: 'info',
+	id: 0,
 };
 
 const alertSlice = createSlice({
@@ -20,10 +22,12 @@ const alertSlice = createSlice({
 			state.message = action.payload.message;
 			state.visible = true;
 			state.severity = action.payload.severity || 'info';
+			state.id = Date.now();
 		},
 		hideAlert(state) {
 			state.visible = false;
 			state.message = '';
+			state.id = 0;
 		},
 	},
 });

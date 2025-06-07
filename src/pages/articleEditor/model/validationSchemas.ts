@@ -31,5 +31,7 @@ export const articleValidationSchema = Yup.object().shape({
 	category: Yup.number().min(1, 'Категория обязательна').required(),
 	chapter: Yup.number().min(1, 'Глава обязательна').required(),
 
-	subscriptions: Yup.array().of(subscriptionSchema),
+	subscriptions: Yup.array()
+		.of(subscriptionSchema)
+		.min(1, 'Хотя бы один блок обязателен'),
 });

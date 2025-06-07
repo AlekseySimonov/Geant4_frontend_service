@@ -74,11 +74,11 @@ const ArticleEditor: React.FC = () => {
 						setSubmitting(false);
 						dispatch(
 							showAlert({
-								message: 'Статья успешно опубликована',
+								message: `Статья успешно ${isEditMode ? "обновлена" : "опубликована"}`,
 								severity: 'info',
 							})
 						);
-						navigate(`/documentation/articles/${articleId}`)
+						// navigate(`/documentation/articles/${articleId}`)
 					} catch (err) {
 						setSubmitting(false);
 						setStatus('Ошибка при сохранении статьи');

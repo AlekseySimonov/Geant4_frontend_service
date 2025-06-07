@@ -1,10 +1,10 @@
-import { Article } from "@/entities";
 import { ArticlesList, ImportantArticles } from "@/features";
 import { lazy } from "react";
 import { Navigate } from "react-router";
 
 const DocumentationPage = lazy(() => import("@/pages").then(module => ({ default: module.DocumentationPage })))
 const ArticleEditor = lazy(() => import("@/pages").then(module => ({ default: module.ArticleEditor })))
+const Article = lazy(() => import("@/entities").then(module => ({ default: module.Article })))
 
 export const docRoutes = {
 	path: "/documentation",

@@ -1,5 +1,5 @@
 import { usePatchArticleMutation, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
-import { ExtendedArticlesTypes, ServerFile } from "@/shared/types/articlesTypes";
+import { ExtendedArticlesTypes, LocalServerFile, ServerFile } from "@/shared/types/articlesTypes";
 import { preparePayloadForPatch, preparePayloadForPost } from "./preparePayload";
 import { getDirtyValues } from "@/shared/model";
 
@@ -28,61 +28,54 @@ export const handleSubmit = async ({
 	uploadFile,
 }: SubmitDeps): Promise<SubmitResult> => {
 	try {
-		let response;
 
-		if (isEditMode) {
-			if (!id || !existingArticle) {
-				throw new Error("Для редактирования нужны `id` и `existingArticle`");
-			}
+		const response = isEditMode
+			? await patchArticle({ id: id!, changes: preparePayloadForPatch(values, existingArticle!) }).unwrap()
+			: await createArticle(preparePayloadForPost(values)).unwrap();
 
-			const dirty = getDirtyValues(existingArticle, values);
-			const payload = preparePayloadForPatch(dirty);
-			response = await patchArticle({ id, changes: payload }).unwrap();
-		} else {
-			const payload = preparePayloadForPost(values);
-			response = await createArticle(payload).unwrap();
+		const uploads: Promise<any>[] = [];
+
+		console.log('existingArticle: ', existingArticle)
+		console.log('response: ',response)
+
+		const existingFileUuids = new Set<string>();
+
+		if (isEditMode && existingArticle?.subscriptions) {
+			existingArticle.subscriptions.forEach((sub) => {
+				sub.elements?.forEach((el) => {
+					el.files?.forEach((f) => {
+						if (f.uuid) existingFileUuids.add(f.uuid);
+					});
+				});
+			});
 		}
 
-		const filesToUpload: Promise<any>[] = [];
+		console.log(existingFileUuids)
+		console.log('values:', values)
 
-		response.subscriptions?.forEach((srvSub, subIdx) => {
-			const localSub = values.subscriptions?.[subIdx];
-			const originalSub = existingArticle?.subscriptions?.[subIdx];
+		response.subscriptions?.forEach((srvSub: any, subIdx: number) => {
+			srvSub.elements?.forEach((srvEl: any, elIdx: number) => {
+				srvEl.files?.forEach((srvFile: ServerFile, fileIdx: number) => {
+					const fileObj = values.subscriptions?.[subIdx]?.elements?.[elIdx]?.files?.[fileIdx];
+					const localFile = (fileObj as LocalServerFile)?.file;
 
-			srvSub.elements?.forEach((srvEl, elIdx) => {
-				const localEl = localSub?.elements?.[elIdx];
-				const originalEl = originalSub?.elements?.[elIdx];
+					const shouldUpload =
+						localFile instanceof File &&
+						(!srvFile.uuid || !existingFileUuids.has(srvFile.uuid)) && !!srvFile.url;
 
-				srvEl.files?.forEach((srvFile, fileIdx) => {
-					const fileToUpload = localEl?.files?.[fileIdx];
-					const originalFile = originalEl?.files?.[fileIdx];
-
-					const isChanged = !isEditMode || (
-						fileToUpload instanceof File &&
-						!(
-							originalFile instanceof File &&
-							fileToUpload.name === originalFile.name &&
-							fileToUpload.size === originalFile.size &&
-							fileToUpload.lastModified === originalFile.lastModified
-						)
-					);
-
-					if (fileToUpload instanceof File && srvFile.url && isChanged) {
-						filesToUpload.push(
-							uploadFile({
-								uploadUrl: srvFile.url,
-								file: fileToUpload,
-							}).unwrap()
-						);
+					if (shouldUpload) {
+						uploads.push(uploadFile({ uploadUrl: srvFile.url, file: localFile }).unwrap());
 					}
 				});
 			});
 		});
 
-		await Promise.all(filesToUpload);
+
+
+		await Promise.all(uploads);
 		return { articleId: response.id };
 	} catch (err) {
-		console.error('Error during submission:', err);
+		console.error("Error during submission:", err);
 		throw err;
 	}
 };

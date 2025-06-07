@@ -1,63 +1,53 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./_uploader.module.scss"
+import styles from "./_uploader.module.scss";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useDispatch } from "react-redux";
 import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
+import { ServerFile } from "@/shared/types/articlesTypes";
+
 interface ImageUploaderProps {
 	fieldName: string;
-	setFieldValue: (field: string, value: File[]) => void;
-	initialUrls?: string[];
+	setFieldValue: (field: string, value: ServerFile[]) => void;
+	initialValues?: ServerFile[];
 }
 
-export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFieldValue, initialUrls }) => {
+export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFieldValue, initialValues }) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const [images, setImages] = useState<File[]>([]);
-	const [previews, setPreviews] = useState<string[]>([]);
+	const [images, setImages] = useState<ServerFile[]>(initialValues || []);
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const dispatch = useDispatch()
-
-	async function urlToFileAuto(url: string): Promise<File> {
-		const response = await fetch(url);
-		const blob = await response.blob();
-		const contentType = response.headers.get("Content-Type") || "application/octet-stream";
-		const filename = url.split("/").pop() || "file";
-		return new File([blob], filename, { type: contentType });
-	}
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!initialUrls?.length) return;
-
-		Promise.all(initialUrls.map(url => urlToFileAuto(url))).then(files => {
-			setImages(files);
-			setPreviews(files.map(file => URL.createObjectURL(file)));
-			setFieldValue(fieldName, files);
-		});
-	}, [initialUrls]);
+		if (!initialValues?.length) return;
+		setImages(initialValues);
+		setFieldValue(fieldName, initialValues);
+	}, [initialValues]);
 
 	const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const MAX_FILE_SIZE = 1.5*1024*1024
-		const files = Array.from(e.target.files || []).filter(file =>
-			file.type.startsWith("image/") && file.size <= MAX_FILE_SIZE
+		const MAX_FILE_SIZE = 1.5 * 1024 * 1024;
+		const newInputFiles = Array.from(e.target.files || []).filter(
+			(file) => file.type.startsWith("image/") && file.size <= MAX_FILE_SIZE
 		);
 
-		if (files.length < (e.target.files?.length || 0)) {
-			dispatch(
-				showAlert({
-					message: 'Файл(ы) превышают максимальный размер и не были добавлены',
-					severity: 'error',
-				})
-			);
+		if (newInputFiles.length < (e.target.files?.length || 0)) {
+			dispatch(showAlert({
+				message: "Файл(ы) превышают максимальный размер и не были добавлены",
+				severity: "error",
+			}));
 		}
 
-		const newFiles = [...images, ...files].slice(0, 5);
-		setImages(newFiles);
-		setFieldValue(fieldName, newFiles);
+		const newServerFiles: ServerFile[] = newInputFiles.map((file) => ({
+			format: "webp",
+			url: URL.createObjectURL(file),
+			file,
+		}));
 
-		const newPreviews = newFiles.map(file => URL.createObjectURL(file));
-		setPreviews(newPreviews);
+		const combined: ServerFile[] = [...images, ...newServerFiles].slice(0, 5);
+		setImages(combined);
+		setFieldValue(fieldName, combined);
 
-		if (currentIndex >= newPreviews.length) {
+		if (currentIndex >= combined.length) {
 			setCurrentIndex(0);
 		}
 	};
@@ -65,14 +55,11 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 	const handleRemove = (index: number) => {
 		const globalIndex = currentIndex + index;
 		const newFiles = images.filter((_, i) => i !== globalIndex);
-		const newPreviews = previews.filter((_, i) => i !== globalIndex);
-
 		setImages(newFiles);
-		setPreviews(newPreviews);
 		setFieldValue(fieldName, newFiles);
 
-		if (currentIndex > 0 && currentIndex + 3 > newPreviews.length - 1) {
-			setCurrentIndex(prev => Math.max(0, prev - 1));
+		if (currentIndex > 0 && currentIndex + 3 > newFiles.length - 1) {
+			setCurrentIndex((prev) => Math.max(0, prev - 1));
 		}
 	};
 
@@ -81,15 +68,15 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 	};
 
 	const handleNext = () => {
-		if (currentIndex + 3 < previews.length) setCurrentIndex(prev => prev + 1);
+		if (currentIndex + 3 < images.length) setCurrentIndex(prev => prev + 1);
 	};
 
-	const visiblePreviews = previews.slice(currentIndex, currentIndex + 3);
+	const visiblePreviews = images.slice(currentIndex, currentIndex + 3);
 
 	return (
 		<div className={styles.imgUploader}>
 			<div className={styles.imgUploader__slider}>
-				{previews.length > 0 && (
+				{images.length > 0 && (
 					<div className={styles.imgUploader__slider__container}>
 						<button
 							type="button"
@@ -101,9 +88,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 						</button>
 
 						<div className={styles.imgUploader__slider__track}>
-							{visiblePreviews.map((src, i) => (
+							{visiblePreviews.map((file, i) => (
 								<div key={i} className={styles.imgUploader__image}>
-									<img src={src} alt={`preview-${currentIndex + i}`} />
+									<img src={file.url} alt={`preview-${currentIndex + i}`} />
 									<button
 										type="button"
 										className={styles.imgUploader__remove}
@@ -119,7 +106,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 							type="button"
 							className={styles.imgUploader__arrow}
 							onClick={handleNext}
-							disabled={currentIndex + 3 >= previews.length}
+							disabled={currentIndex + 3 >= images.length}
 						>
 							<ArrowBackIosRoundedIcon style={{ transform: "rotate(180deg)" }} />
 						</button>
