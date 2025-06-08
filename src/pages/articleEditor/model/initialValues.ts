@@ -11,6 +11,7 @@ export const initialValues = ({
 }: InitialValuesProps): ExtendedArticlesTypes => {
 	if (isEditMode && existingArticle) {
 		return {
+			id: existingArticle.id,
 			title: existingArticle.title,
 			description: existingArticle.description,
 			subscriptions: normalizeServerSubscriptions(existingArticle.subscriptions),
@@ -32,9 +33,11 @@ function normalizeServerSubscriptions(
 	subs: ServerSubscription[]
 ): ArticlesTypes['subscriptions'] {
 	return subs.map((sub) => ({
+		id: sub.id,
 		title: sub.title,
 		subscription_order: sub.subscription_order,
 		elements: sub.elements.map((el) => ({
+			id: el.id,
 			text: el.text,
 			element_order: el.element_order,
 			type: el.type as 'text' | 'webp' | 'csv',

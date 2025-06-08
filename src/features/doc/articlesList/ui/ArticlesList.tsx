@@ -3,11 +3,13 @@ import { useGetCategoriesQuery, useGetChaptersQuery, useGetStaffQuery } from "@/
 import { useImportantArticles } from "../model";
 import styles from "./_articleList.module.scss";
 import { ArticleCard, ArticleFiltersUrl, ImportantArticleCard } from "@/entities/doc";
-import { IconButton, Pagination, useMediaQuery } from "@mui/material";
+import { CircularProgress, IconButton, Pagination, useMediaQuery } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useNavigate, useSearchParams } from "react-router";
 import { useLazySearchArticlesQuery } from "@/pages/documentationPage/api/queryDoc";
+import { RootState } from "@/app/store";
+import { useSelector } from "react-redux";
 
 const ArticlesList: React.FC = () => {
 	const { importantArticles } = useImportantArticles();
@@ -19,7 +21,8 @@ const ArticlesList: React.FC = () => {
 	const navigate = useNavigate();
 	const isWideScreen = useMediaQuery('(min-width:1350px)');
 
-	const [searchArticle] = useLazySearchArticlesQuery();
+	const [searchArticle, { isFetching }] = useLazySearchArticlesQuery();
+	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
 	const [articles, setArticles] = useState([]);
 	const [pageCount, setPageCount] = useState(1);
@@ -95,7 +98,9 @@ const ArticlesList: React.FC = () => {
 				/>
 
 				<div className={styles.articles__cards}>
-					{articles.length > 0 ? (
+					{(isFetching && !globalLoading) ? (
+						<div className={styles.loadingContainer}><CircularProgress /></div>
+					) : articles.length > 0 ? (
 						<>
 							{articles.map(article => (
 								<ArticleCard

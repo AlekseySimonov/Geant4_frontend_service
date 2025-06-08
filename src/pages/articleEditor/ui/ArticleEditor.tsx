@@ -78,7 +78,7 @@ const ArticleEditor: React.FC = () => {
 								severity: 'info',
 							})
 						);
-						// navigate(`/documentation/articles/${articleId}`)
+						navigate(`/documentation/articles/view/${articleId}`)
 					} catch (err) {
 						setSubmitting(false);
 						setStatus('Ошибка при сохранении статьи');

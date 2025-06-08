@@ -1,13 +1,15 @@
 import styles from "./_articleList.module.scss"
 import { ArticleCard } from "@/entities/doc";
-import { Pagination } from "@mui/material";
+import { CircularProgress, Pagination } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import { useImportantArticles } from "../model";
-import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 
 const ImportantArticles: React.FC = () => {
-	const { importantArticles: articles } = useImportantArticles();
+	const { importantArticles: articles} = useImportantArticles();
+	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 	const navigate = useNavigate();
 
 	return (
@@ -18,7 +20,9 @@ const ImportantArticles: React.FC = () => {
 			</div>
 
 			<div className={styles.articles__cards}>
-				{articles.length > 0 ? (
+				{globalLoading ? (
+					<div className={styles.loadingContainer}><CircularProgress /></div>
+				) : articles.length > 0 ? (
 					<>
 						{articles.map(article => (
 							<ArticleCard

@@ -8,24 +8,43 @@ export const preparePayloadForPatch = (
 	const dirty = getDirtyValues(existing, values);
 
 	if (dirty.subscriptions) {
-		const patchedSubscriptions = dirty.subscriptions.map(sub => ({
-			...sub,
-			elements: sub.elements?.map(el => ({
-				...el,
-				files: el.files?.map(file => {
-					if (!('uuid' in file) || !file.uuid) {
-						return { format: file.format };
-					}
-					return file;
-				}) || [],
-			})) || [],
-		}));
+		const patchedSubscriptions = dirty.subscriptions.map((sub, subIdx) => {
+			const existingSub = existing.subscriptions?.[subIdx];
+
+			return {
+				...sub,
+				id: existingSub?.id,
+				elements: sub.elements?.map((el, elIdx) => {
+					const existingEl = existingSub?.elements?.[elIdx];
+
+					return {
+						...el,
+						id: existingEl?.id,
+						files: el.files?.map((file, fileIdx) => {
+							const existingFile = existingEl?.files?.[fileIdx];
+
+							if (!('uuid' in file) || !file.uuid) {
+								return {
+									format: file.format
+								};
+							}
+
+							return {
+								...file,
+								id: existingFile?.id
+							};
+						}) || []
+					};
+				}) || []
+			};
+		});
 
 		dirty.subscriptions = patchedSubscriptions;
 	}
-	console.log('dirty: ',dirty)
+
 	return dirty;
 };
+
 
 export const preparePayloadForPost = (
 	values: ExtendedArticlesTypes

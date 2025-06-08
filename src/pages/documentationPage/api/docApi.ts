@@ -10,6 +10,8 @@ export interface CategoryOrChapter {
 	title: string;
 }
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export const docApi = createApi({
 	reducerPath: 'docApi',
 	baseQuery: apiBaseQuery(process.env.API_BASE_URL),
@@ -75,6 +77,12 @@ export const docApi = createApi({
 						method: 'POST',
 						body: formData,
 					};
+				},
+				async onQueryStarted(_, { queryFulfilled }) {
+					await Promise.all([
+						queryFulfilled,
+						sleep(3000),
+					]);
 				},
 			}),
 			getGraph: query<string, string>({

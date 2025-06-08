@@ -35,9 +35,6 @@ export const handleSubmit = async ({
 
 		const uploads: Promise<any>[] = [];
 
-		console.log('existingArticle: ', existingArticle)
-		console.log('response: ',response)
-
 		const existingFileUuids = new Set<string>();
 
 		if (isEditMode && existingArticle?.subscriptions) {
@@ -49,9 +46,6 @@ export const handleSubmit = async ({
 				});
 			});
 		}
-
-		console.log(existingFileUuids)
-		console.log('values:', values)
 
 		response.subscriptions?.forEach((srvSub: any, subIdx: number) => {
 			srvSub.elements?.forEach((srvEl: any, elIdx: number) => {
@@ -69,8 +63,6 @@ export const handleSubmit = async ({
 				});
 			});
 		});
-
-
 
 		await Promise.all(uploads);
 		return { articleId: response.id };

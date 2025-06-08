@@ -2,9 +2,11 @@ export interface ArticlesTypes {
 	id?: number;
 	category?: string;
 	subscriptions?: {
+		id?: number;
 		title: string;
 		subscription_order: number;
 		elements: {
+			id?: number;
 			text: string;
 			element_order: number;
 			type: 'text' | 'webp' | 'csv';

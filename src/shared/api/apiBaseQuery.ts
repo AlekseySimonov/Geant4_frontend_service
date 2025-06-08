@@ -1,6 +1,7 @@
 import { AxiosRequestConfig, AxiosError } from 'axios';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axiosClient from './axiosClient';
+import { showAlert } from '../ui/components/alert/model/alertSlice';
 
 interface AxiosBaseQueryParams {
 	url: string;
@@ -49,10 +50,20 @@ export const apiBaseQuery =
 			} catch (axiosError) {
 				const err = axiosError as AxiosError;
 
-				
+				const status = err.response?.status;
+
+				if (status && status >= 500) {
+					api.dispatch(
+						showAlert({
+							message: 'Произошла ошибка. Пожалуйста, попробуйте позже.',
+							severity: 'error',
+						})
+					);
+				}
+
 				return {
 					error: {
-						status: err.response?.status,
+						status,
 						data: err.response?.data || err.message,
 					},
 				};
