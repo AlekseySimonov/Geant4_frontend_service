@@ -32,7 +32,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ fieldName, setFiel
 
 		if (newInputFiles.length < (e.target.files?.length || 0)) {
 			dispatch(showAlert({
-				message: "Файл(ы) превышают максимальный размер и не были добавлены",
+				message: "Файл(ы) превышают максимальный размер 1,5 МБ и не были добавлены",
 				severity: "error",
 			}));
 		}
