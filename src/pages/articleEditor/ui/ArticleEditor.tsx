@@ -16,6 +16,7 @@ import { articleValidationSchema } from "../model/validationSchemas";
 import { EditOptions, SortableEditorBlocks } from "@/features";
 import { initialValues } from "../model/initialValues";
 import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
+import { addRequest, removeRequest } from "@/shared/model/slices";
 
 const ArticleEditor: React.FC = () => {
 
@@ -61,6 +62,7 @@ const ArticleEditor: React.FC = () => {
 				initialValues={initialValues({ isEditMode, existingArticle })}
 				validationSchema={articleValidationSchema}
 				onSubmit={async (values, { setSubmitting, setStatus }) => {
+					const requestId = `submit-article-${Date.now()}`
 					try {
 						const { articleId } = await handleSubmit({
 							values,
@@ -71,6 +73,8 @@ const ArticleEditor: React.FC = () => {
 							patchArticle,
 							uploadFile,
 						});
+						dispatch(addRequest(requestId))
+						await new Promise(resolve => setTimeout(resolve, 3000))
 						setSubmitting(false);
 						dispatch(
 							showAlert({
@@ -78,9 +82,11 @@ const ArticleEditor: React.FC = () => {
 								severity: 'info',
 							})
 						);
+						dispatch(removeRequest(requestId))
 						navigate(`/documentation/articles/view/${articleId}`)
 					} catch (err) {
 						setSubmitting(false);
+						dispatch(removeRequest(requestId))
 						setStatus('Ошибка при сохранении статьи');
 					}
 				}}

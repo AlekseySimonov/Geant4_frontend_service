@@ -78,12 +78,6 @@ export const docApi = createApi({
 						body: formData,
 					};
 				},
-				async onQueryStarted(_, { queryFulfilled }) {
-					await Promise.all([
-						queryFulfilled,
-						sleep(3000),
-					]);
-				},
 			}),
 			getGraph: query<string, string>({
 				query: (url: string) => ({
