@@ -10,12 +10,10 @@ export interface CategoryOrChapter {
 	title: string;
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
 export const docApi = createApi({
 	reducerPath: 'docApi',
 	baseQuery: apiBaseQuery(process.env.API_BASE_URL),
-	tagTypes: ['Doc'],
+	tagTypes: ['Doc', 'Favorites'],
 	endpoints: (builder) => {
 		const mutation = <TData = any, TArgs = any>(options: Parameters<typeof builder.mutation<TData, TArgs>>[0]) =>
 			builder.mutation<TData, TArgs>({
@@ -34,6 +32,28 @@ export const docApi = createApi({
 					url: `${URLS.ARTICLES}?page=${page}&limit=${limit}`,
 					method: 'GET',
 				}),
+			}),
+			getFavorites: query<ArticlesTypes[], void>({
+				query: () => ({
+					url: URLS.CHOSEN_ARTICLES,
+					method: 'GET',
+				}),
+				providesTags: ['Favorites'],
+			}),
+			postFavorite: mutation<void,  { article: number }>({
+				query: (articleData) => ({
+					url: URLS.CHOSEN_ARTICLES,
+					method: 'POST',
+					data: articleData,
+				}),
+				invalidatesTags: ['Favorites'],
+			}),
+			deleteFavorite: mutation({
+				query: (id: number) => ({
+					url: `${URLS.CHOSEN_ARTICLES}${id}`,
+					method: 'DELETE',
+				}),
+				invalidatesTags: ['Favorites'],
 			}),
 			getArticle: query<ArticleResponse, number>({
 				query: (id: number) => ({
@@ -176,4 +196,7 @@ export const {
 	usePatchArticleMutation,
 	useUploadFileMutation,
 	useGetGraphQuery,
+	useGetFavoritesQuery,
+	usePostFavoriteMutation,
+	useDeleteFavoriteMutation,
 } = docApi;

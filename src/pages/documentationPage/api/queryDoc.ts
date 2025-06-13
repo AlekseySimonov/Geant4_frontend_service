@@ -8,13 +8,12 @@ interface QueryParamsTypes{
 	chapter?: string;
 	page?: number;
 	page_size?: number;
-	chosen?: boolean;
 }
 
 export const queryDoc = docApi.injectEndpoints({
 	endpoints: (builder) => ({
 		searchArticles: builder.query<ArticlesTypes[], QueryParamsTypes>({
-			query: ({ query, category, chapter, page = 1, page_size = 10, chosen }) => ({
+			query: ({ query, category, chapter, page = 1, page_size = 10}) => ({
 				url: URLS.ARTICLES,
 				method: 'GET',
 				params: {
@@ -23,7 +22,6 @@ export const queryDoc = docApi.injectEndpoints({
 					...(chapter && { chapter: chapter }),
 					page,
 					page_size,
-					chosen,
 				},
 			}),
 		}),

@@ -5,6 +5,7 @@
 	max-width: 400px;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	transition: max-width 0.3s ease;
 	@media (max-width: 800px){
 		top: 15%;
 	}

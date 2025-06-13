@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useGetCategoriesQuery, useGetChaptersQuery, useGetStaffQuery } from "@/pages/documentationPage/api/docApi";
-import { useImportantArticles } from "../model";
+import { useGetCategoriesQuery, useGetChaptersQuery, useGetFavoritesQuery, useGetStaffQuery } from "@/pages/documentationPage/api/docApi";
 import styles from "./_articleList.module.scss";
 import { ArticleCard, ArticleFiltersUrl, ImportantArticleCard } from "@/entities/doc";
 import { CircularProgress, IconButton, Pagination, useMediaQuery } from "@mui/material";
@@ -12,7 +11,7 @@ import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 
 const ArticlesList: React.FC = () => {
-	const { importantArticles } = useImportantArticles();
+	const { data: importantArticles = [] } = useGetFavoritesQuery();
 	const { data: categories = [] } = useGetCategoriesQuery();
 	const { data: chapters = [] } = useGetChaptersQuery();
 	const { data: isStaff } = useGetStaffQuery();
@@ -78,7 +77,7 @@ const ArticlesList: React.FC = () => {
 					<h2>Пользовательское руководство</h2>
 					<div>
 						{!isWideScreen && (
-							<SecondaryButton label="Важные статьи" link="/documentation/articles/important" />
+							<SecondaryButton label="Избранные статьи" link="/documentation/articles/important" />
 						)}
 
 						{isStaff?.is_staff && (

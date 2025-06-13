@@ -1,4 +1,4 @@
-import { Alert, Fade } from '@mui/material';
+import { Alert, Zoom } from '@mui/material';
 import { useEffect } from 'react';
 import { AppDispatch, RootState } from '@/app/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,9 +18,9 @@ export const AlertPopup = () => {
 
 	return (
 		<div className={styles.alert}>
-			<Fade in={visible}>
+			<Zoom  in={visible} timeout={300}>
 				<Alert severity={severity}>{message}</Alert>
-			</Fade>
+			</Zoom>
 		</div>
 	);
 };

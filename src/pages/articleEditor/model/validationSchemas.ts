@@ -28,8 +28,6 @@ const subscriptionSchema = Yup.object().shape({
 export const articleValidationSchema = Yup.object().shape({
 	title: Yup.string().required('Название обязательно'),
 	description: Yup.string().required('Описание обязательно'),
-	category: Yup.number().min(1, 'Категория обязательна').required(),
-	chapter: Yup.number().min(1, 'Глава обязательна').required(),
 
 	subscriptions: Yup.array()
 		.of(subscriptionSchema)

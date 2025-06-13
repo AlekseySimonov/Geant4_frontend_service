@@ -14,7 +14,7 @@ interface GraphUploaderProps {
 }
 
 export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFieldValue, initialValues }) => {
-		const [graphFiles, setGraphFiles] = useState<ServerFile[]>(initialValues || []);
+	const [graphFiles, setGraphFiles] = useState<ServerFile[]>(initialValues || []);
 	const [data, setData] = useState<DataSeries[]>([]);
 	const dispatch = useDispatch();
 
