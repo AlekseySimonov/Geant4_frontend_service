@@ -27,6 +27,7 @@ export const EditOptions: React.FC<AddingOptionProps> = ({ type, existingOptions
 		<Formik
 			initialValues={initialValues}
 			validationSchema={validationSchema}
+			enableReinitialize={true}
 			onSubmit={(values, { setStatus }) => {
 				editOptionsSubmit({
 					type,

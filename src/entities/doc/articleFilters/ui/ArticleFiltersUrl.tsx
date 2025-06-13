@@ -27,6 +27,9 @@ export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
 		handleSearch,
 		handleSearchSelect,
 		handleReset,
+		resetCategory,
+		resetChapter,
+		resetKey,
 	} = useArticleFilters(categories, chapters);
 
 	return (
@@ -36,6 +39,7 @@ export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
 					searchValue={searchValue}
 					onSearch={handleSearch}
 					onOptionSelect={handleSearchSelect}
+					resetKey={resetKey}
 				/>
 				<Filter
 					options={categories}
@@ -43,6 +47,7 @@ export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
 					width={isMobile ? '140px' : '230px'}
 					onOptionSelect={handleCategoryChange}
 					selectedOption={selectedCategory}
+					onButtonReset={resetCategory}
 				/>
 				<Filter
 					options={chapters}
@@ -50,6 +55,7 @@ export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
 					width={isMobile ? '120px' : '200px'}
 					onOptionSelect={handleChapterChange}
 					selectedOption={selectedChapter}
+					onButtonReset={resetChapter}
 				/>
 
 				{isMobile ? (

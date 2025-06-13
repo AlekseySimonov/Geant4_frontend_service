@@ -133,7 +133,7 @@ export const docApi = createApi({
 			}),
 			deleteCategories: mutation({
 				query: (ids: number[]) => ({
-					url: URLS.CHAPTERS_BULK_DELETE,
+					url: URLS.CATEGORIES_BULK_DELETE,
 					method: 'DELETE',
 					body: ids,
 				}),

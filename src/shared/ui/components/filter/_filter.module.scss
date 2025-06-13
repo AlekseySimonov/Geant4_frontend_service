@@ -98,6 +98,9 @@
 		&__item:hover {
 			background-color: var(--mui-palette-background-default);
 		}
+		&__reset{
+				font-weight: 600;
+		}
 		&__info{
 			padding: 8px 12px 8px 44px; 
 		}

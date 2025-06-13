@@ -13,7 +13,9 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 	onEditCategoryClick,
 	onEditChapterClick,
 	categoryError,
-	chapterError
+	chapterError,
+	onChapterButtonReset,
+	onCategoryButtonReset
 }) => {
 	const isMobile = useMediaQuery('(max-width: 700px)');
 
@@ -27,6 +29,7 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 				selectedOption={selectedCategory}
 				onAddButtonClick={onEditCategoryClick}
 				hasError={categoryError}
+				onButtonReset={onCategoryButtonReset}
 			/>
 			<Filter
 				options={chapters}
@@ -36,6 +39,7 @@ export const ArticleFilters: React.FC<ArticleFiltersProps> = ({
 				selectedOption={selectedChapter}
 				onAddButtonClick={onEditChapterClick}
 				hasError={chapterError}
+				onButtonReset={onChapterButtonReset}
 			/>
 		</div>
 	);

@@ -13,6 +13,7 @@ export const Filter: React.FC<FilterProps> = ({
 	selectedOption,
 	onAddButtonClick,
 	hasError,
+	onButtonReset
 }) => {
 	const [open, setOpen] = useState(false);
 	const filterRef = useRef<HTMLDivElement | null>(null);
@@ -23,6 +24,7 @@ export const Filter: React.FC<FilterProps> = ({
 		setOpen(false);
 		onOptionSelect?.(option);
 	};
+
 
 	return (
 		<div
@@ -65,6 +67,7 @@ export const Filter: React.FC<FilterProps> = ({
 								</div>
 							))
 					)}
+
 					{onAddButtonClick && (
 						<div
 							className={styles.filter__popper__item}
@@ -75,6 +78,18 @@ export const Filter: React.FC<FilterProps> = ({
 						>
 							<CreateOutlinedIcon style={{ fontSize: 25 }} />
 							<p>Редактировать список</p>
+						</div>
+					)}
+
+					{typeof onButtonReset === 'function' && (
+						<div
+							className={`${styles.filter__popper__item} ${styles.filter__popper__reset}`}
+							onClick={() => {
+								setOpen(false);
+								onButtonReset();
+							}}
+						>
+							Сбросить
 						</div>
 					)}
 				</div>)}

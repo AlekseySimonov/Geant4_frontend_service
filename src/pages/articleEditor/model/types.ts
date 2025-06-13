@@ -11,4 +11,6 @@ export interface ArticleFiltersProps {
 	onEditChapterClick: () => void;
 	categoryError?: boolean;
 	chapterError?: boolean;
+	onChapterButtonReset?: () => void;
+	onCategoryButtonReset?: () => void;
 }

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./_search.module.scss"
 import searchIcon from "@/shared/ui/assets/icons/search.svg"
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
@@ -10,6 +10,7 @@ export const Search: React.FC<SearchProps> = ({
 	onSearch,
 	onOptionSelect,
 	searchValue,
+	resetKey
 }) => {
 	const inputRef = useRef(null);
 	const {
@@ -22,6 +23,10 @@ export const Search: React.FC<SearchProps> = ({
 		loading,
 		options,
 	} = useSearch({ onSearch, onOptionSelect, searchValue });
+
+	useEffect(() => {
+		setSearchText(searchValue);
+	}, [resetKey, searchValue]);
 
 	return (
 		<div className={styles.search} onClick={handleSearchClick} ref={searchRef}>

@@ -118,6 +118,8 @@ const ArticleEditor: React.FC = () => {
 							onEditChapterClick={editChapter.openPopup}
 							categoryError={!!(errors.category)}
 							chapterError={!!(errors.chapter)}
+							onChapterButtonReset={resetChapter}
+							onCategoryButtonReset={resetCategory}
 						/>
 
 						<FormField name="description" placeholder="Описание" isMultiline />

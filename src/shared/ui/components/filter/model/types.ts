@@ -12,4 +12,5 @@ export interface FilterProps {
 	addButtonText?: string;
 	onAddButtonClick?: () => void;
 	hasError?: boolean;
+	onButtonReset?: () => void;
 }

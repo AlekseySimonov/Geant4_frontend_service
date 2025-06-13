@@ -1,10 +1,13 @@
 import { useSearchParams } from "react-router";
 import type { FilterTypes } from "@/shared/ui/components/filter/model/types";
 import { useLazySearchArticlesQuery } from "@/pages/documentationPage/api/queryDoc";
+import { useState } from "react";
 
 export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTypes[]) => {
 	const [searchArticle] = useLazySearchArticlesQuery();
 	const [searchParams, setSearchParams] = useSearchParams();
+
+	const [resetKey, setResetKey] = useState(0)
 
 	const categoryParam = searchParams.get("category");
 	const chapterParam = searchParams.get("chapter");
@@ -34,7 +37,6 @@ export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTyp
 		updateParams({ chapter: chapter.title });
 	};
 
-	// Поиск — подгрузка вариантов
 	const handleSearch = async (searchText: string) => {
 		if (!searchText.trim()) return [];
 
@@ -50,14 +52,18 @@ export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTyp
 		return [];
 	};
 
-	// Выбор статьи из поисковой выдачи или на Enter
 	const handleSearchSelect = (title: string) => {
 		updateParams({ query: title });
 	};
 
 	const handleReset = () => {
+		setResetKey(prev => prev + 1)
 		setSearchParams({}, { replace: true });
 	};
+
+	const resetCategory = () => updateParams({ category: null });
+	const resetChapter = () => updateParams({ chapter: null });
+
 
 	return {
 		selectedCategory,
@@ -68,6 +74,9 @@ export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTyp
 		handleSearch,
 		handleSearchSelect,
 		handleReset,
+		resetCategory,
+		resetChapter,
+		resetKey
 	};
 };
 
