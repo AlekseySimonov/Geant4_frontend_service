@@ -63,7 +63,7 @@ export const apiBaseQuery =
 
 				return {
 					error: {
-						status,
+						status: status ?? err.code ?? 'UNKNOWN_ERROR',
 						data: err.response?.data || err.message,
 					},
 				};

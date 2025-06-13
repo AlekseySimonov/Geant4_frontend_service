@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/store";
 import { deleteAvatar } from "@/features/avatar";
 import uploadImg from "@/shared/ui/assets/icons/uploadImg.svg"
+import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 
 export const ChangeAvatar: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 	const dispatch = useDispatch<AppDispatch>()
@@ -67,7 +68,7 @@ export const ChangeAvatar: React.FC<{ onClose: () => void }> = ({ onClose }) => 
 				<div className={styles.changeAvatar__input }>
 					<input
 						type="file"
-						onChange={(e) => onFileChange(e, setImageSrc)}
+						onChange={(e) => onFileChange(e, setImageSrc, dispatch)}
 						accept="image/*"
 						/>
 						<div className={styles.changeAvatar__input__info }>
