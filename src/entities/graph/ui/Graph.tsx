@@ -6,11 +6,28 @@ import styles from "./_graph.module.scss";
 import { usePlotlyStyles } from "../lib/plotlyStyles";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import { DataSeriesTable } from "@/entities/table";
+import katex from "katex";
+import "katex/dist/katex.min.css";
 
 type Props = {
   data: DataSeries[];
   title?: string;
 };
+
+const renderLaTeX = (text: string) => {
+    text = text.replace(/(?<!\$)\$([^\$]+?)\$(?!\$)/g, (_, formula) => {
+      try {
+        return katex.renderToString(formula.trim(), {
+          displayMode: false,
+          throwOnError: false,
+        });
+      } catch {
+        return `<code>$${formula}$</code>`;
+      }
+    });
+
+    return text;
+  };
 
 export const Graph = ({ data, title }: Props) => {
   const [visibleSeries, setVisibleSeries] = useState<Record<string, boolean>>({});
@@ -144,7 +161,9 @@ export const Graph = ({ data, title }: Props) => {
                   },
                 }}
               />
-              <span style={{ color: series.color }}>{series.id}</span>
+              <span style={{ color: series.color }} dangerouslySetInnerHTML={{
+									__html: renderLaTeX(series.id.toString()),
+								}}/>
             </label>
           ))}
         </div>
