@@ -9,9 +9,10 @@ import { DataSeriesTable } from "@/entities/table";
 
 type Props = {
   data: DataSeries[];
+  title?: string;
 };
 
-export const Graph = ({ data }: Props) => {
+export const Graph = ({ data, title }: Props) => {
   const [visibleSeries, setVisibleSeries] = useState<Record<string, boolean>>({});
   const [showTable, setShowTable] = useState(false);
   const [viewLayout, setViewLayout] = useState<Partial<Plotly.Layout>>({});
@@ -54,23 +55,38 @@ export const Graph = ({ data }: Props) => {
     }));
   }, [data, visibleSeries]);
 
-  const baseLayout: Partial<Plotly.Layout> = useMemo(() => ({
-    ...plotlyStyles,
-    autosize: true,
-    xaxis: {
-      title: { text: data[0]?.yUnit || "x" },
-      type: "linear",
-      automargin: true,
-    },
-    yaxis: {
-      title: { text: data[0]?.xUnit || "y" },
-      type: "linear",
-      automargin: true,
-    },
-    hovermode: "closest",
-    dragmode: 'pan',
-    showlegend: false,
-  }), [data, plotlyStyles]);
+  const baseLayout: Partial<Plotly.Layout> = useMemo(() => {
+    const xUnit = data[0]?.xUnit || "x";
+    const yUnit = data[0]?.yUnit || "y";
+
+    return {
+      ...plotlyStyles,
+      autosize: true,
+      title: {
+        text: title || "График",
+        font: {
+          size: 20,
+          family: "sans-serif",
+        },
+        xref: "paper",
+        x: 0.5,
+        xanchor: "center",
+      },
+      xaxis: {
+        title: { text: xUnit },
+        type: "linear",
+        automargin: true,
+      },
+      yaxis: {
+        title: { text: yUnit },
+        type: "linear",
+        automargin: true,
+      },
+      hovermode: "closest",
+      dragmode: "pan",
+      showlegend: false,
+    };
+  }, [data, plotlyStyles]);
 
   const handleRelayout = (event: Plotly.PlotRelayoutEvent) => {
     const newLayout: Partial<Plotly.Layout> = {};

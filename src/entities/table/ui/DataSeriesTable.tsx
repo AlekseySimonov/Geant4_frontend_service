@@ -15,7 +15,7 @@ export const DataSeriesTable: React.FC<DataSeriesTableProps> = ({ data }) => {
 				<TableHead>
 					<TableRow>
 						<TableCell>
-							<strong>X</strong> ({data[0].xUnit})
+							{data[0].xUnit}
 						</TableCell>
 						{data.map((series) => (
 							<TableCell key={series.id}>

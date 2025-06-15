@@ -17,6 +17,7 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 	const [graphFiles, setGraphFiles] = useState<ServerFile[]>(initialValues || []);
 	const [data, setData] = useState<DataSeries[]>([]);
 	const dispatch = useDispatch();
+	const [graphTitle, setGraphTitle] = useState<string>()
 
 	useEffect(() => {
 		if (!initialValues?.length) return;
@@ -26,11 +27,13 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 				const res = await fetch(initialValues[0].url);
 				const text = await res.text();
 				const parsed = parseGraphCSV(text);
-				setData(parsed);
+				setData(parsed.series);
+				setGraphTitle(parsed.title)
 				setFieldValue(fieldName, initialValues);
 			} catch (e) {
 				console.error("Ошибка загрузки CSV", e);
 				setData([]);
+				setGraphTitle('')
 				setFieldValue(fieldName, []);
 			}
 		};
@@ -54,7 +57,8 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 		try {
 			const text = await file.text();
 			const parsed = parseGraphCSV(text);
-			setData(parsed);
+			setData(parsed.series);
+			setGraphTitle(parsed.title)
 
 			const fileUrl = URL.createObjectURL(file);
 			const newServerFile: LocalServerFile = {
@@ -69,6 +73,7 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 		} catch (e) {
 			console.error("Ошибка парсинга CSV", e);
 			setData([]);
+			setGraphTitle('')
 			setGraphFiles([]);
 			setFieldValue(fieldName, []);
 		}
@@ -78,7 +83,7 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 			<FileUploadInput accept=".csv" onChange={handleFileUpload} />
 			{data.length > 0 &&
 				<div style={{ width: '100%', padding: '10px' }}>
-					<Graph data={data} />
+					<Graph data={data} title={graphTitle} />
 				</div>
 			}
 		</div>

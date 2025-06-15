@@ -1,16 +1,33 @@
 import { colorPalette } from "../lib/colors";
-import { DataSeries } from "./types";
+import { DataSeries, ParsedCSV } from "./types";
 
-export function parseGraphCSV(content: string): DataSeries[] {
-	const lines = content.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
-	const headerLineIndex = lines.findIndex(line => line.includes('E(MeV)'));
+function parseHeader(header: string): { name: string; unit?: string; label: string } {
+	const match = header.match(/^([^\[]+)(\[(.+?)\])?$/);
+	if (!match) return { name: header.trim(), label: header.trim() };
+	
+	const name = match[1].trim();
+	const unit = match[3]?.trim();
+	const label = unit ? `${name} (${unit})` : name;
 
-	if (headerLineIndex === -1) throw new Error('Заголовок с колонками не найден');
+	return { name, unit, label };
+}
 
-	const fullHeaders = lines[headerLineIndex].split(/\s+/);
-	const headers = fullHeaders.slice(1);
 
-	const parsedHeaders = headers.map(parseHeader);
+export function parseGraphCSV(content: string): ParsedCSV {
+	const lines = content
+		.split(/\r?\n/)
+		.map(line => line.trim())
+		.filter(Boolean);
+
+	if (lines.length < 2) {
+		throw new Error('CSV содержит недостаточно строк');
+	}
+
+	const title = lines[0];
+	const headerLineIndex = 1;
+	const headerLine = lines[headerLineIndex];
+	const fullHeaders = headerLine.split(/\s+/);
+	const parsedHeaders = fullHeaders.map(parseHeader);
 
 	const dataLines = lines.slice(headerLineIndex + 1).filter(line => !/^[-]+$/.test(line));
 	const rows: Record<string, number>[] = [];
@@ -19,40 +36,44 @@ export function parseGraphCSV(content: string): DataSeries[] {
 		const parts = line.split(/\s+/);
 		if (parts.length !== fullHeaders.length) continue;
 
-		const obj: Record<string, number> = {};
-		headers.forEach((header, i) => {
-			const key = parseHeader(header).name;
-			obj[key] = parseFloat(parts[i + 1]);
+		const row: Record<string, number> = {};
+		fullHeaders.forEach((header, i) => {
+			row[parsedHeaders[i].name] = parseFloat(parts[i]);
 		});
-
-		rows.push(obj);
+		rows.push(row);
 	}
 
-	if (parsedHeaders.length - 1 > colorPalette.length) {
-		throw new Error(`Слишком много графиков (${parsedHeaders.length - 1}), максимум поддерживается ${colorPalette.length}`);
+	const xHeader = parsedHeaders[1];
+	const xKey = xHeader.name;
+	const xUnit = xHeader.label;
+
+	const series: DataSeries[] = [];
+
+	for (let i = 2; i < parsedHeaders.length; i++) {
+		const yHeader = parsedHeaders[i];
+		const yKey = yHeader.name;
+		const yUnit = parsedHeaders[2].unit;
+
+		if (i - 2 >= colorPalette.length) {
+			throw new Error(`Слишком много графиков (${parsedHeaders.length - 2}), максимум ${colorPalette.length}`);
+		}
+
+		const data = rows.map(row => ({
+			x: row[xKey],
+			y: row[yKey],
+		}));
+
+		series.push({
+			id: yKey,
+			data,
+			xUnit,
+			yUnit,
+			color: colorPalette[(i - 2) % colorPalette.length],
+		});
 	}
 
-	return parsedHeaders.slice(1).map((field, index) => ({
-		id: field.name,
-		data: rows.map(row => ({
-			x: row[parsedHeaders[0].name],
-			y: row[field.name],
-		})),
-		xUnit: parsedHeaders[0].unit,
-		yUnit: field.unit,
-		color: colorPalette[index % colorPalette.length],
-	}));
-}
-
-const parseHeader = (header: string) => {
-	const match = header.match(/([^(]+)(?:\(([^)]+)\))?/);
 	return {
-		name: match?.[1].trim() || header,
-		unit: match?.[2] || '',
+		title,
+		series,
 	};
-};
-
-export function extractUnit(label: string): string {
-	const match = label.match(/\(([^)]+)\)/);
-	return match ? match[1] : '';
 }

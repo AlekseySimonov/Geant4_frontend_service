@@ -10,3 +10,8 @@ export type DataSeries = {
 	yUnit: string;
 	color: string;
 };
+
+export type ParsedCSV = {
+	title: string;
+	series: DataSeries[];
+}

@@ -10,17 +10,19 @@ interface CsvGraphProps {
 
 export const CsvGraph: React.FC<CsvGraphProps> = ({ url }) => {
 	const { data: csvText, error, isLoading } = useGetGraphQuery(url);
-
+	const [graphTitle, setGraphTitle] = useState<string>()
 	const [data, setData] = useState<DataSeries[]>([]);
 	const [parseError, setParseError] = useState<string | null>(null);
 	useEffect(() => {
 		if (csvText) {
 			try {
 				const parsed = parseGraphCSV(csvText);
-				setData(parsed);
+				setData(parsed.series);
+				setGraphTitle(parsed.title)
 				setParseError(null);
 			} catch (e) {
 				setData([]);
+				setGraphTitle('')
 				setParseError(e instanceof Error ? e.message : "Ошибка парсинга CSV");
 			}
 		} else {
@@ -28,5 +30,5 @@ export const CsvGraph: React.FC<CsvGraphProps> = ({ url }) => {
 		}
 	}, [csvText]);
 
-	if (!isLoading  && !parseError && !error && data)return <Graph data={data} />;
+	if (!isLoading && !parseError && !error && data) return <Graph data={data} title={graphTitle} />;
 };

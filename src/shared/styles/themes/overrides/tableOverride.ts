@@ -14,6 +14,7 @@ export const tableOverride: Components['MuiTableContainer'] = {
 				color: theme.palette.primary.main,
 				backgroundColor: theme.palette.background.paper,
 				transition: 'border-color 0.2s ease-in-out',
+				boxShadow: theme.shadows[2],
 
 				'&.Mui-error': {
 					borderColor: theme.palette.error.main,
