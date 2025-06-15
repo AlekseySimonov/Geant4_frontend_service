@@ -6,7 +6,7 @@ import { getSizeStyles } from "./getSizeStyles";
 interface SecondaryButtonProps {
 	label: string;
 	link?: string;
-	onClick?: () => void;
+	onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
 	fullWidth?: boolean;
 	type?: "button" | "submit" | "reset";
 	size?: "s" | "m" | "l" | "height-40";

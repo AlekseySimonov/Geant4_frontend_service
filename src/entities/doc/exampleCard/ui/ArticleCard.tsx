@@ -1,5 +1,7 @@
+import { SecondaryButton } from "@/shared/ui/components/buttons";
 import styles from "./_articleCard.module.scss"
 import { Tag } from '@/shared/ui/components/tag';
+import { useNavigate } from "react-router";
 
 interface ArticleCardTypes {
 	category?: string;
@@ -9,6 +11,7 @@ interface ArticleCardTypes {
 	onClick?: () => void;
 }
 
+
 const ArticleCard: React.FC<ArticleCardTypes> = ({
 	title,
 	description,
@@ -16,12 +19,28 @@ const ArticleCard: React.FC<ArticleCardTypes> = ({
 	chapter,
 	onClick
 }) => {
+	const navigate = useNavigate()
+
+	const handleCategoryClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		if (category?.trim()) {
+			navigate(`/documentation/articles?category=${category}&page=1`)
+		}
+	}
+
+	const handleChapterClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		if (chapter?.trim()) {
+			navigate(`/documentation/articles?chapter=${encodeURIComponent(chapter.trim())}&page=1`)
+		}
+	}
+
 	return (
 		<div className={styles.card} onClick={onClick}>
 			<h2>{title?.trim() ? title : 'Без названия'}</h2>
 			<div className={styles.card__tags}>
-				{category?.trim() && <Tag label={category} defaultStyle />}
-				{chapter?.trim() && <Tag label={chapter} defaultStyle />}
+				{category?.trim() && <SecondaryButton label={category} onClick={handleCategoryClick} />}
+				{chapter?.trim() && <SecondaryButton label={chapter} onClick={handleChapterClick} />}
 			</div>
 			<div className={styles.card__description}>
 				<p>{description?.trim() ? description : 'Описание отсутствует'}</p>
