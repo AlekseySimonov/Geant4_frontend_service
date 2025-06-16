@@ -1,20 +1,39 @@
 import { useSearchParams } from "react-router";
-import type { FilterTypes } from "@/shared/ui/components/filter/model/types";
-import { useLazySearchArticlesQuery } from "@/pages/documentationPage/api/queryDoc";
 import { useState } from "react";
+import type { FilterTypes } from "@/shared/ui/components/filter/model/types";
 
-export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTypes[]) => {
-	const [searchArticle] = useLazySearchArticlesQuery();
+type LazyQueryTrigger<T extends (...args: any) => any> = ReturnType<T>[0];
+
+interface UseEntityFiltersProps<
+	T extends (...args: any) => any,
+	ResultItem = any,
+	TransformedItem = { id: number; title: string }
+> {
+	categories: FilterTypes[];
+	chapters: FilterTypes[];
+	searchQuery: LazyQueryTrigger<T>;
+	mapItem: (item: ResultItem) => TransformedItem;
+}
+
+export const useEntityFilters = <
+	T extends (...args: any) => any,
+	ResultItem = any,
+	TransformedItem = { id: number; title: string }
+>({
+	categories,
+	chapters,
+	searchQuery,
+	mapItem,
+}: UseEntityFiltersProps<T, ResultItem, TransformedItem>) => {
 	const [searchParams, setSearchParams] = useSearchParams();
-
-	const [resetKey, setResetKey] = useState(0)
+	const [resetKey, setResetKey] = useState(0);
 
 	const categoryParam = searchParams.get("category");
 	const chapterParam = searchParams.get("chapter");
 	const searchParam = searchParams.get("query") || "";
 
-	const selectedCategory = categories.find(c => c.title === categoryParam) || null;
-	const selectedChapter = chapters.find(c => c.title === chapterParam) || null;
+	const selectedCategory = categories.find((c) => c.title === categoryParam) || null;
+	const selectedChapter = chapters.find((c) => c.title === chapterParam) || null;
 
 	const updateParams = (params: Partial<Record<string, string | null>>) => {
 		const newParams = new URLSearchParams(searchParams);
@@ -37,16 +56,13 @@ export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTyp
 		updateParams({ chapter: chapter.title });
 	};
 
-	const handleSearch = async (searchText: string) => {
+	const handleSearch = async (searchText: string): Promise<TransformedItem[]> => {
 		if (!searchText.trim()) return [];
 
-		const result = await searchArticle({ query: searchText.trim() });
+		const result = await searchQuery({ query: searchText.trim() });
 
-		if ("data" in result) {
-			return result.data.map(article => ({
-				id: article.id,
-				title: article.title,
-			}));
+		if ("data" in result && Array.isArray(result.data)) {
+			return result.data.map(mapItem);
 		}
 
 		return [];
@@ -57,13 +73,12 @@ export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTyp
 	};
 
 	const handleReset = () => {
-		setResetKey(prev => prev + 1)
+		setResetKey((prev) => prev + 1);
 		setSearchParams({}, { replace: true });
 	};
 
 	const resetCategory = () => updateParams({ category: null });
 	const resetChapter = () => updateParams({ chapter: null });
-
 
 	return {
 		selectedCategory,
@@ -76,8 +91,9 @@ export const useArticleFilters = (categories: FilterTypes[], chapters: FilterTyp
 		handleReset,
 		resetCategory,
 		resetChapter,
-		resetKey
+		resetKey,
 	};
 };
+
 
 

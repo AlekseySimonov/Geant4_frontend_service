@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useGetCategoriesQuery, useGetChaptersQuery, useGetFavoritesQuery, useGetStaffQuery } from "@/pages/documentationPage/api/docApi";
 import styles from "./_articleList.module.scss";
-import { ArticleCard, ArticleFiltersUrl, ImportantArticleCard } from "@/entities/doc";
+import {FiltersUrl} from "@/entities"
+import { ArticleCard, ImportantArticleCard } from "@/entities/doc";
 import { CircularProgress, IconButton, Pagination, useMediaQuery } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -20,7 +21,7 @@ const ArticlesList: React.FC = () => {
 	const navigate = useNavigate();
 	const isWideScreen = useMediaQuery('(min-width:1350px)');
 
-	const [searchArticle, { isFetching }] = useLazySearchArticlesQuery();
+	const [searchArticles, { isFetching }] = useLazySearchArticlesQuery();
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
 	const [articles, setArticles] = useState([]);
@@ -32,7 +33,7 @@ const ArticlesList: React.FC = () => {
 	const pageParam = parseInt(searchParams.get("page") || "1", 10);
 
 	const fetchArticles = useCallback(async () => {
-		const result = await searchArticle({
+		const result = await searchArticles({
 			category: categoryParam || '',
 			chapter: chapterParam || '',
 			query: searchParam || '',
@@ -46,7 +47,7 @@ const ArticlesList: React.FC = () => {
 			setArticles(articlesData);
 			setPageCount(pageInfo?.pages_count || 1);
 		}
-	}, [searchArticle, categoryParam, chapterParam, searchParam, pageParam]);
+	}, [searchArticles, categoryParam, chapterParam, searchParam, pageParam]);
 
 	useEffect(() => {
 		fetchArticles();
@@ -91,9 +92,11 @@ const ArticlesList: React.FC = () => {
 					</div>
 				</div>
 
-				<ArticleFiltersUrl
+				<FiltersUrl
 					categories={categories}
 					chapters={chapters}
+					searchQuery={searchArticles}
+					mapItem={(article) => ({ id: article.id, title: article.title })}
 				/>
 
 				<div className={styles.articles__cards}>

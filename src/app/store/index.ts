@@ -5,12 +5,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import avatarReducer from "@/features/avatar/avatarSlice";
 import { docApi } from '@/pages/documentationPage/api';
 import alertReducer from '@/shared/ui/components/alert/model/alertSlice';
+import { examplesApi } from '@/pages/examplesPage';
 
 export const store = configureStore({
 	reducer: {
 		[authApi.reducerPath]: authApi.reducer,
 		[profileApi.reducerPath]: profileApi.reducer,
 		[docApi.reducerPath]: docApi.reducer,
+		[examplesApi.reducerPath]: examplesApi.reducer,
 		globalLoading: globalLoadingReducer,
 		avatar: avatarReducer,
 		alert: alertReducer,
@@ -20,6 +22,7 @@ export const store = configureStore({
 			.concat(authApi.middleware)
 			.concat(profileApi.middleware)
 			.concat(docApi.middleware)
+			.concat(examplesApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

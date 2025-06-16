@@ -1,0 +1,9 @@
+.examples{
+	margin-top: 30px;
+	margin-bottom: 80px;
+	width: 100%;
+	@media (max-width: 900px){
+		gap: 20px;
+		margin-top: 32px;
+	}
+}

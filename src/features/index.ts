@@ -1,3 +1,4 @@
+export { ExamplesList } from "./examples";
 export { SortableEditorBlocks } from "./doc/sortableEditorBlocks";
 export { EmailUpdate } from "./profile/emailUpdate";
 export { EditOptions } from './doc/editOptions';

@@ -1,23 +1,30 @@
 import React from "react";
 import { Filter } from "@/shared/ui/components/filter";
 import { IconButton, useMediaQuery } from "@mui/material";
-import styles from "./_articleFilters.module.scss";
+import styles from "./_filters.module.scss";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import type { FilterTypes } from "@/shared/ui/components/filter/model/types";
-import { useArticleFilters } from "../model";
 import { Search } from "@/shared/ui/components/search";
+import { useEntityFilters } from "../model";
 
-interface ArticleFiltersUrlProps {
+type LazyQueryTrigger<T extends (...args: any) => any> = ReturnType<T>[0];
+
+interface FiltersUrlProps<TEntity extends { id: number; title: string }> {
 	categories: FilterTypes[];
 	chapters: FilterTypes[];
+	searchQuery: LazyQueryTrigger<(params: { query: string }) => Promise<{ data: TEntity[] }>>;
+	mapItem: (item: TEntity) => { id: number; title: string };
 }
 
-export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
+export function FiltersUrl<TEntity extends { id: number; title: string }>({
 	categories,
 	chapters,
-}) => {
-	const isMobile = useMediaQuery('(max-width: 700px)')
+	searchQuery,
+	mapItem,
+}: FiltersUrlProps<TEntity>) {
+	const isMobile = useMediaQuery('(max-width: 700px)');
+
 	const {
 		selectedCategory,
 		selectedChapter,
@@ -30,7 +37,12 @@ export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
 		resetCategory,
 		resetChapter,
 		resetKey,
-	} = useArticleFilters(categories, chapters);
+	} = useEntityFilters({
+		categories,
+		chapters,
+		searchQuery,
+		mapItem,
+	});
 
 	return (
 		<div className={styles.filter}>
@@ -57,7 +69,6 @@ export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
 					selectedOption={selectedChapter}
 					onButtonReset={resetChapter}
 				/>
-
 				{isMobile ? (
 					<SecondaryButton label="Сбросить" onClick={handleReset} />
 				) : (
@@ -68,5 +79,5 @@ export const ArticleFiltersUrl: React.FC<ArticleFiltersUrlProps> = ({
 			</div>
 		</div>
 	);
-};
+}
 

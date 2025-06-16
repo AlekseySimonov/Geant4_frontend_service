@@ -3,4 +3,5 @@ export { ArticlesTypes, SubscriptionElement, Subscription } from './articlesType
 export { MyExamplesTypes } from './myExamplesTypes';
 
 export * from './articlesTypes';
+export * from './exampleTypes'
 

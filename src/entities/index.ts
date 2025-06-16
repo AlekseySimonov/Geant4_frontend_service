@@ -1,3 +1,4 @@
+export { FiltersUrl } from "./filters"
 export { Article } from "./doc"
 export { default as ResolvesList } from "../features/profile/resolvesList"
 export { default as ProfileCard } from "./profile/profileCard"

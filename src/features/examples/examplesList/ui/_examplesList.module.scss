@@ -1,0 +1,51 @@
+.examples {
+	display: flex;
+	flex-direction: column;
+	gap: 34px;
+	padding: 40px;
+	background: var(--mui-palette-background-paper);
+	border-radius: 8px;
+	box-shadow: var(--mui-shadows-2);
+	width: 100%;
+	@media(max-width:700px){
+		padding: 20px;
+	}
+
+	&__title {
+		display: flex;
+		justify-content: space-between;
+		gap: 24px;
+		flex-wrap: wrap;
+		:last-child{
+			align-self: center;
+			display: flex;
+			gap: 10px;
+		}
+		&__addArticle{
+			cursor: pointer;
+		}
+	}
+
+	h2 {
+		font-size: 1.5rem;
+		@media(max-width:700px){
+			font-size: 1.2rem;
+		}
+	}
+
+	&__cards {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+
+		&__pagination {
+			display: flex;
+			justify-content: center;
+		}
+	}
+	.loadingContainer{
+		display: flex;
+		justify-content: center;
+		margin-block: 20px;
+	}
+}
