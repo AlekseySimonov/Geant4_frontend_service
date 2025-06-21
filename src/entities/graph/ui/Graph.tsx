@@ -15,21 +15,21 @@ type Props = {
 };
 
 const renderLaTeX = (text: string) => {
-    text = text.replace(/(?<!\$)\$([^\$]+?)\$(?!\$)/g, (_, formula) => {
-      try {
-        return katex.renderToString(formula.trim(), {
-          displayMode: false,
-          throwOnError: false,
-        });
-      } catch {
-        return `<code>$${formula}$</code>`;
-      }
-    });
+  text = text.replace(/(?<!\$)\$([^\$]+?)\$(?!\$)/g, (_, formula) => {
+    try {
+      return katex.renderToString(formula.trim(), {
+        displayMode: false,
+        throwOnError: false,
+      });
+    } catch {
+      return `<code>$${formula}$</code>`;
+    }
+  });
 
-    return text;
-  };
+  return text;
+};
 
-export const Graph = ({ data, title }: Props) => {
+const Graph = ({ data, title }: Props) => {
   const [visibleSeries, setVisibleSeries] = useState<Record<string, boolean>>({});
   const [showTable, setShowTable] = useState(false);
   const [viewLayout, setViewLayout] = useState<Partial<Plotly.Layout>>({});
@@ -79,16 +79,6 @@ export const Graph = ({ data, title }: Props) => {
     return {
       ...plotlyStyles,
       autosize: true,
-      title: {
-        text: title || "График",
-        font: {
-          size: 20,
-          family: "sans-serif",
-        },
-        xref: "paper",
-        x: 0.5,
-        xanchor: "center",
-      },
       xaxis: {
         title: { text: xUnit },
         type: "linear",
@@ -147,6 +137,7 @@ export const Graph = ({ data, title }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.graph}>
+        <div className={styles.graph__title}> {title || "График"}</div>
         <div className={styles.graph__legend}>
           {data.map((series) => (
             <label key={series.id}>
@@ -162,8 +153,8 @@ export const Graph = ({ data, title }: Props) => {
                 }}
               />
               <span style={{ color: series.color }} dangerouslySetInnerHTML={{
-									__html: renderLaTeX(series.id.toString()),
-								}}/>
+                __html: renderLaTeX(series.id.toString()),
+              }} />
             </label>
           ))}
         </div>
@@ -192,4 +183,6 @@ export const Graph = ({ data, title }: Props) => {
     </div>
   );
 };
+
+export default Graph
 

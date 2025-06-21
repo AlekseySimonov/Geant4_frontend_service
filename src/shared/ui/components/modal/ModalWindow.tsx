@@ -7,16 +7,20 @@ interface ModalWindowProps {
 	children: ReactNode;
 	onClose: () => void;
 	open: boolean;
+	width?: string;
 }
 
-export const ModalWindow: React.FC<ModalWindowProps> = ({ onClose, children, open  }) => {
+export const ModalWindow: React.FC<ModalWindowProps> = ({ onClose, children, open, width }) => {
 
 	return (
 		<>
 			<Modal open={open} onClose={onClose}>
-				<div className={styles.modal}>
+				<div
+					className={styles.modal}
+					style={{ width: width ?? '560px' }}
+				>
 					{children}
-					<SecondaryButton label='Отмена' onClick={onClose} fullWidth/>
+					<SecondaryButton label='Отмена' onClick={onClose} fullWidth />
 				</div>
 			</Modal>
 		</>

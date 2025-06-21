@@ -1,51 +1,99 @@
 import { Graph, parseGraphCSV } from "@/entities/graph";
 import { DataSeries } from "@/entities/graph/model/types";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import JSZip from "jszip";
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { usePopup } from "@/shared/hooks/usePopup";
+import { ModalWindow } from "@/shared/ui/components/modal";
+import styles from "./_csvGraphFromZip.module.scss"
 
 interface CsvGraphFromZipProps {
 	zipBlob: Blob;
-	filename?: string;
 }
 
-export const CsvGraphFromZip: React.FC<CsvGraphFromZipProps> = ({ zipBlob, filename }) => {
-	const [data, setData] = useState<DataSeries[]>([]);
-	const [graphTitle, setGraphTitle] = useState<string>();
+type GraphFile = {
+	filename: string;
+	data: DataSeries[];
+	title?: string;
+};
+
+const LazyGraph = lazy(() => import("@/entities/graph/ui/Graph"));
+
+export const CsvGraphFromZip: React.FC<CsvGraphFromZipProps> = ({ zipBlob }) => {
+	const [files, setFiles] = useState<GraphFile[]>([]);
 	const [parseError, setParseError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
+	const [selectedFile, setSelectedFile] = useState<GraphFile | null>(null);
+
+	const modal = usePopup();
 
 	useEffect(() => {
-		const extractCSV = async () => {
+		const extractAllCSV = async () => {
 			try {
 				const zip = await JSZip.loadAsync(zipBlob);
+				const csvFiles = zip.file(/\.csv$/i);
 
-				const targetFile = filename
-					? zip.file(filename)
-					: zip.filter((relPath) => relPath.endsWith(".csv"))[0];
+				if (csvFiles.length === 0) throw new Error("CSV-файлы не найдены в архиве");
 
-				if (!targetFile) {
-					throw new Error("CSV-файл не найден в архиве");
+				const parsedFiles: GraphFile[] = [];
+
+				for (const file of csvFiles) {
+					const csvText = await file.async("text");
+					const parsed = parseGraphCSV(csvText);
+					parsedFiles.push({
+						filename: file.name,
+						data: parsed.series,
+						title: parsed.title,
+					});
 				}
 
-				const csvText = await targetFile.async("text");
-				const parsed = parseGraphCSV(csvText);
-				setData(parsed.series);
-				setGraphTitle(parsed.title);
+				setFiles(parsedFiles);
 				setParseError(null);
 			} catch (e) {
 				setParseError(e instanceof Error ? e.message : "Ошибка чтения ZIP-файла");
-				setData([]);
-				setGraphTitle("");
+				setFiles([]);
 			} finally {
 				setLoading(false);
 			}
 		};
 
-		extractCSV();
-	}, [zipBlob, filename]);
+		extractAllCSV();
+	}, [zipBlob]);
 
-	if (loading) return <p>Загрузка графика...</p>;
-	if (!data.length) return <p>Нет данных для графика</p>;
+	const handleFileClick = (file: GraphFile) => {
+		setSelectedFile(file);
+		modal.openPopup();
+	};
 
-	return <Graph data={data} title={graphTitle} />;
+	if (loading) return <Typography>Загрузка графиков...</Typography>;
+	if (files.length === 0) return <Typography>Нет CSV-файлов для отображения</Typography>;
+
+	return (
+		<>
+			<List>
+				{files.map((file) => (
+					<ListItem key={file.filename} disablePadding>
+						<ListItemButton onClick={() => handleFileClick(file)}>
+							<ListItemIcon>
+								<InsertDriveFileIcon />
+							</ListItemIcon>
+							<ListItemText primary={file.filename} />
+						</ListItemButton>
+					</ListItem>
+				))}
+			</List>
+
+			<ModalWindow open={modal.isVisible} onClose={modal.closePopup} width="80%">
+				{selectedFile &&
+					<div className={styles.graphModal}>
+						<Suspense fallback={<div>Загрузка…</div>}>
+							<LazyGraph data={selectedFile.data} title={selectedFile.title} />
+						</Suspense>
+					</div>
+				}
+			</ModalWindow>
+		</>
+	);
 };
+

@@ -7,6 +7,10 @@
 
 .graph{
 	position: relative;
+	&__title{
+		overflow-wrap: break-word;
+		text-align: center;
+	}
 	&__legend{
 		display: flex;
 		flex-direction: column;
