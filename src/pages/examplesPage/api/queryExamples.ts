@@ -1,6 +1,6 @@
 import { URLS } from "./urls";
 import { examplesApi } from "./examplesApi";
-import { ExamplesList } from "@/shared/types";
+import { RawExampleResponse } from "@/shared/types";
 
 interface QueryParamsTypes{
 	query?: string;
@@ -12,7 +12,7 @@ interface QueryParamsTypes{
 
 export const queryExamples = examplesApi.injectEndpoints({
 	endpoints: (builder) => ({
-		searchExamples: builder.query<ExamplesList, QueryParamsTypes>({
+		searchExamples: builder.query<RawExampleResponse, QueryParamsTypes>({
 			query: ({ query, category, chapter, page = 1, page_size = 10}) => ({
 				url: URLS.EXAMPLES,
 				method: 'GET',

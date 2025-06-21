@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
 import styles from "./_examplesList.module.scss";
-import {FiltersUrl} from "@/entities"
+import { FiltersUrl } from "@/entities"
 import { ArticleCard } from "@/entities/doc";
-import { CircularProgress, Pagination} from "@mui/material";
+import { CircularProgress, Pagination } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { queryExamples } from "@/pages/examplesPage";
+import { Example, RawExampleResponse } from "@/shared/types";
 
 const ExamplesList: React.FC = () => {
 	const { data: categories = [] } = useGetCategoriesQuery();
@@ -19,7 +20,7 @@ const ExamplesList: React.FC = () => {
 	const [searchExamples, { isFetching }] = queryExamples.useLazySearchExamplesQuery();
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
-	const [examples, setArticles] = useState([]);
+	const [examples, setExamples] = useState([]);
 	const [pageCount, setPageCount] = useState(1);
 
 	const categoryParam = searchParams.get("category");
@@ -35,14 +36,22 @@ const ExamplesList: React.FC = () => {
 			page: pageParam || 1,
 		});
 
-		if ('data' in result) {
-			const articlesData = result.data.filter((item: any) => !('pages_count' in item));
-			// const pageInfo = result.data.find((item: any) => 'pages_count' in item);
+		if ('data' in result && Array.isArray(result.data)) {
+			const rawData = result.data as RawExampleResponse;
 
-			setArticles(articlesData);
-			// setPageCount(pageInfo?.pages_count || 1);
+			const pageCountEntry = rawData.find(
+				(item): item is { pages_count: number } => 'pages_count' in item
+			);
+
+			const examplesData = rawData.filter(
+				(item): item is Example => 'id' in item
+			);
+
+			setExamples(examplesData);
+			setPageCount(pageCountEntry?.pages_count || 1);
 		}
 	}, [searchExamples, categoryParam, chapterParam, searchParam, pageParam]);
+
 
 	useEffect(() => {
 		fetchArticles();
@@ -77,7 +86,7 @@ const ExamplesList: React.FC = () => {
 								description={example.description}
 								category={example?.category || ''}
 								chapter={example?.chapter || ''}
-								onClick={() => navigate(`/modeling/example/${example.id}`, {
+								onClick={() => navigate(`/modeling/examples/${example.id}`, {
 									state: { from: location.pathname + location.search }
 								})}
 							/>

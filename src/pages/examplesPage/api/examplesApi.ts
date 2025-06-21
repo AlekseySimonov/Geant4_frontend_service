@@ -2,12 +2,14 @@ import { URLS } from "./urls";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { globalLoading } from "@/shared/model";
 import { apiBaseQuery } from "@/shared/api";
-import { ExamplesList } from "@/shared/types";
+import { Example, ExampleBaseTypes } from "@/shared/types";
 
 export interface CategoryOrChapter {
 	id?: number;
 	title: string;
 }
+
+const API_URL = process.env.API_BASE_URL
 
 export const examplesApi = createApi({
 	reducerPath: 'examplesApi',
@@ -26,12 +28,37 @@ export const examplesApi = createApi({
 			});
 
 		return {
-			getExamples: query<ExamplesList, { page?: number; limit?: number }>({
+			getExamples: query<Example[], { page?: number; limit?: number }>({
 				query: ({ page = 1, limit = 10 }) => ({
 					url: `${URLS.EXAMPLES}?page=${page}&limit=${limit}`,
 					method: 'GET',
 				}),
 			}),
+			getExample: query<ExampleBaseTypes, number>({
+				query: (id: number) => ({
+					url: `${URLS.EXAMPLES}${id}`,
+					method: 'GET',
+				}),
+				providesTags: (id: number) => [{ type: 'Examples' as const, id }],
+			}),
+			getGraphs: mutation<Blob, number>({
+				queryFn: async (id, api, extraOptions, baseQuery) => {
+					const res = await fetch(`${API_URL}/${URLS.EXAMPLES}${id}/example_geant/`, {
+						method: 'POST',
+						credentials: 'include',
+						headers: {
+							'Content-Type': 'application/zip',
+						},
+						body: "",
+					});
+					if (!res.ok) {
+						return { error: { status: res.status, data: await res.text() } };
+					}
+					const blob = await res.blob();
+					return { data: blob };
+				},
+			}),
+
 		};
 	},
 });
@@ -39,4 +66,6 @@ export const examplesApi = createApi({
 export const {
 	useGetExamplesQuery,
 	useLazyGetExamplesQuery,
+	useGetExampleQuery,
+	useGetGraphsMutation,
 } = examplesApi;

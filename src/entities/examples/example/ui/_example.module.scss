@@ -1,0 +1,56 @@
+.example{
+	margin-top: 30px;
+	margin-bottom: 80px;
+	width: 100%;
+	gap: 34px;
+	padding: 40px;
+	background: var(--mui-palette-background-paper);
+	border-radius: 8px;
+	box-shadow: var(--mui-shadows-2);
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	@media(max-width:600px){
+		padding: 20px;
+		h2{
+			font-size: 1.5rem;
+		}
+	}
+	@media (max-width: 900px){
+		gap: 20px;
+		margin-top: 32px;
+		padding: 20px;
+	}
+	&__header{
+		display: flex;
+		gap: 16px;
+		align-items: center;
+		margin-bottom: 16px;
+		flex-wrap: wrap;
+		&__title{
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+		}
+		svg{
+			cursor: pointer;
+		}
+		h2{
+			font-weight: 700px;
+		}
+		:last-child{
+			gap: 10px;
+			display: flex;
+			align-items: center;
+			margin-left: auto;
+		}
+	}
+	&__block{
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		&__content{
+			padding-inline: 1rem;
+		}
+	}
+}

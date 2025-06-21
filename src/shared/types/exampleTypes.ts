@@ -11,18 +11,18 @@ export interface Command {
 	values: number[];
 }
 
-export interface ExampleBase {
+export interface ExampleBaseTypes {
 	id: number;
-	title_verbose: string;
-	title_not_verbose: string;
+	title_verbose?: string;
+	title_not_verbose?: string;
 	description: string;
 	date_to_update: string;
-	tags: Tag[];
-	category: string;
+	tags?: Tag[];
+	category?: string;
 }
 
-export interface Example extends ExampleBase {
+export interface Example extends ExampleBaseTypes {
 	commands?: Command[];
 }
 
-export type ExamplesList = Example[];
+export type RawExampleResponse = (Example | { pages_count: number })[];

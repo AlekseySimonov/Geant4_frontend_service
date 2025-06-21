@@ -105,7 +105,6 @@ const Article: React.FC = () => {
 					<div className={styles.article__block__content}>
 						<p>{article.description}</p>
 					</div>
-
 				</div>
 
 				{article.subscriptions?.map((block, idx) => (
