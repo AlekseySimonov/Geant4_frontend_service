@@ -32,8 +32,6 @@ const Example: React.FC = () => {
 		}
 	};
 
-	console.log(graphsData)
-
 	return (
 		<div className={styles.example}>
 			<div className={styles.example__header}>

@@ -9,8 +9,9 @@ interface UseEntityFiltersProps<
 	ResultItem = any,
 	TransformedItem = { id: number; title: string }
 > {
+	tags?: FilterTypes[];
 	categories: FilterTypes[];
-	chapters: FilterTypes[];
+	chapters?: FilterTypes[];
 	searchQuery: LazyQueryTrigger<T>;
 	mapItem: (item: ResultItem) => TransformedItem;
 }
@@ -20,6 +21,7 @@ export const useEntityFilters = <
 	ResultItem = any,
 	TransformedItem = { id: number; title: string }
 >({
+	tags,
 	categories,
 	chapters,
 	searchQuery,
@@ -30,10 +32,12 @@ export const useEntityFilters = <
 
 	const categoryParam = searchParams.get("category");
 	const chapterParam = searchParams.get("chapter");
+	const tagParam = searchParams.get("tags");
 	const searchParam = searchParams.get("query") || "";
 
-	const selectedCategory = categories.find((c) => c.title === categoryParam) || null;
-	const selectedChapter = chapters.find((c) => c.title === chapterParam) || null;
+	const selectedTag = tags?.find((c) => c.title === tagParam) || null;
+	const selectedCategory = categories?.find((c) => c.title === categoryParam) || null;
+	const selectedChapter = chapters?.find((c) => c.title === chapterParam) || null;
 
 	const updateParams = (params: Partial<Record<string, string | null>>) => {
 		const newParams = new URLSearchParams(searchParams);
@@ -46,6 +50,10 @@ export const useEntityFilters = <
 		});
 		newParams.set("page", "1");
 		setSearchParams(newParams, { replace: true });
+	};
+
+	const handleTagChange = (tag: FilterTypes) => {
+		updateParams({ tag: tag.title });
 	};
 
 	const handleCategoryChange = (category: FilterTypes) => {
@@ -77,20 +85,26 @@ export const useEntityFilters = <
 		setSearchParams({}, { replace: true });
 	};
 
+	const resetTag = () => updateParams({ tags: null });
 	const resetCategory = () => updateParams({ category: null });
 	const resetChapter = () => updateParams({ chapter: null });
 
 	return {
 		selectedCategory,
 		selectedChapter,
+		selectedTag,
 		searchValue: searchParam,
+
 		handleCategoryChange,
 		handleChapterChange,
+		handleTagChange,
 		handleSearch,
 		handleSearchSelect,
+
 		handleReset,
 		resetCategory,
 		resetChapter,
+		resetTag,
 		resetKey,
 	};
 };

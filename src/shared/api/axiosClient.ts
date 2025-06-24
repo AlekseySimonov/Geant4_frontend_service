@@ -1,4 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { redirectToLogin } from "../model";
 
 const API_URL = process.env.API_BASE_URL
 
@@ -22,7 +23,7 @@ axiosClient.interceptors.response.use(
 				await axios.post(`${API_URL}/token/refresh`, {}, { withCredentials: true });
 				return axiosClient(originalRequest);
 			} catch (refreshError) {
-				window.location.replace('/auth/login');
+				redirectToLogin()
 				return Promise.reject(error);
 			}
 		}

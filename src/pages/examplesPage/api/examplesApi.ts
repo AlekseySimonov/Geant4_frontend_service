@@ -58,6 +58,12 @@ export const examplesApi = createApi({
 					return { data: blob };
 				},
 			}),
+			getTags: query<CategoryOrChapter[], void>({
+				query: () => ({
+					url: URLS.TAGS,
+					method: 'GET',
+				}),
+			}),
 
 		};
 	},
@@ -68,4 +74,5 @@ export const {
 	useLazyGetExamplesQuery,
 	useGetExampleQuery,
 	useGetGraphsMutation,
+	useGetTagsQuery,
 } = examplesApi;

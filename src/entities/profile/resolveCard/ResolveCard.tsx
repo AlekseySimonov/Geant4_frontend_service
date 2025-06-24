@@ -1,3 +1,4 @@
+import { SecondaryButton } from "@/shared/ui/components/buttons";
 import styles from "./_exampleCard.module.scss"
 import { Tag } from '@/shared/ui/components/tag';
 
@@ -7,6 +8,7 @@ type ResolveCardProps = {
 	tags: string[]
 	status: number
 	info?: string
+	onClick?: () => void;
 }
 
 const statusMap: Record<number, { label: string; tagProps: Partial<React.ComponentProps<typeof Tag>> }> = {
@@ -15,17 +17,17 @@ const statusMap: Record<number, { label: string; tagProps: Partial<React.Compone
 	2: { label: 'Ошибка', tagProps: { error: true, info: 'Произошла ошибка при моделировании' } },
 }
 
-const ResolveCard: React.FC<ResolveCardProps> = ({ title, date, tags, status }) => {
+const ResolveCard: React.FC<ResolveCardProps> = ({ title, date, tags, status, onClick }) => {
 	const { label, tagProps } = statusMap[status] || { label: 'Неизвестно', tagProps: {} }
 
 	return (
-		<div className={styles.resolve}>
+		<div className={styles.resolve} onClick={onClick}>
 			<div className={styles.resolve__info}>
 				<h4>{title}</h4>
 				<h3>{new Date(date).toLocaleDateString()}</h3>
 				<div className={styles.resolve__info__tags}>
 					{tags.map((tag, index) => (
-						<Tag key={index} label={tag} defaultStyle />
+						<SecondaryButton key={index} label={tag}/>
 					))}
 				</div>
 			</div>

@@ -6,4 +6,5 @@ export interface MyExamplesTypes{
 	status: number;
 	tags: string[];
 	params: string;
+	example_id: number;
 }

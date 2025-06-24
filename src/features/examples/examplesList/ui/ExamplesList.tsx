@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useGetCategoriesQuery, useGetChaptersQuery } from "@/pages/documentationPage/api/docApi";
+import { useGetCategoriesQuery } from "@/pages/documentationPage/api/docApi";
 import styles from "./_examplesList.module.scss";
 import { FiltersUrl } from "@/entities"
 import { ArticleCard } from "@/entities/doc";
@@ -9,10 +9,11 @@ import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { queryExamples } from "@/pages/examplesPage";
 import { Example, RawExampleResponse } from "@/shared/types";
+import { useGetTagsQuery } from "@/pages/examplesPage/api/examplesApi";
 
 const ExamplesList: React.FC = () => {
 	const { data: categories = [] } = useGetCategoriesQuery();
-	const { data: chapters = [] } = useGetChaptersQuery();
+	const { data: tags = []} = useGetTagsQuery()
 
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
@@ -24,14 +25,14 @@ const ExamplesList: React.FC = () => {
 	const [pageCount, setPageCount] = useState(1);
 
 	const categoryParam = searchParams.get("category");
-	const chapterParam = searchParams.get("chapter");
+	const tagParam = searchParams.get("tags");
 	const searchParam = searchParams.get("query");
 	const pageParam = parseInt(searchParams.get("page") || "1", 10);
 
 	const fetchArticles = useCallback(async () => {
 		const result = await searchExamples({
 			category: categoryParam || '',
-			chapter: chapterParam || '',
+			tag: tagParam || '',
 			query: searchParam || '',
 			page: pageParam || 1,
 		});
@@ -50,7 +51,7 @@ const ExamplesList: React.FC = () => {
 			setExamples(examplesData);
 			setPageCount(pageCountEntry?.pages_count || 1);
 		}
-	}, [searchExamples, categoryParam, chapterParam, searchParam, pageParam]);
+	}, [searchExamples, categoryParam, tagParam, searchParam, pageParam]);
 
 
 	useEffect(() => {
@@ -69,7 +70,7 @@ const ExamplesList: React.FC = () => {
 
 			<FiltersUrl
 				categories={categories}
-				chapters={chapters}
+				tags = {tags}
 				searchQuery={searchExamples}
 				mapItem={(example) => ({ id: example.id, title: example.title })}
 			/>

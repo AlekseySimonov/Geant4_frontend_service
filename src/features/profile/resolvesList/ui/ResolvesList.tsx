@@ -2,8 +2,10 @@ import styles from "./_resolvesList.module.scss"
 import { ResolveCard } from "@/entities"
 import { useGetExamplesQuery } from "@/pages/profilePage/api/profileApi"
 import { PrimaryButton } from "@/shared/ui/components/buttons"
+import { useNavigate } from "react-router"
 
 const ResolvesList: React.FC = () => {
+	const navigate = useNavigate()
 	const { data: examples, isLoading  } = useGetExamplesQuery()
 
 	if (isLoading) {
@@ -21,13 +23,14 @@ const ResolvesList: React.FC = () => {
 				</div>
 			) : (
 				<div className={styles.resolves__list}>
-					{examples.map((example, index) => (
+					{examples.map((example) => (
 						<ResolveCard
-							key={index}
+							key={example.example_id}
 							title={example.title_verbose}
 							date={example.creation_date}
 							status={example.status}
 							tags={example.tags}
+							onClick={() => navigate(`/modelling/example/${example.example_id}`)}
 						/>
 					))}
 				</div>

@@ -12,7 +12,8 @@ type LazyQueryTrigger<T extends (...args: any) => any> = ReturnType<T>[0];
 
 interface FiltersUrlProps<TEntity extends { id: number; title: string }> {
 	categories: FilterTypes[];
-	chapters: FilterTypes[];
+	chapters?: FilterTypes[];
+	tags?: FilterTypes[];
 	searchQuery: LazyQueryTrigger<(params: { query: string }) => Promise<{ data: TEntity[] }>>;
 	mapItem: (item: TEntity) => { id: number; title: string };
 }
@@ -20,6 +21,7 @@ interface FiltersUrlProps<TEntity extends { id: number; title: string }> {
 export function FiltersUrl<TEntity extends { id: number; title: string }>({
 	categories,
 	chapters,
+	tags,
 	searchQuery,
 	mapItem,
 }: FiltersUrlProps<TEntity>) {
@@ -28,17 +30,21 @@ export function FiltersUrl<TEntity extends { id: number; title: string }>({
 	const {
 		selectedCategory,
 		selectedChapter,
+		selectedTag,
 		searchValue,
+		handleTagChange,
 		handleCategoryChange,
 		handleChapterChange,
 		handleSearch,
 		handleSearchSelect,
 		handleReset,
+		resetTag,
 		resetCategory,
 		resetChapter,
 		resetKey,
 	} = useEntityFilters({
 		categories,
+		tags,
 		chapters,
 		searchQuery,
 		mapItem,
@@ -61,14 +67,22 @@ export function FiltersUrl<TEntity extends { id: number; title: string }>({
 					selectedOption={selectedCategory}
 					onButtonReset={resetCategory}
 				/>
-				<Filter
+				{chapters && <Filter
 					options={chapters}
 					label="Разделы"
 					width={isMobile ? '120px' : '200px'}
 					onOptionSelect={handleChapterChange}
 					selectedOption={selectedChapter}
 					onButtonReset={resetChapter}
-				/>
+				/>}
+				{tags && <Filter
+					options={tags}
+					label="Теги"
+					width={isMobile ? '120px' : '200px'}
+					onOptionSelect={handleTagChange}
+					selectedOption={selectedTag}
+					onButtonReset={resetTag}
+				/>}
 				{isMobile ? (
 					<SecondaryButton label="Сбросить" onClick={handleReset} />
 				) : (

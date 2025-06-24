@@ -35,7 +35,7 @@ const MainPage: React.FC = () => {
 							</p>
 						)
 					}
-					<PrimaryButton link="/" size="m">
+					<PrimaryButton link="/modeling/examples" size="m">
 						<h3>Начать</h3>
 					</PrimaryButton>
 				</div>
@@ -69,7 +69,7 @@ const MainPage: React.FC = () => {
 				<Card
 					title="Начало работы"
 					text="Всё, что нужно для начала работы с Geant4ru."
-					link="/"
+					link="/modeling/examples"
 					btnLabel="Начать моделирование"
 				/>
 

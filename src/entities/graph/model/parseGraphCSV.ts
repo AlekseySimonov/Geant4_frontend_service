@@ -7,7 +7,7 @@ function parseHeader(header: string): { name: string; unit?: string; label: stri
 	
 	const name = match[1].trim();
 	const unit = match[3]?.trim();
-	const label = unit ? `${name} (${unit})` : name;
+	const label = unit ? `${name} [${unit}]` : name;
 
 	return { name, unit, label };
 }
@@ -52,7 +52,7 @@ export function parseGraphCSV(content: string): ParsedCSV {
 	for (let i = 2; i < parsedHeaders.length; i++) {
 		const yHeader = parsedHeaders[i];
 		const yKey = yHeader.name;
-		const yUnit = parsedHeaders[2].unit;
+		const yUnit = `[${parsedHeaders[2].unit}]`;
 
 		if (i - 2 >= colorPalette.length) {
 			throw new Error(`Слишком много графиков (${parsedHeaders.length - 2}), максимум ${colorPalette.length}`);

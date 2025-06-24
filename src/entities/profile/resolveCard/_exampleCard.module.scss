@@ -1,9 +1,14 @@
 .resolve {
 	padding: 24px;
-	box-shadow: var(--mui-shadows-1);
+	background-color: var(--mui-palette-background-default);
 	display: flex;
 	justify-content: space-between;
+	border-radius: 8px;
 	gap: 80px;
+	&:hover{
+		box-shadow: var(--mui-shadows-1);
+		cursor: pointer;
+	}
 	@media(max-width: 800px){
 		flex-direction: column-reverse;
 		gap: 20px;
