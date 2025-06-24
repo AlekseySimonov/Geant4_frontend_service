@@ -40,7 +40,7 @@ export const DataSeriesTable: React.FC<DataSeriesTableProps> = ({ data }) => {
 								key={series.id}
 								sx={{ color: series.color }}
 								dangerouslySetInnerHTML={{
-									__html: renderLaTeX((`${series.id} (${series?.yUnit ?? ''})`).toString()),
+									__html: renderLaTeX((`${series.id} ${series?.yUnit ?? ''}`).toString()),
 								}}
 							/>
 						))}
