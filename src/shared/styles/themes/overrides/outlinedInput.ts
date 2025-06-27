@@ -18,6 +18,12 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 					borderColor: theme.palette.primary.main,
 					borderWidth: "2px",
 				},
+				'&.MuiInputLabel-shrink': {
+					color: theme.palette.info.main,
+				},
+				'&.MuiAutocomplete-inputFocused': {
+					color: theme.palette.info.main,
+				},
 			};
 		},
 		input: (props) => {

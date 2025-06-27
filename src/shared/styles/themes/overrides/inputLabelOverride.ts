@@ -6,12 +6,16 @@ export const inputLabelOverride: Components['MuiInputLabel'] = {
 			const { theme } = props as { theme: Theme };
 
 			return {
-				fontSize: '1rem', 
+				fontSize: '1rem',
 				color: theme.palette.primary.main,
 
+				'&.MuiAutocomplete-inputFocused': {
+					color: theme.palette.info.main,
+				},
 				'&.MuiInputLabel-shrink': {
 					fontSize: '1rem',
 					transform: 'translate(14px, -6px) scale(0.75)',
+					color: theme.palette.info.main,
 				},
 
 				'&.Mui-error': {

@@ -8,7 +8,7 @@ export interface Command {
 	order_index: number;
 	min: number;
 	max: number;
-	values: number[];
+	values: number[] | string [];
 }
 
 export interface ExampleBaseTypes {

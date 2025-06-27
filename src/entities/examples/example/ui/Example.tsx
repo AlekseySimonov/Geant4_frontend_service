@@ -40,7 +40,7 @@ const Example: React.FC = () => {
 					<h2>{example.title_verbose}</h2>
 					{example.category}
 				</div>
-				<PrimaryButton label="Моделировать" />
+				<PrimaryButton label="Моделировать" onClick={() => navigate(`/modeling/examples/${id}/settings/`)}/>
 			</div>
 			<div className={styles.example__block}>
 				<h4>Моделирование</h4>

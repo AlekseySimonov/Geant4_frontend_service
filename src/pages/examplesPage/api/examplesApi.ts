@@ -34,7 +34,7 @@ export const examplesApi = createApi({
 					method: 'GET',
 				}),
 			}),
-			getExample: query<ExampleBaseTypes, number>({
+			getExample: query<Example, number>({
 				query: (id: number) => ({
 					url: `${URLS.EXAMPLES}${id}`,
 					method: 'GET',
