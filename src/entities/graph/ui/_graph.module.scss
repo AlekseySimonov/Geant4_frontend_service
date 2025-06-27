@@ -10,6 +10,7 @@
 	&__title{
 		overflow-wrap: break-word;
 		text-align: center;
+		font-size: 18px;
 	}
 	&__legend{
 		display: flex;
@@ -21,9 +22,12 @@
 		padding: 5px;
 		border-radius: 8px;
 		right: 5%;
-		top: 8%;
+		top: 10%;
 		z-index: 10;
 		box-shadow: var(--mui-shadows-1);
+		@media (max-width: 600px){
+			top: 15%;
+		}
 		label{
 			display: flex;
 			align-items: center;

@@ -11,7 +11,7 @@ export const usePlotlyStyles = (): Partial<Plotly.Layout> => {
 			: { l: 80, r: 80, t: 40, b: 20},
 		font: {
 				family: "'Inter', sans-serif",
-				size: isMobile ? 10 : 14,
+				size: isMobile ? 14 : 16,
 				color: theme.palette.primary.main,
 		},
 		hoverlabel: {
@@ -25,7 +25,6 @@ export const usePlotlyStyles = (): Partial<Plotly.Layout> => {
 			align: "left",
 		},
 		xaxis: {
-			
 			color: theme.palette.primary.main,
 		},
 		yaxis: {

@@ -13,7 +13,7 @@ axiosClient.interceptors.response.use(
 	async (error: AxiosError) => {
 		const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-		const isExpired = error.response?.status === 401;
+		const isExpired = (error.response?.status === 401 || error.response?.status === 403);
 		const isAccepted = (error.response?.status === 201 || error.response?.status === 202);
 
 		if (isExpired && originalRequest && !originalRequest._retry) {

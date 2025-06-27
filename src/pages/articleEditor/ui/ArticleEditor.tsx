@@ -4,7 +4,7 @@ import { FieldArray, Form, Formik } from 'formik';
 import { PrimaryButton, SecondaryButton } from "@/shared/ui/components/buttons";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { useNavigate, useParams } from "react-router";
-import { useGetArticleQuery, useGetCategoriesQuery, useGetChaptersQuery, usePatchArticleMutation, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
+import { useGetArticleQuery, useGetCategoriesQuery, useGetChaptersQuery, useGetStaffQuery, usePatchArticleMutation, usePostArticleMutation, useUploadFileMutation } from "@/pages/documentationPage/api/docApi";
 import { useFilter } from "@/shared/ui/components/filter";
 import { ArticleFilters } from "./ArticleFilters";
 import { ModalWindow } from "@/shared/ui/components/modal";
@@ -17,10 +17,28 @@ import { EditOptions, SortableEditorBlocks } from "@/features";
 import { initialValues } from "../model/initialValues";
 import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 import { addRequest, removeRequest } from "@/shared/model/slices";
+import { useEffect } from "react";
+import { useCheckAuthQuery } from "@/pages/authPage/api/authApi";
 
 const ArticleEditor: React.FC = () => {
 
 	const dispatch = useDispatch()
+
+	const navigate = useNavigate()
+	const { data: auth, isSuccess: isAuth, isError: authError } = useCheckAuthQuery();
+	const { data: isStaff } = useGetStaffQuery();
+
+	useEffect(() => {
+		if ((isAuth && auth?.detail === true && authError)) {
+			navigate('/auth/login', { replace: true });
+		}
+	}, [isAuth, auth, navigate]);
+
+	useEffect(() => {
+		if (!isStaff) {
+			navigate('/documentation', { replace: true });
+		}
+	}, [isStaff, navigate]);
 
 	const { id } = useParams();
 	const isEditMode = !!id;
@@ -29,7 +47,6 @@ const ArticleEditor: React.FC = () => {
 	});
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading)
 
-	const navigate = useNavigate()
 	const { data: categories } = useGetCategoriesQuery()
 	const { data: chapters } = useGetChaptersQuery()
 
