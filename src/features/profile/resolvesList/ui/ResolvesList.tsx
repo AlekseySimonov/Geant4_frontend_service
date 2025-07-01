@@ -8,7 +8,7 @@ const ResolvesList: React.FC = () => {
 	const navigate = useNavigate()
 	const { data: examples, isLoading  } = useGetExamplesQuery()
 
-	if (isLoading) {
+	if (!examples) {
 		return null
 	}
 
@@ -26,7 +26,7 @@ const ResolvesList: React.FC = () => {
 					{examples.map((example) => (
 						<ResolveCard
 							key={example.example_id}
-							title={example.title_verbose}
+							title={example.title_verbose ?? "Без названия"}
 							date={example.creation_date}
 							status={example.status}
 							tags={example.tags}

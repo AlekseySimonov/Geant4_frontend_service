@@ -1,4 +1,5 @@
-export { tableOverride } from "./tableOverride";
+export { typographyOverride } from "./typographyOverride";
+export { cssBaselineOverride } from "./cssBaselineOverride";
 export { OutlinedBox } from "./boxOverride";
 export { alertOverride } from "./alertOverride";
 export { iconButtonOverride } from "./iconButtonOverride";

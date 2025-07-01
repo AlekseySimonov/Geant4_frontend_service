@@ -38,12 +38,13 @@
 		}  
 		&__img{
 			width: 25px;
+			color: var(--mui-palette-primary-main);
 		}
 		&__drawer{
 			padding-block: 20px;
 			padding-bottom: 24px;
 			width: 227px ;
-			height: 270px!important;
+			height: 320px !important;
 			text-align: end;
 			border-radius: 8px;
 			margin-top: 40px;
@@ -55,11 +56,13 @@
 				margin-right: 24px;
 			}
 			.listItem{
+				justify-content: end;
 				padding-block: 10px;
 				text-align: end;
 				&__text{
 					font-size: 1.2rem;
 					font-weight: 600;
+					color: var(--mui-palette-primary-main);
 				}
 			}
 		}

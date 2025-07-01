@@ -83,7 +83,7 @@ const ExamplesList: React.FC = () => {
 						{examples.map(example => (
 							<ArticleCard
 								key={example.id}
-								title={example.title}
+								title={example.title_verbose}
 								description={example.description}
 								category={example?.category || ''}
 								chapter={example?.chapter || ''}

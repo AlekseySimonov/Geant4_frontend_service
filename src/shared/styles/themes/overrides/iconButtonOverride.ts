@@ -7,7 +7,7 @@ export const iconButtonOverride: Components['MuiIconButton'] = {
 
 			return {
 				transition: 'background-color 0.3s ease',
-				color: theme.palette.primary.main,
+				color: 'inherit',
 				padding: 4,
 				'&:hover': {
 					backgroundColor: alpha(theme.palette.primary.light, 0.2),

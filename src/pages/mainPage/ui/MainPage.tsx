@@ -1,17 +1,21 @@
 import { useCheckAuthQuery } from "@/pages/authPage/api/authApi"
 import styles from "./_mainPage.module.scss"
 import mainBack from "@/shared/ui/assets/mainBack.jpg"
-import { useMediaQuery, useTheme } from "@mui/material"
+import mainBackDark from "@/shared/ui/assets/mainBackDark.jpg"
+import { useColorScheme, useMediaQuery, useTheme } from "@mui/material"
 import { PrimaryButton } from '@/shared/ui/components/buttons/PrimaryButton';
 import { Card } from "@/shared/ui/components/card";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
-import logoWithText from "@/shared/ui/assets/logoWithText.jpg"
+import logoWithText from "@/shared/ui/assets/logoWithText.png"
+import logoWithTextDark from "@/shared/ui/assets/logoWithTextDark.png"
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const MainPage: React.FC = () => {
 	const navigate = useNavigate()
 	const { data, isError, isSuccess } = useCheckAuthQuery()
+
+	const { mode } = useColorScheme(); 
 	
 	useEffect(() => {
 		if (isError || (isSuccess && data?.detail === false)) {
@@ -39,11 +43,11 @@ const MainPage: React.FC = () => {
 						<h3>Начать</h3>
 					</PrimaryButton>
 				</div>
-				<img src={mainBack} alt="#" />
+				{mode === 'dark' ? <img src={mainBackDark} alt="#" /> : <img src={mainBack} alt="#" />}
 			</div>
 			<div className={styles.main__cards}>
 				<div className={styles.main__cards__company}>
-					<img src={logoWithText} alt="#" />
+					{mode === 'dark' ? <img src={logoWithTextDark} alt="#" /> : <img src={logoWithText} alt="#" />}
 					<h2>Лаборатория ТГУ</h2>
 					<p>Узнайте больше о лаборатории, занимающейся разработкой этого сайта</p>
 					<SecondaryButton label='Читать больше' link='/' />

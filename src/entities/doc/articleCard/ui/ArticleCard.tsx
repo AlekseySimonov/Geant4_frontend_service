@@ -13,13 +13,16 @@ interface ArticleCardTypes {
 
 
 const ArticleCard: React.FC<ArticleCardTypes> = ({
-	title,
-	description,
-	category,
-	chapter,
+	title = '',
+	description = '',
+	category = '',
+	chapter = '',
 	onClick
 }) => {
 	const navigate = useNavigate()
+
+	const isNonEmptyString = (value: unknown): value is string =>
+		typeof value === 'string' && value.trim().length > 0;
 
 	const handleCategoryClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
@@ -39,8 +42,12 @@ const ArticleCard: React.FC<ArticleCardTypes> = ({
 		<div className={styles.card} onClick={onClick}>
 			<h2>{title?.trim() ? title : 'Без названия'}</h2>
 			<div className={styles.card__tags}>
-				{category?.trim() && <SecondaryButton label={category} onClick={handleCategoryClick} />}
-				{chapter?.trim() && <SecondaryButton label={chapter} onClick={handleChapterClick} />}
+				{isNonEmptyString(category) && (
+					<SecondaryButton label={category.trim()} onClick={handleCategoryClick} />
+				)}
+				{isNonEmptyString(chapter) && (
+					<SecondaryButton label={chapter.trim()} onClick={handleChapterClick} />
+				)}
 			</div>
 			<div className={styles.card__description}>
 				<p>{description?.trim() ? description : 'Описание отсутствует'}</p>

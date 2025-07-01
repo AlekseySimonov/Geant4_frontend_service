@@ -17,7 +17,7 @@
 		flex-direction: column;
 		position: absolute;
 		margin-bottom: 1rem;
-		background: white;
+		background: var(--mui-palette-background-paper);
 		font-size: clamp(12px, 1.5vw, 20px);
 		padding: 5px;
 		border-radius: 8px;

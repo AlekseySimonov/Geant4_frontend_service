@@ -5,6 +5,7 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { CircularProgress } from "@mui/material";
 import { SearchProps } from "../model/types";
 import { useSearch } from "../model/useSearch";
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 export const Search: React.FC<SearchProps> = ({
 	onSearch,
@@ -31,7 +32,7 @@ export const Search: React.FC<SearchProps> = ({
 	return (
 		<div className={styles.search} onClick={handleSearchClick} ref={searchRef}>
 			<div className={`${styles.search__input} ${open ? styles.open : ''}`}>
-				<img className={styles.search__input__icon} src={searchIcon} alt="#" />
+				<SearchOutlinedIcon style={{ fontSize: 30 }} color="inherit"/>
 				<input
 					type="text"
 					placeholder="Поиск"

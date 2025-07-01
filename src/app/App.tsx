@@ -1,13 +1,16 @@
 import { RouterProvider } from 'react-router';
 import { appRouter } from './providers';
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { lightTheme } from '@/shared/styles/themes';
+import { CssBaseline, CssVarsProvider, InitColorSchemeScript } from '@mui/material';
+import { appTheme } from '@/shared/styles/themes';
 
 export const App = () => {
 	return ((
-			<ThemeProvider theme={lightTheme}>
+		<>
+			<InitColorSchemeScript attribute="class" />
+			<CssVarsProvider theme={appTheme}>
 				<CssBaseline />
 				<RouterProvider router={appRouter} />
-			</ThemeProvider>
+			</CssVarsProvider>
+		</>
 	))
 }

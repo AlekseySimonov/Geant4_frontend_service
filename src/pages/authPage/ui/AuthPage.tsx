@@ -6,12 +6,16 @@ import { RootState } from '@/app/store'
 import { useCheckAuthQuery } from '../api/authApi'
 import { useEffect } from 'react'
 import authBackground from '@/shared/ui/assets/authBackground.jpg'
-import { useMediaQuery } from '@mui/material'
+import authBackgroundDark from '@/shared/ui/assets/authBackgroundDark.jpg'
+import { useColorScheme, useMediaQuery } from '@mui/material'
 
 const AuthPage: React.FC = () => {
 
 	const navigate = useNavigate()
 	const { data, isSuccess } = useCheckAuthQuery();
+
+	const { mode } = useColorScheme(); 
+	const backgroundImage = mode === 'dark' ? authBackgroundDark : authBackground;
 
 	useEffect(() => {
 		if ((isSuccess && data?.detail === true)) {
@@ -25,7 +29,7 @@ const AuthPage: React.FC = () => {
 	return (
 		<div
 			className={styles.container}
-			style={!isMobile ? { backgroundImage: `url(${authBackground})` } : undefined}
+			style={!isMobile ? { backgroundImage: `url(${backgroundImage})` } : undefined}
 		>
 			<AlertPopup/>
 			<div className={styles.container__content}>

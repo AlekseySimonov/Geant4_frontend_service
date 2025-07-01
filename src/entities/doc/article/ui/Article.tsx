@@ -83,8 +83,8 @@ const Article: React.FC = () => {
 					<h2>{article.title}</h2>
 					<div>
 						<Checkbox
-							icon={<BookmarkBorderIcon />}
-							checkedIcon={<BookmarkIcon />}
+							icon={<BookmarkBorderIcon sx={{ color: 'primary.main' }} />}
+							checkedIcon={<BookmarkIcon sx={{ color: 'primary.main' }}  />}
 							checked={isFavorite}
 							onChange={handleFavoriteToggle}
 						/>
@@ -92,10 +92,10 @@ const Article: React.FC = () => {
 					{isStaff?.is_staff && (
 						<div className={styles.devTools}>
 							<IconButton onClick={() => navigate(`/documentation/articles/editor/${id}`)}>
-								<CreateOutlinedIcon style={{ fontSize: 25 }} />
+								<CreateOutlinedIcon style={{ fontSize: 25 }} color="inherit"/>
 							</IconButton>
 							<IconButton onClick={deleteArticle.openPopup} >
-								<DeleteOutlineOutlinedIcon style={{ fontSize: 25 }} />
+								<DeleteOutlineOutlinedIcon style={{ fontSize: 25 }} color="inherit"/>
 							</IconButton>
 						</div>
 					)}

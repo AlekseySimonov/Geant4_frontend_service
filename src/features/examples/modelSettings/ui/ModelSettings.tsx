@@ -40,7 +40,7 @@ const ModelSettings: React.FC = () => {
 	[...example.commands]
 		.sort((a, b) => a.order_index - b.order_index)
 		.map((cmd) => {
-			const label = cmd.title.replace(`${example.title_not_verbose}, `, "");
+			const label = cmd.title.replace(`${example.title_verbose}, `, "");
 			const options = [...cmd.values].map((v) => v.toString()); 
 
 			return (

@@ -1,12 +1,28 @@
 import { Link, useNavigate } from "react-router";
 import styles from "./_menu.module.scss";
-import { Drawer, List, useMediaQuery, useTheme } from "@mui/material";
+import { Drawer, IconButton, List, ListItem, useColorScheme, useMediaQuery, useTheme } from "@mui/material";
 import { useState } from "react";
 import arrow from "@/shared/ui/assets/icons/arrow.svg";
-import burger from "@/shared/ui/assets/icons/burger.svg";
 import { useCheckAuthQuery } from "@/pages/authPage/api/authApi";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import { MenuItem } from "./MenuItem";
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+
+export const ThemeToggleButton: React.FC = () => {
+	const { mode, setMode } = useColorScheme();
+	if (mode === undefined) return null;
+
+	return (
+		<IconButton
+			onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
+		>
+			{mode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+		</IconButton>
+	);
+};
 
 export const Menu: React.FC = () => {
 	const theme = useTheme();
@@ -35,13 +51,14 @@ export const Menu: React.FC = () => {
 						{menuItems.map(({ label, to }) => (
 							<MenuItem key={label} label={label} to={to} />
 						))}
+						<ThemeToggleButton />
 					</>
 				) : (
 					<>
-						<img
-							src={burger}
+						<MenuRoundedIcon
 							onClick={() => setToggleDrawer(true)}
-							className={styles.menu__navigation__img}
+							color="inherit"
+							style={{ fontSize: 40 }}
 						/>
 						<Drawer
 							classes={{ paperAnchorRight: styles.menu__navigation__drawer }}
@@ -50,7 +67,13 @@ export const Menu: React.FC = () => {
 							onClose={() => setToggleDrawer(false)}
 						>
 							<List>
-								<img src={arrow} onClick={() => setToggleDrawer(false)} />
+								<ListItem classes={{ gutters: styles.listItem }}>
+									<ArrowForwardIosRoundedIcon
+										color="inherit"
+										style={{ fontSize: 20 }}
+										onClick={() => setToggleDrawer(false)}
+									/>
+								</ListItem>
 								{menuItems.map(({ label, to }) => (
 									<MenuItem
 										key={label}
@@ -60,6 +83,7 @@ export const Menu: React.FC = () => {
 										isListItem
 									/>
 								))}
+								<ListItem classes={{ gutters: styles.listItem }}><ThemeToggleButton /></ListItem>
 							</List>
 						</Drawer>
 					</>

@@ -73,9 +73,9 @@ export const FormField: React.FC<FormFieldProps> =
 													edge="end"
 												>
 													{showPassword ? (
-														<VisibilityOff sx={{ fontSize: 20 }} />
+														<VisibilityOff sx={{ fontSize: 20 }} color='inherit'/>
 													) : (
-														<Visibility sx={{ fontSize: 20 }} />
+														<Visibility sx={{ fontSize: 20 }} color='inherit'/>
 													)}
 												</IconButton>
 											</InputAdornment>

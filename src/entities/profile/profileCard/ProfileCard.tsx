@@ -9,6 +9,7 @@ import { Logout } from "@/features/profile/settings/ui/Logout";
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
+import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
 
 interface ProfileCardProps {
     data: ProfileTypes;
@@ -34,7 +35,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ data, onSettingsClick, avatar
                     <div>
                         {data?.is_staff && (<h3>Сотрудник</h3>)}
                         <IconButton color="primary">
-                            <img src={settingsIcon} alt="Settings" onClick={onSettingsClick}/>
+                            <ManageAccountsRoundedIcon color="inherit" style={{ fontSize: 35 }} onClick={onSettingsClick}/>
                         </IconButton>
                     </div>
                     <SecondaryButton size= 's' label="Выйти" onClick={logout.openPopup} />

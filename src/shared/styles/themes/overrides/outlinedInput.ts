@@ -8,21 +8,17 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 			return {
 				fontSize: '1rem',
 				borderRadius: theme.shape.borderRadius,
-				"&.Mui-error .MuiOutlinedInput-notchedOutline": {
+				color: 'inherit',
+
+				'&:hover .MuiOutlinedInput-notchedOutline': {
+					borderColor: 'inherit',
+				},
+				'&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+					borderColor: 'inherit',
+					borderWidth: '2px',
+				},
+				'&.Mui-error .MuiOutlinedInput-notchedOutline': {
 					borderColor: theme.palette.error.main,
-				},
-				"&:hover .MuiOutlinedInput-notchedOutline": {
-					borderColor: theme.palette.primary.main,
-				},
-				"&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-					borderColor: theme.palette.primary.main,
-					borderWidth: "2px",
-				},
-				'&.MuiInputLabel-shrink': {
-					color: theme.palette.info.main,
-				},
-				'&.MuiAutocomplete-inputFocused': {
-					color: theme.palette.info.main,
 				},
 			};
 		},
@@ -30,7 +26,7 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 			const { theme } = props as { theme: Theme };
 
 			return {
-				color: theme.palette.primary.main,
+				color: 'inherit',
 				padding: "16px 20px",
 				fontSize: '1rem',
 				"&::placeholder": {
@@ -48,7 +44,8 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 			const { theme } = props as { theme: Theme };
 
 			return {
-				borderColor: theme.palette.primary.main,
+				color: 'inherit',
+				borderColor: 'inherit',
 				borderWidth: "1px",
 				fontSize: '1rem',
 				borderRadius: theme.shape.borderRadius,

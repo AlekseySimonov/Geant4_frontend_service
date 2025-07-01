@@ -1,1 +1,1 @@
-export { default as lightTheme } from "./lightTheme";
+export { appTheme } from './appTheme'

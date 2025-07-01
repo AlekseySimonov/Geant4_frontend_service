@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import Plot from "react-plotly.js";
-import { Checkbox, useMediaQuery } from "@mui/material";
+import { Checkbox, useMediaQuery, useTheme } from "@mui/material";
 import { DataSeries } from "../model/types";
 import styles from "./_graph.module.scss";
 import { usePlotlyStyles } from "../lib/plotlyStyles";
@@ -36,6 +36,7 @@ const Graph = ({ data, title }: Props) => {
 
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const plotlyStyles = usePlotlyStyles();
+  const theme = useTheme();
 
   useEffect(() => {
     if (!data.length) return;
@@ -160,6 +161,7 @@ const Graph = ({ data, title }: Props) => {
         </div>
 
         <Plot
+          key={theme.palette.mode}
           data={plotData}
           layout={mergedLayout}
           useResizeHandler

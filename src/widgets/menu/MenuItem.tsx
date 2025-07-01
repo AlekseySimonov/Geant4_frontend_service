@@ -22,7 +22,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({ label, to, onClick, isListIt
 				className={match ? styles.activeListItem : ""}
 				classes={{ gutters: styles.listItem }}
 			>
-				<ListItemText classes={{ primary: styles.listItem__text }} primary={label} />
+				<ListItemText classes={{ primary: styles.listItem__text }} primary={label} color="inherit"/>
 			</ListItem>
 		);
 	}
