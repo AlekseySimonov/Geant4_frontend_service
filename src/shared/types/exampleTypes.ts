@@ -2,14 +2,22 @@ export interface Tag {
 	title: string;
 }
 
+export interface CommandList {
+	id: number;
+	title: string;
+	command_values: (string | number)[];
+}
+
 export interface Command {
 	title: string;
-	default: string;
+	default: string | number;
 	order_index: number;
-	min: number;
-	max: number;
-	values: number[] | string [];
+	min: number | null;
+	max: number | null;
+	command_list: CommandList | null;
+	signature: string | null;
 }
+
 
 export interface ExampleBaseTypes {
 	id: number;
@@ -22,7 +30,12 @@ export interface ExampleBaseTypes {
 }
 
 export interface Example extends ExampleBaseTypes {
-	commands?: Command[];
+	commands: Command[];
 }
 
-export type RawExampleResponse = (Example | { pages_count: number })[];
+export interface RawExamplePage {
+	pages_count: number;
+}
+
+export type RawExampleResponse = (Example | RawExamplePage)[];
+

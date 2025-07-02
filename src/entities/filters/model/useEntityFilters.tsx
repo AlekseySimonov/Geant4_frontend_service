@@ -53,7 +53,7 @@ export const useEntityFilters = <
 	};
 
 	const handleTagChange = (tag: FilterTypes) => {
-		updateParams({ tag: tag.title });
+		updateParams({ tags: tag.title });
 	};
 
 	const handleCategoryChange = (category: FilterTypes) => {

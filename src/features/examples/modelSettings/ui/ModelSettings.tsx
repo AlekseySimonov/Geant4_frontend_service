@@ -21,8 +21,9 @@ const ModelSettings: React.FC = () => {
 		return example.commands.reduce((acc, cmd) => {
 			acc[cmd.title] = cmd.default ?? "";
 			return acc;
-		}, {} as Record<string, string>);
+		}, {} as Record<string, string | number>);
 	}, [example]);
+
 
 	if (!example) return null
 	const handleBackClick = () => {
@@ -34,39 +35,81 @@ const ModelSettings: React.FC = () => {
 	};
 
 	const renderFields = (
-	values: typeof initialValues,
-	setFieldValue: (field: string, value: any) => void
-) =>
-	[...example.commands]
-		.sort((a, b) => a.order_index - b.order_index)
-		.map((cmd) => {
-			const label = cmd.title.replace(`${example.title_verbose}, `, "");
-			const options = [...cmd.values].map((v) => v.toString()); 
+		values: typeof initialValues,
+		setFieldValue: (field: string, value: any) => void
+	) =>
+		example.commands
+			.slice()
+			.sort((a, b) => a.order_index - b.order_index)
+			.map((cmd) => {
+				const label = cmd.title.replace(`${example.title_verbose}, `, "");
+				const value = values[cmd.title] ?? "";
 
-			return (
-				<Autocomplete
-					key={cmd.title}
-					options={options}
-					freeSolo={options.length === 0}
-					value={values[cmd.title] ?? ""}
-					onChange={(_, value) => {
-						setFieldValue(cmd.title, value ?? "");
-					}}
-					onBlur={() => {
-						setFieldValue(cmd.title, values[cmd.title]);
-					}}
-					renderInput={(params) => (
+				const options = cmd.command_list?.command_values?.map(v => v.toString()) ?? [];
+
+				const isNumberDefault = !isNaN(Number(cmd.default)) && isFinite(Number(cmd.default));
+
+				if (isNumberDefault) {
+					return (
 						<TextField
-							{...params}
+							key={cmd.title}
+							type="number"
 							label={label}
 							variant="outlined"
 							fullWidth
+							value={value}
+							onChange={(e) => {
+								const val = e.target.value;
+								const parsed = val === "" ? "" : Number(val);
+								setFieldValue(cmd.title, parsed);
+							}}
+							inputProps={{
+								min: cmd.min ?? undefined,
+								max: cmd.max ?? undefined,
+							}}
+							className={styles.content__field}
 						/>
-					)}
-					className={styles.content__field}
-				/>
-			);
-		});
+					);
+				}
+
+				if (options.length > 0) {
+					return (
+						<Autocomplete
+							key={cmd.title}
+							options={options}
+							value={value}
+							onChange={(_, newValue) => {
+								setFieldValue(cmd.title, newValue ?? "");
+							}}
+							onBlur={() => {
+								setFieldValue(cmd.title, value);
+							}}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									label={label}
+									variant="outlined"
+									fullWidth
+								/>
+							)}
+							className={styles.content__field}
+						/>
+					);
+				}
+
+				return (
+					<TextField
+						key={cmd.title}
+						label={label}
+						variant="outlined"
+						fullWidth
+						value={value}
+						disabled
+						className={styles.content__field}
+					/>
+				);
+			});
+
 
 
 	return (

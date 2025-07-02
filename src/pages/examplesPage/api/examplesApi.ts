@@ -64,6 +64,12 @@ export const examplesApi = createApi({
 					method: 'GET',
 				}),
 			}),
+			getCategories: query<CategoryOrChapter[], void>({
+				query: () => ({
+					url: URLS.CATEGORIES,
+					method: 'GET',
+				}),
+			}),
 
 		};
 	},
@@ -75,4 +81,5 @@ export const {
 	useGetExampleQuery,
 	useGetGraphsMutation,
 	useGetTagsQuery,
+	useGetCategoriesQuery,
 } = examplesApi;

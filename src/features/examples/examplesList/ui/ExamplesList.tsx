@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useGetCategoriesQuery } from "@/pages/documentationPage/api/docApi";
 import styles from "./_examplesList.module.scss";
 import { FiltersUrl } from "@/entities"
 import { ArticleCard } from "@/entities/doc";
@@ -9,7 +8,7 @@ import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
 import { queryExamples } from "@/pages/examplesPage";
 import { Example, RawExampleResponse } from "@/shared/types";
-import { useGetTagsQuery } from "@/pages/examplesPage/api/examplesApi";
+import { useGetCategoriesQuery, useGetTagsQuery } from "@/pages/examplesPage/api/examplesApi";
 
 const ExamplesList: React.FC = () => {
 	const { data: categories = [] } = useGetCategoriesQuery();
@@ -85,8 +84,8 @@ const ExamplesList: React.FC = () => {
 								key={example.id}
 								title={example.title_verbose}
 								description={example.description}
-								category={example?.category || ''}
-								chapter={example?.chapter || ''}
+								category={example?.category?.title || ''}
+								chapter={example?.chapter?.title || ''}
 								onClick={() => navigate(`/modeling/examples/${example.id}`, {
 									state: { from: location.pathname + location.search }
 								})}
