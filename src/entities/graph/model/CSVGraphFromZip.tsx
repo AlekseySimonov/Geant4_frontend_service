@@ -21,6 +21,7 @@ type GraphFile = {
 const LazyGraph = lazy(() => import("@/entities/graph/ui/Graph"));
 
 export const CsvGraphFromZip: React.FC<CsvGraphFromZipProps> = ({ zipBlob }) => {
+	const [mainFile, setMainFile] = useState<GraphFile | null>(null)
 	const [files, setFiles] = useState<GraphFile[]>([]);
 	const [parseError, setParseError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -48,7 +49,8 @@ export const CsvGraphFromZip: React.FC<CsvGraphFromZipProps> = ({ zipBlob }) => 
 					});
 				}
 
-				setFiles(parsedFiles);
+				setMainFile(parsedFiles[0] || null);
+				setFiles(parsedFiles.slice(1));
 				setParseError(null);
 			} catch (e) {
 				setParseError(e instanceof Error ? e.message : "Ошибка чтения ZIP-файла");
@@ -67,22 +69,35 @@ export const CsvGraphFromZip: React.FC<CsvGraphFromZipProps> = ({ zipBlob }) => 
 	};
 
 	if (loading) return <Typography>Загрузка графиков...</Typography>;
-	if (files.length === 0) return <Typography>Нет CSV-файлов для отображения</Typography>;
+	if (!mainFile && files.length === 0) return <Typography>Нет CSV-файлов для отображения</Typography>;
 
 	return (
 		<>
-			<List>
-				{files.map((file) => (
-					<ListItem key={file.filename} disablePadding>
-						<ListItemButton onClick={() => handleFileClick(file)}>
-							<ListItemIcon>
-								<InsertDriveFileIcon />
-							</ListItemIcon>
-							<ListItemText primary={file.filename} />
-						</ListItemButton>
-					</ListItem>
-				))}
-			</List>
+			{mainFile && (
+				<div className={styles.graphMain}>
+					<Suspense fallback={<Typography>Загрузка графика…</Typography>}>
+						<LazyGraph data={mainFile.data} title={mainFile.title} />
+					</Suspense>
+				</div>
+			)}
+
+			{files.length > 0 && (
+				<List>
+					{files.map((file) => (
+						<ListItem key={file.filename} disablePadding>
+							<ListItemButton onClick={() => handleFileClick(file)}>
+								<ListItemIcon>
+									<InsertDriveFileIcon color="inherit" />
+								</ListItemIcon>
+								<ListItemText
+									primary={file.filename}
+									primaryTypographyProps={{ color: 'primary.main' }}
+								/>
+							</ListItemButton>
+						</ListItem>
+					))}
+				</List>
+			)}
 
 			<ModalWindow open={modal.isVisible} onClose={modal.closePopup} width="80%">
 				{selectedFile &&

@@ -41,6 +41,14 @@ export const examplesApi = createApi({
 				}),
 				providesTags: (id: number) => [{ type: 'Examples' as const, id }],
 			}),
+			postExample: mutation<void, { id: number; payload: Record<string, string | number> }>({
+				query: ({ id, payload }) => ({
+					url: `${URLS.EXAMPLES}${id}/example_geant/`,
+					method: 'POST',
+					data: { params: payload },
+				}),
+				invalidatesTags: ['Examples'],
+			}),
 			getGraphs: mutation<Blob, number>({
 				queryFn: async (id, api, extraOptions, baseQuery) => {
 					const res = await fetch(`${API_URL}/${URLS.EXAMPLES}${id}/example_geant/`, {
@@ -82,4 +90,5 @@ export const {
 	useGetGraphsMutation,
 	useGetTagsQuery,
 	useGetCategoriesQuery,
+	usePostExampleMutation,
 } = examplesApi;

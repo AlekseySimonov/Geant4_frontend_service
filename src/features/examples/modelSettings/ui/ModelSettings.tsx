@@ -1,13 +1,13 @@
 import { useLocation, useNavigate, useParams } from "react-router";
 import styles from "./_modelSettings.module.scss"
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import { FormField } from "@/shared";
 import { Formik } from 'formik';
 import { Form } from 'formik';
-import { useGetExampleQuery } from "@/pages/examplesPage/api/examplesApi";
+import { useGetExampleQuery, usePostExampleMutation } from "@/pages/examplesPage/api/examplesApi";
 import { PrimaryButton } from "@/shared/ui/components/buttons";
 import { Autocomplete, TextField } from "@mui/material";
 import { useMemo } from "react";
+import { submitExample } from "../model";
 const ModelSettings: React.FC = () => {
 
 	const navigate = useNavigate()
@@ -15,6 +15,7 @@ const ModelSettings: React.FC = () => {
 
 	const { id } = useParams<{ id: string }>();
 	const { data: example, isLoading, isError } = useGetExampleQuery(Number(id))
+	const [postExample] = usePostExampleMutation();
 
 	const initialValues = useMemo(() => {
 		if (!example) return {};
@@ -23,7 +24,6 @@ const ModelSettings: React.FC = () => {
 			return acc;
 		}, {} as Record<string, string | number>);
 	}, [example]);
-
 
 	if (!example) return null
 	const handleBackClick = () => {
@@ -122,7 +122,7 @@ const ModelSettings: React.FC = () => {
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
-					onSubmit={(values) => console.log("Submitted:", values)}
+					onSubmit={submitExample(Number(id), postExample)}
 				>
 					{({ values, setFieldValue }) => (
 						<Form className={styles.content__form}>
