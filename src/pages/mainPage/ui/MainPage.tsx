@@ -50,7 +50,7 @@ const MainPage: React.FC = () => {
 					{mode === 'dark' ? <img src={logoWithTextDark} alt="#" /> : <img src={logoWithText} alt="#" />}
 					<h2>Лаборатория ТГУ</h2>
 					<p>Узнайте больше о лаборатории, занимающейся разработкой этого сайта</p>
-					<SecondaryButton label='Читать больше' link='/' />
+					<SecondaryButton label='Читать больше' link='https://hep.tsu.ru/' />
 				</div>
 				<Card
 					title="Загрузка"

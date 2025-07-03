@@ -1,4 +1,5 @@
 export interface MyExamplesTypes{
+	category?: string;
 	title_verbose: string;
 	description: string;
 	creation_date: string;

@@ -23,14 +23,14 @@ const ResolvesList: React.FC = () => {
 				</div>
 			) : (
 				<div className={styles.resolves__list}>
-					{examples.map((example) => (
+					{examples.map((example, index) => (
 						<ResolveCard
-							key={example.example_id}
+							key={`${example.example_id}-${index}`}
 							title={example.title_verbose ?? "Без названия"}
 							date={example.creation_date}
 							status={example.status}
 							tags={example.tags}
-							onClick={() => navigate(`/modelling/example/${example.example_id}`)}
+							onClick={() => navigate(`/profile/my_example/${example.example_id}`)}
 						/>
 					))}
 				</div>

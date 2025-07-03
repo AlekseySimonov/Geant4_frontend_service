@@ -62,6 +62,13 @@ export const profileApi = createApi({
 				}),
 				providesTags: ['Examples'],
 			}),
+			getExample: query<MyExamplesTypes, number>({
+				query: (id:number) => ({
+					url: `${URLS.EXAMPLES}${id}`,
+					method: 'GET',
+				}),
+				providesTags: ['Examples'],
+			}),
 			updateEmail: query({
 				query: (token: string) => ({
 					url: `${URLS.PROFILE}update_email/${token}`,
@@ -80,4 +87,5 @@ export const {
 	useUpdateUsernameMutation,
 	useGetExamplesQuery,
 	useUpdateEmailQuery,
+	useGetExampleQuery,
 } = profileApi;

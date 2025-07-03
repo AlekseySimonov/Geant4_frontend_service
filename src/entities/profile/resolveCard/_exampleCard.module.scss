@@ -5,8 +5,9 @@
 	justify-content: space-between;
 	border-radius: 8px;
 	gap: 80px;
+	transition: box-shadow 0.3s ease;
 	&:hover{
-		box-shadow: var(--mui-shadows-1);
+		box-shadow: var(--mui-shadows-4);
 		cursor: pointer;
 	}
 	@media(max-width: 800px){

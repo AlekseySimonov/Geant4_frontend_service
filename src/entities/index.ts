@@ -1,4 +1,5 @@
-export { Example } from "./examples"
+
+export { Example, MyExample } from "./examples"
 export { FiltersUrl } from "./filters"
 export { Article } from "./doc"
 export { default as ResolvesList } from "../features/profile/resolvesList"
