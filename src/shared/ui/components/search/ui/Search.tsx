@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import styles from "./_search.module.scss"
-import searchIcon from "@/shared/ui/assets/icons/search.svg"
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { CircularProgress } from "@mui/material";
 import { SearchProps } from "../model/types";

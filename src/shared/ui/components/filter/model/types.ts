@@ -1,6 +1,7 @@
 export interface FilterTypes {
 	id?: number;
 	title: string;
+	value?: string;
 }
 
 export interface FilterProps {

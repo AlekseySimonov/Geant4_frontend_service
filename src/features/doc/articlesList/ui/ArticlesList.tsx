@@ -21,7 +21,8 @@ const ArticlesList: React.FC = () => {
 	const navigate = useNavigate();
 	const isWideScreen = useMediaQuery('(min-width:1350px)');
 
-	const [searchArticles, { isFetching }] = useLazySearchArticlesQuery();
+	const [searchArticles, { isFetching: isListFetching }] = useLazySearchArticlesQuery();
+	const [searchAutocomplete] = useLazySearchArticlesQuery();
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
 	const [articles, setArticles] = useState([]);
@@ -95,12 +96,13 @@ const ArticlesList: React.FC = () => {
 				<FiltersUrl
 					categories={categories}
 					chapters={chapters}
-					searchQuery={searchArticles}
+					showOrdering = {false}
+					searchQuery={searchAutocomplete}
 					mapItem={(article) => ({ id: article.id, title: article.title })}
 				/>
 
 				<div className={styles.articles__cards}>
-					{(isFetching && !globalLoading) ? (
+					{(isListFetching && !globalLoading) ? (
 						<div className={styles.loadingContainer}><CircularProgress /></div>
 					) : articles.length > 0 ? (
 						<>

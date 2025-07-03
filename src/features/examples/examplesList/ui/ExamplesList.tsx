@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styles from "./_examplesList.module.scss";
 import { FiltersUrl } from "@/entities"
-import { ArticleCard } from "@/entities/doc";
 import { CircularProgress, Pagination } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router";
 import { RootState } from "@/app/store";
@@ -9,15 +8,17 @@ import { useSelector } from "react-redux";
 import { queryExamples } from "@/pages/examplesPage";
 import { Example, RawExampleResponse } from "@/shared/types";
 import { useGetCategoriesQuery, useGetTagsQuery } from "@/pages/examplesPage/api/examplesApi";
+import { ExampleCard } from "@/entities/examples";
 
 const ExamplesList: React.FC = () => {
 	const { data: categories = [] } = useGetCategoriesQuery();
-	const { data: tags = []} = useGetTagsQuery()
+	const { data: tags = [] } = useGetTagsQuery()
 
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 
-	const [searchExamples, { isFetching }] = queryExamples.useLazySearchExamplesQuery();
+	const [searchExamples, { isFetching: isListFetching }] = queryExamples.useLazySearchExamplesQuery();
+	const [searchAutocomplete] = queryExamples.useLazySearchExamplesQuery();
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
 	const [examples, setExamples] = useState([]);
@@ -25,6 +26,7 @@ const ExamplesList: React.FC = () => {
 
 	const categoryParam = searchParams.get("category");
 	const tagParam = searchParams.get("tags");
+	const orderingParam = searchParams.get("ordering");
 	const searchParam = searchParams.get("query");
 	const pageParam = parseInt(searchParams.get("page") || "1", 10);
 
@@ -34,6 +36,7 @@ const ExamplesList: React.FC = () => {
 			tag: tagParam || '',
 			query: searchParam || '',
 			page: pageParam || 1,
+			ordering: orderingParam || '',
 		});
 
 		if ('data' in result && Array.isArray(result.data)) {
@@ -50,7 +53,7 @@ const ExamplesList: React.FC = () => {
 			setExamples(examplesData);
 			setPageCount(pageCountEntry?.pages_count || 1);
 		}
-	}, [searchExamples, categoryParam, tagParam, searchParam, pageParam]);
+	}, [searchExamples, categoryParam, tagParam, searchParam, pageParam, orderingParam]);
 
 
 	useEffect(() => {
@@ -69,23 +72,26 @@ const ExamplesList: React.FC = () => {
 
 			<FiltersUrl
 				categories={categories}
-				tags = {tags}
-				searchQuery={searchExamples}
-				mapItem={(example) => ({ id: example.id, title: example.title })}
+				tags={tags}
+				searchQuery={searchAutocomplete}
+				mapItem={(example): { id: number; title: string } => ({
+					id: example.id,
+					title: (example as any).title_verbose,
+				})}
 			/>
 
 			<div className={styles.examples__cards}>
-				{(isFetching && !globalLoading) ? (
+				{(isListFetching && !globalLoading) ? (
 					<div className={styles.loadingContainer}><CircularProgress /></div>
 				) : examples.length > 0 ? (
 					<>
 						{examples.map(example => (
-							<ArticleCard
+							<ExampleCard
 								key={example.id}
 								title={example.title_verbose}
 								description={example.description}
 								category={example?.category?.title || ''}
-								chapter={example?.chapter?.title || ''}
+								tag={example?.tag?.title || ''}
 								onClick={() => navigate(`/modeling/examples/${example.id}`, {
 									state: { from: location.pathname + location.search }
 								})}

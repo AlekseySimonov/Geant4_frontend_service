@@ -12,6 +12,7 @@ interface UseEntityFiltersProps<
 	tags?: FilterTypes[];
 	categories: FilterTypes[];
 	chapters?: FilterTypes[];
+	ordering?: FilterTypes[];
 	searchQuery: LazyQueryTrigger<T>;
 	mapItem: (item: ResultItem) => TransformedItem;
 }
@@ -34,6 +35,7 @@ export const useEntityFilters = <
 	const chapterParam = searchParams.get("chapter");
 	const tagParam = searchParams.get("tags");
 	const searchParam = searchParams.get("query") || "";
+	const orderingParam = searchParams.get("ordering") || "";
 
 	const selectedTag = tags?.find((c) => c.title === tagParam) || null;
 	const selectedCategory = categories?.find((c) => c.title === categoryParam) || null;
@@ -50,6 +52,10 @@ export const useEntityFilters = <
 		});
 		newParams.set("page", "1");
 		setSearchParams(newParams, { replace: true });
+	};
+
+	const handleOrderingChange = (ordering: string) => {
+		updateParams({ ordering });
 	};
 
 	const handleTagChange = (tag: FilterTypes) => {
@@ -94,12 +100,14 @@ export const useEntityFilters = <
 		selectedChapter,
 		selectedTag,
 		searchValue: searchParam,
+		ordering: orderingParam,
 
 		handleCategoryChange,
 		handleChapterChange,
 		handleTagChange,
 		handleSearch,
 		handleSearchSelect,
+		handleOrderingChange,
 
 		handleReset,
 		resetCategory,
