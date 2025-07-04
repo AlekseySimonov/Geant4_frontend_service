@@ -4,18 +4,17 @@ import { useNavigate } from "react-router";
 
 interface ExampleCardTypes {
 	category?: string;
-	tag?: string;
+	tags?: string[]
 	description?: string;
 	title?: string;
 	onClick?: () => void;
 }
 
-
 const ExampleCard: React.FC<ExampleCardTypes> = ({
 	title = '',
 	description = '',
 	category = '',
-	tag = '',
+	tags = [],
 	onClick
 }) => {
 	const navigate = useNavigate()
@@ -30,7 +29,7 @@ const ExampleCard: React.FC<ExampleCardTypes> = ({
 		}
 	}
 
-	const handleTagClick = (e: React.MouseEvent) => {
+	const handleTagClick = (e: React.MouseEvent, tag: string) => {
 		e.stopPropagation();
 		if (tag?.trim()) {
 			navigate(`/modeling/examples?tags=${encodeURIComponent(tag.trim())}&page=1`)
@@ -44,9 +43,16 @@ const ExampleCard: React.FC<ExampleCardTypes> = ({
 				{isNonEmptyString(category) && (
 					<SecondaryButton label={category.trim()} onClick={handleCategoryClick} />
 				)}
-				{isNonEmptyString(tag) && (
-					<SecondaryButton label={tag.trim()} onClick={handleTagClick} />
-				)}
+				{Array.isArray(tags) &&
+						tags.map((tag, index) =>
+							isNonEmptyString(tag) ? (
+								<SecondaryButton
+									key={index}
+									label={tag.trim()}
+									onClick={(e) => handleTagClick(e, tag)}
+								/>
+							) : null
+						)}
 			</div>
 			<div className={styles.card__description}>
 				<p>{description?.trim() ? description : 'Описание отсутствует'}</p>

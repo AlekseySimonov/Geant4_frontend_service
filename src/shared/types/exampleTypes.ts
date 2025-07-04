@@ -31,7 +31,7 @@ export interface ExampleBaseTypes {
 }
 
 export interface Example extends ExampleBaseTypes {
-	params: Command[];
+	commands: Command[];
 }
 
 export interface RawExamplePage {

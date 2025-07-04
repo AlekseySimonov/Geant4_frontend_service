@@ -30,10 +30,8 @@ const ResolveCard: React.FC<ResolveCardProps> = ({
 	const { label, tagProps } = statusMap[status] || { label: 'Неизвестно', tagProps: {} }
 	const navigate = useNavigate()
 
-
 	const isNonEmptyString = (value: unknown): value is string =>
 		typeof value === 'string' && value.trim().length > 0;
-
 
 	const handleCategoryClick = (e: React.MouseEvent) => {
 		e.stopPropagation();

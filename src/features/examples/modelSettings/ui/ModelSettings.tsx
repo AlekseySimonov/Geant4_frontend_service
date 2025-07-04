@@ -20,9 +20,11 @@ const ModelSettings: React.FC = () => {
 	const { data: example, isLoading, isError } = useGetExampleQuery(Number(id))
 	const [postExample] = usePostExampleMutation();
 
+	if (!example) return null 
+
 	const initialValues = useMemo(() => {
 		if (!example) return {};
-		return example.params.reduce((acc, cmd) => {
+		return example.commands.reduce((acc, cmd) => {
 			acc[cmd.title] = cmd.default ?? "";
 			return acc;
 		}, {} as Record<string, string | number>);
@@ -41,7 +43,7 @@ const ModelSettings: React.FC = () => {
 		values: typeof initialValues,
 		setFieldValue: (field: string, value: any) => void
 	) =>
-		example.params
+		example.commands
 			.slice()
 			.sort((a, b) => a.order_index - b.order_index)
 			.map((cmd) => {
@@ -125,7 +127,7 @@ const ModelSettings: React.FC = () => {
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
-					onSubmit={submitExample(Number(id), postExample, dispatch)}
+					onSubmit={submitExample(Number(id), postExample, navigate, dispatch)}
 				>
 					{({ values, setFieldValue }) => (
 						<Form className={styles.content__form}>

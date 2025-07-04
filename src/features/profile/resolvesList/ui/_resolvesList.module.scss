@@ -1,4 +1,4 @@
-.resolves{
+.resolves {
 	padding: 40px;
 	display: flex;
 	flex-direction: column;
@@ -7,20 +7,41 @@
 	box-shadow: var(--mui-shadows-2);
 	margin-bottom: 150px;
 	background-color: var(--mui-palette-background-paper);
-	@media(max-width: 800px){
+
+	@media(max-width: 800px) {
 		padding: 20px;
 	}
-	@media(max-width: 600px){
-		h3{
+
+	@media(max-width: 600px) {
+		h3 {
 			font-size: 1.2rem;
 		}
 	}
-	&__list{
+
+	&__cards {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+
+		&__pagination {
+			display: flex;
+			justify-content: center;
+		}
+
+		.loadingContainer {
+			display: flex;
+			justify-content: center;
+			margin-block: 20px;
+		}
+	}
+
+	&__list {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
 	}
-	&__nullList{
+
+	&__nullList {
 		display: flex;
 		flex-direction: column;
 		align-items: center;

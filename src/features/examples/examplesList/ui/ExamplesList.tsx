@@ -91,7 +91,7 @@ const ExamplesList: React.FC = () => {
 								title={example.title_verbose}
 								description={example.description}
 								category={example?.category?.title || ''}
-								tag={example?.tag?.title || ''}
+								tags={example.tags}
 								onClick={() => navigate(`/modeling/examples/${example.id}`, {
 									state: { from: location.pathname + location.search }
 								})}

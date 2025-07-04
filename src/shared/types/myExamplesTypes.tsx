@@ -10,5 +10,11 @@ export interface MyExamplesTypes{
 	status: number;
 	tags: string[];
 	params:  Command[];
-	example_id: number;
+	example_id?: number;
 }
+
+export interface RawMyExamplesPage {
+	pages_count: number;
+}
+
+export type RawMyExamplesResponse = (MyExamplesTypes | RawMyExamplesPage)[];

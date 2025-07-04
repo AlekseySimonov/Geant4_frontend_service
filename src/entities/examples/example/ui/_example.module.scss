@@ -21,6 +21,16 @@
 		margin-top: 32px;
 		padding: 20px;
 	}
+	&__title{
+		display: flex;
+		gap: 16px;
+		align-items: center;
+		margin-bottom: 16px;
+		flex-wrap: wrap;
+		svg{
+			cursor: pointer;
+		}
+	}
 	&__header{
 		display: flex;
 		gap: 16px;
@@ -53,15 +63,19 @@
 			padding-inline: 1rem;
 		}
 		.status{
-			text-align: center;
-			justify-content: center;
-			padding: 40px;
-			border-radius: 8px;
 			&__inProcess{
+				text-align: center;
+				justify-content: center;
+				padding: 40px;
+				border-radius: 8px;
 				color: var(--mui-palette-success-main);
 				border: solid var(--mui-palette-success-main) 4px;
 			}
 			&__error{
+				text-align: center;
+				justify-content: center;
+				padding: 40px;
+				border-radius: 8px;
 				color: var(--mui-palette-error-main);
 				border: solid var(--mui-palette-error-main) 4px;
 			}

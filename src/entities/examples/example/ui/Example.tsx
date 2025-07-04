@@ -19,14 +19,15 @@ const Example: React.FC = () => {
 
 	const [getGraphs, { isError: isGraphsError }] = useGetGraphsMutation();
 	useEffect(() => {
-		getGraphs({ id: example.example_id, commands: example.params }).unwrap()
+		if (numericId && example) {
+			getGraphs({ id: Number(id) }).unwrap()
 			.then(setZipBlob)
 			.catch((err) => {
 				console.error("Ошибка при получении графиков:", err);
 			});
-	}, [numericId]);
-
-	if (!example) return null;
+		}
+		
+	}, [numericId, example]);
 
 	const handleBackClick = () => {
 		if (location.state?.from) {
@@ -35,6 +36,8 @@ const Example: React.FC = () => {
 			navigate('/modeling/examples');
 		}
 	};
+
+	if (!example) return null
 
 	return (
 		<div className={styles.example}>

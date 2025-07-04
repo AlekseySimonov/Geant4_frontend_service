@@ -40,7 +40,7 @@ const MyExample: React.FC = () => {
 
 	return (
 		<div className={styles.example}>
-			<div className={styles.example__header}>
+			<div className={styles.example__title}>
 				<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={handleBackClick} />
 				<div className={styles.example__header__title}>
 					<h2>{example.title_verbose}</h2>
