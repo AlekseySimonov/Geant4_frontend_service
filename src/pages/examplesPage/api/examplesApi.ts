@@ -2,7 +2,7 @@ import { URLS } from "./urls";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { globalLoading } from "@/shared/model";
 import { apiBaseQuery } from "@/shared/api";
-import { Example, ExampleBaseTypes } from "@/shared/types";
+import { Command, Example, ExampleBaseTypes } from "@/shared/types";
 
 export interface CategoryOrChapter {
 	id?: number;
@@ -49,19 +49,27 @@ export const examplesApi = createApi({
 				}),
 				invalidatesTags: ['Examples'],
 			}),
-			getGraphs: mutation<Blob, number>({
-				queryFn: async (id, api, extraOptions, baseQuery) => {
+			getGraphs: mutation<Blob, { id: number; commands?: Command[] }>({
+				queryFn: async ({ id, commands }) => {
+					const hasValidCommands = Array.isArray(commands) && commands.length > 0;
+
+					const body = JSON.stringify({
+						params: hasValidCommands ? { commands } : {},
+					});
+
 					const res = await fetch(`${API_URL}/${URLS.EXAMPLES}${id}/example_geant/`, {
 						method: 'POST',
 						credentials: 'include',
 						headers: {
-							'Content-Type': 'application/zip',
+							'Content-Type': 'application/json',
 						},
-						body: "",
+						body,
 					});
+
 					if (!res.ok) {
 						return { error: { status: res.status, data: await res.text() } };
 					}
+
 					const blob = await res.blob();
 					return { data: blob };
 				},

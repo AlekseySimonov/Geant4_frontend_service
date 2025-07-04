@@ -17,9 +17,13 @@ const Example: React.FC = () => {
 	const numericId = Number(id);
 	const { data: example, isLoading, isError } = useGetExampleQuery(numericId);
 
-	const [getGraphs, { data: graphsData, isLoading: isGraphsLoading, isError: isGraphsError }] = useGetGraphsMutation();
+	const [getGraphs, { isError: isGraphsError }] = useGetGraphsMutation();
 	useEffect(() => {
-		getGraphs(numericId).unwrap().then(setZipBlob);
+		getGraphs({ id: example.example_id, commands: example.params }).unwrap()
+			.then(setZipBlob)
+			.catch((err) => {
+				console.error("Ошибка при получении графиков:", err);
+			});
 	}, [numericId]);
 
 	if (!example) return null;
@@ -40,7 +44,7 @@ const Example: React.FC = () => {
 					<h2>{example.title_verbose}</h2>
 					{example.category}
 				</div>
-				<PrimaryButton label="Моделировать" onClick={() => navigate(`/modeling/examples/${id}/settings/`)}/>
+				<PrimaryButton label="Моделировать" onClick={() => navigate(`/modeling/examples/${id}/settings/`)} />
 			</div>
 			<div className={styles.example__block}>
 				<h4>Моделирование</h4>
@@ -50,6 +54,7 @@ const Example: React.FC = () => {
 			</div>
 			<div className={styles.example__block}>
 				<h4>Результат</h4>
+				{isGraphsError && (<p style={{ color: "red" }}>Ошибка при получении графиков, попробуйте позже</p>)}
 				{zipBlob && <CsvGraphFromZip zipBlob={zipBlob} />}
 			</div>
 		</div>

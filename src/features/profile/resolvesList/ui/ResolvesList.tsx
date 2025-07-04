@@ -25,12 +25,14 @@ const ResolvesList: React.FC = () => {
 				<div className={styles.resolves__list}>
 					{examples.map((example, index) => (
 						<ResolveCard
-							key={`${example.example_id}-${index}`}
+							key={example.id}
 							title={example.title_verbose ?? "Без названия"}
 							date={example.creation_date}
 							status={example.status}
 							tags={example.tags}
-							onClick={() => navigate(`/profile/my_example/${example.example_id}`)}
+							onClick={() => navigate(`/profile/my-example/${example.id}`, {
+								state: { from: location.pathname + location.search }
+							})}
 						/>
 					))}
 				</div>

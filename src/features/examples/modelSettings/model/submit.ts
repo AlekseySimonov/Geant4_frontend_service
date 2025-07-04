@@ -1,11 +1,12 @@
 import { FormikHelpers } from "formik";
 import { usePostExampleMutation } from "@/pages/examplesPage/api/examplesApi";
+import { NavigateFunction } from "react-router";
 
 type FormValues = Record<string, string | number>;
 type PostExampleFn = ReturnType<typeof usePostExampleMutation>[0];
 
 export const submitExample =
-	(id: number, postExample: PostExampleFn) =>
+	(id: number, postExample: PostExampleFn, navigate: NavigateFunction) =>
 	async (
 		values: FormValues,
 		{ setStatus }: FormikHelpers<FormValues>
@@ -16,8 +17,7 @@ export const submitExample =
 				payload: values,
 			}).unwrap();
 
-			console.log("Моделирование успешно запущено");
-			// Здесь можно делать редирект или открыть диалог успеха
+			navigate(`/profile/my-example/${id}`);
 		} catch (error: any) {
 			console.error("Ошибка отправки:", error);
 
@@ -28,3 +28,4 @@ export const submitExample =
 			}
 		}
 	};
+

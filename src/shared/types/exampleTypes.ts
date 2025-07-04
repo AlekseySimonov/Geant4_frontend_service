@@ -27,10 +27,11 @@ export interface ExampleBaseTypes {
 	date_to_update: string;
 	tags?: Tag[];
 	category?: string;
+	example_id?: number;
 }
 
 export interface Example extends ExampleBaseTypes {
-	commands: Command[];
+	params: Command[];
 }
 
 export interface RawExamplePage {

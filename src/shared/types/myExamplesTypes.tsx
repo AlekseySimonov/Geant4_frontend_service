@@ -1,4 +1,7 @@
+import { Command } from "./exampleTypes";
+
 export interface MyExamplesTypes{
+	id: number;
 	category?: string;
 	title_verbose: string;
 	description: string;
@@ -6,6 +9,6 @@ export interface MyExamplesTypes{
 	date_to_update: string;
 	status: number;
 	tags: string[];
-	params: string;
+	params:  Command[];
 	example_id: number;
 }

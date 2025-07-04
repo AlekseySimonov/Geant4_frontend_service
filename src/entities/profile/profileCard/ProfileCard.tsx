@@ -34,8 +34,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ data, onSettingsClick, avatar
                 <div className={styles.card__settings}>
                     <div>
                         {data?.is_staff && (<h3>Сотрудник</h3>)}
-                        <IconButton color="primary">
-                            <ManageAccountsRoundedIcon color="inherit" style={{ fontSize: 35 }} onClick={onSettingsClick}/>
+                        <IconButton color="primary" onClick={onSettingsClick}>
+                            <ManageAccountsRoundedIcon color="inherit" style={{ fontSize: 35 }}/>
                         </IconButton>
                     </div>
                     <SecondaryButton size= 's' label="Выйти" onClick={logout.openPopup} />

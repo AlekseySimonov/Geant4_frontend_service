@@ -5,14 +5,18 @@ const ProfilePage = lazy(() => import("@/pages").then(module => ({ default: modu
 const ProfileSettings = lazy(() => import("@/features").then(module => ({ default: module.ProfileSettings })))
 const EmailUpdate = lazy(() => import("@/features").then(module => ({ default: module.EmailUpdate })))
 const MyExample = lazy(() => import("@/entities").then(module => ({ default: module.MyExample })))
+const ProfileMain = lazy(() => import("@/pages").then(module => ({ default: module.ProfileMain })))
 
-export const profileRoutes = {
-	path: "/profile",
-	element: <ProfilePage />,
-	children: [
-		{ index: true, element: <Navigate to="profile" replace /> },
-		{ path: "settings", element: <ProfileSettings /> },
-		{ path: "update_email/:token", element: <EmailUpdate /> },
-		{ path: "my_example/:id", element: <MyExample /> },
-	],
-};
+export const profileRoutes = 
+	{
+		path: "/profile",
+		element: <ProfilePage />,
+		children: [
+			{ index: true, element: <Navigate to="main" replace /> },
+			{ path: "main", element: <ProfileMain /> },
+			{ path: "settings", element: <ProfileSettings /> },
+			{ path: "update_email/:token", element: <EmailUpdate /> },
+			{ path: "my-example/:id", element: <MyExample /> },
+		],
+	}
+

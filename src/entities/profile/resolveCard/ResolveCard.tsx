@@ -1,12 +1,14 @@
 import { SecondaryButton } from "@/shared/ui/components/buttons";
 import styles from "./_exampleCard.module.scss"
 import { Tag } from '@/shared/ui/components/tag';
+import { useNavigate } from "react-router";
 
 type ResolveCardProps = {
 	title: string
 	date: string
-	tags: string[]
+	tags?: string[]
 	status: number
+	category?: string
 	info?: string
 	onClick?: () => void;
 }
@@ -17,8 +19,35 @@ const statusMap: Record<number, { label: string; tagProps: Partial<React.Compone
 	2: { label: 'Ошибка', tagProps: { error: true, info: 'Произошла ошибка при моделировании' } },
 }
 
-const ResolveCard: React.FC<ResolveCardProps> = ({ title, date, tags, status, onClick }) => {
+const ResolveCard: React.FC<ResolveCardProps> = ({
+	title,
+	date,
+	category = "",
+	tags = [],
+	status,
+	onClick,
+}) => {
 	const { label, tagProps } = statusMap[status] || { label: 'Неизвестно', tagProps: {} }
+	const navigate = useNavigate()
+
+
+	const isNonEmptyString = (value: unknown): value is string =>
+		typeof value === 'string' && value.trim().length > 0;
+
+
+	const handleCategoryClick = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		if (category?.trim()) {
+			navigate(`/profile?category=${category}&page=1`)
+		}
+	}
+
+	const handleTagClick = (e: React.MouseEvent, tag: string) => {
+		e.stopPropagation();
+		if (tag.trim()) {
+			navigate(`/profile?tags=${encodeURIComponent(tag.trim())}&page=1`);
+		}
+	};
 
 	return (
 		<div className={styles.resolve} onClick={onClick}>
@@ -26,13 +55,23 @@ const ResolveCard: React.FC<ResolveCardProps> = ({ title, date, tags, status, on
 				<h4>{title}</h4>
 				<h3>{new Date(date).toLocaleDateString()}</h3>
 				<div className={styles.resolve__info__tags}>
-					{tags.map((tag, index) => (
-						<SecondaryButton key={index} label={tag}/>
-					))}
+					{isNonEmptyString(category) && (
+						<SecondaryButton label={category.trim()} onClick={handleCategoryClick} />
+					)}
+					{Array.isArray(tags) &&
+						tags.map((tag, index) =>
+							isNonEmptyString(tag) ? (
+								<SecondaryButton
+									key={index}
+									label={tag.trim()}
+									onClick={(e) => handleTagClick(e, tag)}
+								/>
+							) : null
+						)}
 				</div>
 			</div>
 			<div className={styles.resolve__progress}>
-				<Tag label={label} {...tagProps}/>
+				<Tag label={label} {...tagProps} />
 			</div>
 		</div>
 	)

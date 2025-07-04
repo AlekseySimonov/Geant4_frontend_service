@@ -1,46 +1,24 @@
-import { useNavigate } from "react-router"
-import { useGetProfileQuery } from "../api/profileApi"
-import styles from "./_profilePage.module.scss"
-import { ProfileCard, ResolvesList } from "@/entities"
-import { useEffect } from "react"
-import avatarDefault from "@/shared/ui/assets/icons/avatar_light.svg"
-import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from "@/app/store"
-import { getAvatar } from "@/features/avatar"
-import { Loader } from "@/shared"
+import { useCheckAuthQuery } from "@/pages/authPage/api/authApi";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
+import styles from "./_profilePage.module.scss";
 
 const ProfilePage: React.FC = () => {
-	const { data: profileData, isError: isProfileError, isLoading } = useGetProfileQuery();
-
-	const { url: avatarUrl, isLoading: avatarLoading } = useSelector((state: RootState) => state.avatar);
-	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
-
-	const dispatch = useDispatch<AppDispatch>()
-
-	useEffect(() => {
-		dispatch(getAvatar());
-	}, [dispatch]);
 
 	const navigate = useNavigate()
+	const { data, isSuccess, isError } = useCheckAuthQuery();
+
 	useEffect(() => {
-		if (!isLoading && (!profileData || isProfileError)) {
-			navigate('/auth/login')
+		if (isError || (isSuccess && data?.detail !== true)) {
+			navigate('/auth/login', { replace: true });
 		}
-	}, [profileData, isProfileError, isLoading, navigate])
+	}, [isSuccess, isError, data, navigate]);
 
 	return (
 		<div className={styles.profile}>
-			{profileData && (
-				<ProfileCard
-					data={profileData}
-					onSettingsClick={() => navigate("/profile/settings")}
-					avatar={avatarUrl || avatarDefault}
-				/>
-			)}
-			<ResolvesList />
-			{(avatarLoading || globalLoading) && <Loader/>}
+			<Outlet />
 		</div>
-	)
-}
+	);
+};
 
-export default ProfilePage
+export default ProfilePage;
