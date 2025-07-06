@@ -1,11 +1,14 @@
+import { colorDarkPalette, colorPalette } from "@/entities/graph/lib/colors";
 import { DataSeries } from "@/entities/graph/model/types";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useColorScheme } from "@mui/material";
 import katex from "katex";
 import "katex/dist/katex.min.css";
 type DataSeriesTableProps = {
 	data: DataSeries[];
 };
 export const DataSeriesTable: React.FC<DataSeriesTableProps> = ({ data }) => {
+	const { mode } = useColorScheme();
+	const palette = mode === 'dark' ? colorDarkPalette : colorPalette;
 
 	const renderLaTeX = (text: string) => {
 		text = text.replace(/(?<!\$)\$([^\$]+?)\$(?!\$)/g, (_, formula) => {
@@ -65,14 +68,14 @@ export const DataSeriesTable: React.FC<DataSeriesTableProps> = ({ data }) => {
 								__html: renderLaTeX(data[0]?.xUnit.toString() ?? '—'),
 							}}
 						/>
-						{data.map((series) => (
+						{data.map((series, index) => (
 							<TableCell
 								key={series.id}
 								sx={{
 									backgroundColor: 'background.paper',
 									fontWeight: 600,
 									fontSize: '0.875rem',
-									color: series.color,
+									color: palette[index % palette.length],
 									borderBottom: '1px solid',
 									borderColor: 'divider',
 								}}
@@ -106,7 +109,7 @@ export const DataSeriesTable: React.FC<DataSeriesTableProps> = ({ data }) => {
 							>
 								{data[0].data[i]?.x ?? '—'}
 							</TableCell>
-							{data.map((series) => (
+							{data.map((series, index) => (
 								<TableCell
 									key={series.id}
 									sx={{
@@ -114,7 +117,7 @@ export const DataSeriesTable: React.FC<DataSeriesTableProps> = ({ data }) => {
 										borderBottom: '1px solid',
 										borderColor: 'divider',
 										backgroundColor: 'background.paper',
-										color: series.color,
+										color: palette[index % palette.length], // ⬅ вот тут!
 									}}
 								>
 									{series.data[i]?.y ?? '—'}
