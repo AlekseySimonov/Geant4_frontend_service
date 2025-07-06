@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import Plot from "react-plotly.js";
-import { Checkbox, useMediaQuery, useTheme } from "@mui/material";
+import { Checkbox, useColorScheme, useMediaQuery, useTheme } from "@mui/material";
 import { DataSeries } from "../model/types";
 import styles from "./_graph.module.scss";
 import { usePlotlyStyles } from "../lib/plotlyStyles";
@@ -8,6 +8,7 @@ import { SecondaryButton } from "@/shared/ui/components/buttons";
 import { DataSeriesTable } from "@/entities/table";
 import katex from "katex";
 import "katex/dist/katex.min.css";
+import { colorDarkPalette, colorPalette } from "../lib/colors";
 
 type Props = {
   data: DataSeries[];
@@ -37,6 +38,7 @@ const Graph = ({ data, title }: Props) => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const plotlyStyles = usePlotlyStyles();
   const theme = useTheme();
+  const { mode } = useColorScheme()
 
   useEffect(() => {
     if (!data.length) return;
@@ -59,19 +61,25 @@ const Graph = ({ data, title }: Props) => {
     }));
   };
 
+  const palette = mode === "dark" ? colorDarkPalette : colorPalette;
+
   const plotData = useMemo(() => {
-    return data.map((series) => ({
-      x: series.data.map((point) => point.x),
-      y: series.data.map((point) => point.y),
-      type: "scattergl",
-      mode: "lines+markers",
-      name: series.id,
-      marker: { color: series.color, size: 6 },
-      line: { color: series.color, width: 2 },
-      hovertemplate: `x: %{x:.3f}<br>y: %{y:.2e}<extra></extra>`,
-      visible: visibleSeries[series.id] ? true : "legendonly",
-    }));
-  }, [data, visibleSeries]);
+    return data.map((series, index) => {
+      const color = palette[index % palette.length];
+
+      return {
+        x: series.data.map((point) => point.x),
+        y: series.data.map((point) => point.y),
+        type: "scattergl",
+        mode: "lines+markers",
+        name: series.id,
+        marker: { color, size: 6 },
+        line: { color, width: 2 },
+        hovertemplate: `x: %{x:.3f}<br>y: %{y:.2e}<extra></extra>`,
+        visible: visibleSeries[series.id] ? true : "legendonly",
+      };
+    });
+  }, [data, visibleSeries, mode]);
 
   const baseLayout: Partial<Plotly.Layout> = useMemo(() => {
     const xUnit = data[0]?.xUnit || "x";
@@ -94,7 +102,7 @@ const Graph = ({ data, title }: Props) => {
       dragmode: "pan",
       showlegend: false,
     };
-  }, [data, plotlyStyles]);
+  }, [data, plotlyStyles, theme.palette.mode]);
 
   const handleRelayout = (event: Plotly.PlotRelayoutEvent) => {
     const newLayout: Partial<Plotly.Layout> = {};
@@ -140,28 +148,35 @@ const Graph = ({ data, title }: Props) => {
       <div className={styles.graph}>
         <div className={styles.graph__title}> {title || "График"}</div>
         <div className={styles.graph__legend}>
-          {data.map((series) => (
-            <label key={series.id}>
-              <Checkbox
-                checked={visibleSeries[series.id] ?? true}
-                onChange={() => toggleSeries(series.id)}
-                sx={{
-                  padding: 0,
-                  "& .MuiSvgIcon-root": {
-                    fontSize: "clamp(12px, 1.5vw, 24px)",
-                    color: series.color,
-                  },
-                }}
-              />
-              <span style={{ color: series.color }} dangerouslySetInnerHTML={{
-                __html: renderLaTeX(series.id.toString()),
-              }} />
-            </label>
-          ))}
+          {data.map((series, index) => {
+            const color = palette[index % palette.length];
+
+            return (
+              <label key={series.id}>
+                <Checkbox
+                  checked={visibleSeries[series.id] ?? true}
+                  onChange={() => toggleSeries(series.id)}
+                  sx={{
+                    padding: 0,
+                    "& .MuiSvgIcon-root": {
+                      fontSize: "clamp(12px, 1.5vw, 24px)",
+                      color,
+                    },
+                  }}
+                />
+                <span
+                  style={{ color }}
+                  dangerouslySetInnerHTML={{
+                    __html: renderLaTeX(series.id.toString()),
+                  }}
+                />
+              </label>
+            );
+          })}
         </div>
 
         <Plot
-          key={theme.palette.mode}
+          key={mode}
           data={plotData}
           layout={mergedLayout}
           useResizeHandler

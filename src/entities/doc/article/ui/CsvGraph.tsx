@@ -2,6 +2,7 @@ import { Graph } from "@/entities/graph";
 import { parseGraphCSV } from "@/entities/graph/model/parseGraphCSV";
 import { DataSeries } from "@/entities/graph/model/types";
 import { useGetGraphQuery } from "@/pages/documentationPage/api/docApi";
+import { useTheme } from "@mui/material";
 import { useState, useEffect } from "react";
 
 interface CsvGraphProps {
@@ -13,10 +14,11 @@ export const CsvGraph: React.FC<CsvGraphProps> = ({ url }) => {
 	const [graphTitle, setGraphTitle] = useState<string>()
 	const [data, setData] = useState<DataSeries[]>([]);
 	const [parseError, setParseError] = useState<string | null>(null);
+	const theme = useTheme()
 	useEffect(() => {
 		if (csvText) {
 			try {
-				const parsed = parseGraphCSV(csvText);
+				const parsed = parseGraphCSV(csvText, theme.palette.mode);
 				setData(parsed.series);
 				setGraphTitle(parsed.title)
 				setParseError(null);

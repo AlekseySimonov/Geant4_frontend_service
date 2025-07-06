@@ -4,9 +4,9 @@ export const getOrderingLabel = (ordering: string): string => {
 			return "По дате обновления ↓";
 		case "date_to_update":
 			return "По дате обновления ↑";
-		case "title_verbose":
+		case "title_verbose.keyword":
 			return "По названию A–Z";
-		case "-title_verbose":
+		case "-title_verbose.keyword":
 			return "По названию Z–A";
 		default:
 			return "Без сортировки";

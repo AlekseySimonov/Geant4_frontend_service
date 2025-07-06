@@ -67,8 +67,8 @@ export function FiltersUrl<TEntity extends { id: number; title: string }>({
 						options={[
 							{ title: "По дате обновления ↓", value: "-date_to_update" },
 							{ title: "По дате обновления ↑", value: "date_to_update" },
-							{ title: "По названию A–Z", value: "title_verbose" },
-							{ title: "По названию Z–A", value: "-title_verbose" },
+							{ title: "По названию A–Z", value: "title_verbose.keyword" },
+							{ title: "По названию Z–A", value: "-title_verbose.keyword" },
 						]}
 						label="Сортировка"
 						width={isMobile ? '140px' : '250px'}

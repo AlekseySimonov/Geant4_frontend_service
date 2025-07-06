@@ -15,13 +15,13 @@ const MainPage: React.FC = () => {
 	const navigate = useNavigate()
 	const { data, isError, isSuccess } = useCheckAuthQuery()
 
-	const { mode } = useColorScheme(); 
-	
+	const { mode } = useColorScheme();
+
 	useEffect(() => {
 		if (isError || (isSuccess && data?.detail === false)) {
 			navigate('/auth/login')
 		}
-	},[isError, data, navigate])
+	}, [isError, data, navigate])
 
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("md"))
@@ -43,7 +43,18 @@ const MainPage: React.FC = () => {
 						<h3>Начать</h3>
 					</PrimaryButton>
 				</div>
-				{mode === 'dark' ? <img src={mainBackDark} alt="#" /> : <img src={mainBack} alt="#" />}
+				<>
+					<img
+						src={mainBack}
+						alt="background"
+						style={{ display: mode === 'dark' ? 'none' : 'block' }}
+					/>
+					<img
+						src={mainBackDark}
+						alt="background"
+						style={{ display: mode === 'dark' ? 'block' : 'none' }}
+					/>
+				</>
 			</div>
 			<div className={styles.main__cards}>
 				<div className={styles.main__cards__company}>

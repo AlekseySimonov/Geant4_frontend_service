@@ -1,9 +1,10 @@
 import { useMemo } from "react";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useColorScheme, useMediaQuery, useTheme } from "@mui/material";
 
 export const usePlotlyStyles = (): Partial<Plotly.Layout> => {
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+	const { mode } = useColorScheme()
 
 	return useMemo(() => ({
 		margin: isMobile
@@ -31,6 +32,6 @@ export const usePlotlyStyles = (): Partial<Plotly.Layout> => {
 			color: theme.palette.primary.main,
 		},
 		plot_bgcolor: theme.palette.background.paper,
-		paper_bgcolor: theme.palette.background.default,
-	}), [theme.palette.mode, isMobile]);
+		paper_bgcolor: theme.palette.background.paper,
+	}), [mode, isMobile]);
 };

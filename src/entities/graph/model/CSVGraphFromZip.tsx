@@ -2,7 +2,7 @@ import { Graph, parseGraphCSV } from "@/entities/graph";
 import { DataSeries } from "@/entities/graph/model/types";
 import { lazy, Suspense, useEffect, useState } from "react";
 import JSZip from "jszip";
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, useColorScheme, useTheme } from "@mui/material";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { usePopup } from "@/shared/hooks/usePopup";
 import { ModalWindow } from "@/shared/ui/components/modal";
@@ -28,6 +28,7 @@ export const CsvGraphFromZip: React.FC<CsvGraphFromZipProps> = ({ zipBlob }) => 
 	const [selectedFile, setSelectedFile] = useState<GraphFile | null>(null);
 
 	const modal = usePopup();
+	const theme = useTheme()
 
 	useEffect(() => {
 		const extractAllCSV = async () => {
@@ -41,7 +42,7 @@ export const CsvGraphFromZip: React.FC<CsvGraphFromZipProps> = ({ zipBlob }) => 
 
 				for (const file of csvFiles) {
 					const csvText = await file.async("text");
-					const parsed = parseGraphCSV(csvText);
+					const parsed = parseGraphCSV(csvText, theme.palette.mode);
 					parsedFiles.push({
 						filename: file.name,
 						data: parsed.series,

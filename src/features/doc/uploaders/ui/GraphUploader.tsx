@@ -6,6 +6,7 @@ import { FileUploadInput } from "@/shared/ui/components/fileUploadInput";
 import { LocalServerFile, ServerFile } from "@/shared/types";
 import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
 import { useDispatch } from "react-redux";
+import { useTheme } from "@mui/material";
 
 interface GraphUploaderProps {
 	fieldName: string;
@@ -18,6 +19,7 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 	const [data, setData] = useState<DataSeries[]>([]);
 	const dispatch = useDispatch();
 	const [graphTitle, setGraphTitle] = useState<string>()
+	const theme = useTheme()
 
 	useEffect(() => {
 		if (!initialValues?.length) return;
@@ -26,7 +28,7 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 			try {
 				const res = await fetch(initialValues[0].url);
 				const text = await res.text();
-				const parsed = parseGraphCSV(text);
+				const parsed = parseGraphCSV(text, theme.palette.mode);
 				setData(parsed.series);
 				setGraphTitle(parsed.title)
 				setFieldValue(fieldName, initialValues);
@@ -56,7 +58,7 @@ export const GraphUploader: React.FC<GraphUploaderProps> = ({ fieldName, setFiel
 
 		try {
 			const text = await file.text();
-			const parsed = parseGraphCSV(text);
+			const parsed = parseGraphCSV(text, theme.palette.mode);
 			setData(parsed.series);
 			setGraphTitle(parsed.title)
 

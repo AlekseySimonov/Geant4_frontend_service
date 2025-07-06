@@ -7,7 +7,7 @@ export const App = () => {
 	return ((
 		<>
 			<InitColorSchemeScript attribute="class" />
-			<CssVarsProvider theme={appTheme}>
+			<CssVarsProvider theme={appTheme} forceThemeRerender>
 				<CssBaseline />
 				<RouterProvider router={appRouter} />
 			</CssVarsProvider>

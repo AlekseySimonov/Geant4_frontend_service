@@ -1,10 +1,10 @@
-import { colorPalette } from "../lib/colors";
+import { colorPalette, colorDarkPalette } from "../lib/colors";
 import { DataSeries, ParsedCSV } from "./types";
 
 function parseHeader(header: string): { name: string; unit?: string; label: string } {
 	const match = header.match(/^([^\[]+)(\[(.+?)\])?$/);
 	if (!match) return { name: header.trim(), label: header.trim() };
-	
+
 	const name = match[1].trim();
 	const unit = match[3]?.trim();
 	const label = unit ? `${name} [${unit}]` : name;
@@ -12,8 +12,7 @@ function parseHeader(header: string): { name: string; unit?: string; label: stri
 	return { name, unit, label };
 }
 
-
-export function parseGraphCSV(content: string): ParsedCSV {
+export function parseGraphCSV(content: string, mode: 'light' | 'dark'): ParsedCSV {
 	const lines = content
 		.split(/\r?\n/)
 		.map(line => line.trim())
@@ -47,6 +46,8 @@ export function parseGraphCSV(content: string): ParsedCSV {
 	const xKey = xHeader.name;
 	const xUnit = xHeader.label;
 
+	const palette = mode === 'dark' ? colorDarkPalette : colorPalette;
+
 	const series: DataSeries[] = [];
 
 	for (let i = 2; i < parsedHeaders.length; i++) {
@@ -54,8 +55,8 @@ export function parseGraphCSV(content: string): ParsedCSV {
 		const yKey = yHeader.name;
 		const yUnit = `[${parsedHeaders[2].unit}]`;
 
-		if (i - 2 >= colorPalette.length) {
-			throw new Error(`Слишком много графиков (${parsedHeaders.length - 2}), максимум ${colorPalette.length}`);
+		if (i - 2 >= palette.length) {
+			throw new Error(`Слишком много графиков (${parsedHeaders.length - 2}), максимум ${palette.length}`);
 		}
 
 		const data = rows.map(row => ({
@@ -68,7 +69,7 @@ export function parseGraphCSV(content: string): ParsedCSV {
 			data,
 			xUnit,
 			yUnit,
-			color: colorPalette[(i - 2) % colorPalette.length],
+			color: palette[(i - 2) % palette.length],
 		});
 	}
 
