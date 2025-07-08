@@ -5,6 +5,7 @@ import styles from "./_example.module.scss";
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { CsvGraphFromZip } from "@/entities/graph";
 import { useGetExampleQuery } from "@/pages/profilePage/api/profileApi";
+import { PrimaryButton } from "@/shared/ui/components/buttons";
 
 const MyExample: React.FC = () => {
 	const navigate = useNavigate();
@@ -38,14 +39,32 @@ const MyExample: React.FC = () => {
 		}
 	};
 
+	const handleDownloadClick = () => {
+		if (!zipBlob) return;
+
+		const url = URL.createObjectURL(zipBlob);
+		const link = document.createElement("a");
+		link.href = url;
+		link.download = `example-${example?.title_verbose}.zip`;
+		document.body.appendChild(link);
+		link.click();
+		link.remove();
+		URL.revokeObjectURL(url);
+	};
+
 	return (
 		<div className={styles.example}>
-			<div className={styles.example__title}>
+			<div className={styles.example__header}>
 				<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={handleBackClick} />
 				<div className={styles.example__header__title}>
 					<h2>{example.title_verbose}</h2>
 					{example.category}
 				</div>
+				<PrimaryButton
+					label="Скачать файл"
+					onClick={handleDownloadClick}
+					disabled={!zipBlob}
+				/>
 			</div>
 
 			{example.status === 0 && (
@@ -76,7 +95,7 @@ const MyExample: React.FC = () => {
 			{example.status === 1 && <div className={styles.example__block}>
 				<h4>Результат</h4>
 				{isGraphsError && (<p style={{ color: "red" }}>Ошибка при получении графиков, попробуйте позже</p>)}
-				{ zipBlob && <CsvGraphFromZip zipBlob={zipBlob} />}
+				{zipBlob && <CsvGraphFromZip zipBlob={zipBlob} />}
 			</div>}
 		</div>
 	);

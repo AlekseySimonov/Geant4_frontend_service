@@ -117,7 +117,7 @@ export const DataSeriesTable: React.FC<DataSeriesTableProps> = ({ data }) => {
 										borderBottom: '1px solid',
 										borderColor: 'divider',
 										backgroundColor: 'background.paper',
-										color: palette[index % palette.length], // ⬅ вот тут!
+										color: palette[index % palette.length],
 									}}
 								>
 									{series.data[i]?.y ?? '—'}

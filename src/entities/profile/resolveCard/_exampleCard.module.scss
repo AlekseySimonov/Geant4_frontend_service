@@ -6,33 +6,46 @@
 	border-radius: 8px;
 	gap: 80px;
 	transition: box-shadow 0.3s ease;
-	&:hover{
+
+	&:hover {
 		box-shadow: var(--mui-shadows-4);
 		cursor: pointer;
 	}
-	@media(max-width: 800px){
+
+	@media(max-width: 800px) {
 		flex-direction: column-reverse;
 		gap: 20px;
 	}
-	@media(max-width: 600px){
-		h3{
-		font-size: 1rem;
+
+	@media(max-width: 600px) {
+		h3 {
+			font-size: 1rem;
 		}
-		h4{
+
+		h4 {
 			font-size: 1.4rem;
 		}
 	}
 
-	
+
 	&__info {
 		display: flex;
 		flex-direction: column;
 		gap: 20px;
+
 		&__tags {
 			display: flex;
 			gap: 10px;
 			max-width: 400px;
 			flex-wrap: wrap;
+		}
+
+		&__commandRow {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			align-items: center;
+			font-size: 14px;
 		}
 	}
 }

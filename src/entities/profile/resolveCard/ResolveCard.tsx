@@ -2,6 +2,7 @@ import { SecondaryButton } from "@/shared/ui/components/buttons";
 import styles from "./_exampleCard.module.scss"
 import { Tag } from '@/shared/ui/components/tag';
 import { useNavigate } from "react-router";
+import { Command } from "@/shared/types";
 
 type ResolveCardProps = {
 	title: string
@@ -10,6 +11,7 @@ type ResolveCardProps = {
 	status: number
 	category?: string
 	info?: string
+	params?: Record<string, string>
 	onClick?: () => void;
 }
 
@@ -25,6 +27,7 @@ const ResolveCard: React.FC<ResolveCardProps> = ({
 	category = "",
 	tags = [],
 	status,
+	params,
 	onClick,
 }) => {
 	const { label, tagProps } = statusMap[status] || { label: 'Неизвестно', tagProps: {} }
@@ -67,6 +70,21 @@ const ResolveCard: React.FC<ResolveCardProps> = ({
 							) : null
 						)}
 				</div>
+				{/* <div className={styles.resolve__info__commands}>
+					{params && Object.keys(params).length > 0 ? (
+						<div className={styles.resolve__info__commandRow}>
+							<strong>Команды:</strong>
+							{Object.entries(params).map(([key, value]) => (
+								<span key={key} className={styles.resolve__info__commandItem}>
+									{key.split('---').join(' ')}: {value}
+								</span>
+							))}
+						</div>
+					) : (
+						<p className={styles.resolve__info__noCommands}>Нет команд</p>
+					)}
+				</div> */}
+
 			</div>
 			<div className={styles.resolve__progress}>
 				<Tag label={label} {...tagProps} />
