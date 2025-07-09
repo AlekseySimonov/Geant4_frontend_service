@@ -25,7 +25,7 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 	if (isProd) {
 		plugins.push(
 			new HtmlWebpackPlugin({
-				template: '!!prerender-loader?string!' + paths.html,
+				template: paths.html,
 				favicon: path.resolve(paths.public, 'favicon.png'),
 				inject: true,
 			}),

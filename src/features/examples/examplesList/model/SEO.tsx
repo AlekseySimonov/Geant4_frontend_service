@@ -22,12 +22,10 @@ export const SEOExamplesList: React.FC<SEOExamplesListProps> = ({
 	if (searchParam) parts.push(`Поиск: "${searchParam}"`);
 	if (pageParam > 1) parts.push(`Страница ${pageParam}`);
 
-	const title = parts.join(' — ') + ' — Документация';
 	const description = `Список примеров${categoryParam ? ` по категории "${categoryParam}"` : ''}${tagParam ? ` с тегами "${tagParam}"` : ''}${searchParam ? `, найденных по запросу "${searchParam}"` : ''}.`;
 
 	return (
 		<Helmet>
-			<title>{title}</title>
 			<meta name="description" content={description} />
 			<link rel="canonical" href={canonical} />
 		</Helmet>
