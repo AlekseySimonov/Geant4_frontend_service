@@ -1,0 +1,1 @@
+export { SEOMainPage } from "./SEO";

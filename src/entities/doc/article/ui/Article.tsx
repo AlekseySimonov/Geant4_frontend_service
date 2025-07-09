@@ -18,6 +18,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { useMemo } from "react";
 import { showAlert } from "@/shared/ui/components/alert/model/alertSlice";
+import { SEOArticle } from "../model";
 
 const Article: React.FC = () => {
 	const dispatch = useDispatch()
@@ -77,6 +78,10 @@ const Article: React.FC = () => {
 
 	return (
 		<>
+			<SEOArticle
+				title={`${article.title} — Документация`}
+				description={article.description}
+			/>
 			<div className={styles.article}>
 				<div className={styles.article__title}>
 					<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={handleBackClick} />
@@ -84,7 +89,7 @@ const Article: React.FC = () => {
 					<div>
 						<Checkbox
 							icon={<BookmarkBorderIcon sx={{ color: 'primary.main' }} />}
-							checkedIcon={<BookmarkIcon sx={{ color: 'primary.main' }}  />}
+							checkedIcon={<BookmarkIcon sx={{ color: 'primary.main' }} />}
 							checked={isFavorite}
 							onChange={handleFavoriteToggle}
 						/>
@@ -92,10 +97,10 @@ const Article: React.FC = () => {
 					{isStaff?.is_staff && (
 						<div className={styles.devTools}>
 							<IconButton onClick={() => navigate(`/documentation/articles/editor/${id}`)}>
-								<CreateOutlinedIcon style={{ fontSize: 25 }} color="inherit"/>
+								<CreateOutlinedIcon style={{ fontSize: 25 }} color="inherit" />
 							</IconButton>
 							<IconButton onClick={deleteArticle.openPopup} >
-								<DeleteOutlineOutlinedIcon style={{ fontSize: 25 }} color="inherit"/>
+								<DeleteOutlineOutlinedIcon style={{ fontSize: 25 }} color="inherit" />
 							</IconButton>
 						</div>
 					)}

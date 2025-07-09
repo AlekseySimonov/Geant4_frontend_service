@@ -1,3 +1,5 @@
+export { SEO } from "./helpers";
+
 export { redirectToLogin, setNavigator } from "./model";
 export { AlertPopup } from "./ui/components/alert";
 

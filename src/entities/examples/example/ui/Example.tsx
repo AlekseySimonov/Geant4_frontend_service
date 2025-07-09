@@ -5,6 +5,7 @@ import styles from "./_example.module.scss"
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import { PrimaryButton, SecondaryButton } from '@/shared/ui/components/buttons';
 import { CsvGraphFromZip } from "@/entities/graph";
+import { SEOExampleView } from "../model";
 
 const Example: React.FC = () => {
 
@@ -21,12 +22,12 @@ const Example: React.FC = () => {
 	useEffect(() => {
 		if (numericId && example) {
 			getGraphs({ id: Number(id) }).unwrap()
-			.then(setZipBlob)
-			.catch((err) => {
-				console.error("Ошибка при получении графиков:", err);
-			});
+				.then(setZipBlob)
+				.catch((err) => {
+					console.error("Ошибка при получении графиков:", err);
+				});
 		}
-		
+
 	}, [numericId, example]);
 
 	const handleBackClick = () => {
@@ -40,28 +41,33 @@ const Example: React.FC = () => {
 	if (!example) return null
 
 	return (
-		<div className={styles.example}>
-			<div className={styles.example__header}>
-				<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={handleBackClick} />
-				<div className={styles.example__header__title}>
-					<h2>{example.title_verbose}</h2>
-					{example.category}
+		<>
+			<SEOExampleView
+				title={`${example.title_verbose} — Пример моделирования`}
+				description={example.description}
+			/>
+			<div className={styles.example}>
+				<div className={styles.example__header}>
+					<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={handleBackClick} />
+					<div className={styles.example__header__title}>
+						<h2>{example.title_verbose}</h2>
+						{example.category}
+					</div>
+					<PrimaryButton label="Моделировать" onClick={() => navigate(`/modeling/examples/${id}/settings/`)} />
 				</div>
-				<PrimaryButton label="Моделировать" onClick={() => navigate(`/modeling/examples/${id}/settings/`)} />
-			</div>
-			<div className={styles.example__block}>
-				<h4>Моделирование</h4>
-				<div className={styles.example__block__content}>
-					<p>{example.description}</p>
+				<div className={styles.example__block}>
+					<h4>Моделирование</h4>
+					<div className={styles.example__block__content}>
+						<p>{example.description}</p>
+					</div>
+				</div>
+				<div className={styles.example__block}>
+					<h4>Результат</h4>
+					{isGraphsError && (<p style={{ color: "red" }}>Ошибка при получении графиков, попробуйте позже</p>)}
+					{zipBlob && <CsvGraphFromZip zipBlob={zipBlob} />}
 				</div>
 			</div>
-			<div className={styles.example__block}>
-				<h4>Результат</h4>
-				{isGraphsError && (<p style={{ color: "red" }}>Ошибка при получении графиков, попробуйте позже</p>)}
-				{zipBlob && <CsvGraphFromZip zipBlob={zipBlob} />}
-			</div>
-		</div>
-
+		</>
 	);
 };
 

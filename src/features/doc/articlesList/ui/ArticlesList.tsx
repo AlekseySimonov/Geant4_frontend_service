@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useGetCategoriesQuery, useGetChaptersQuery, useGetFavoritesQuery, useGetStaffQuery } from "@/pages/documentationPage/api/docApi";
 import styles from "./_articleList.module.scss";
-import {FiltersUrl} from "@/entities"
+import { FiltersUrl } from "@/entities"
 import { ArticleCard, ImportantArticleCard } from "@/entities/doc";
 import { CircularProgress, IconButton, Pagination, useMediaQuery } from "@mui/material";
 import { SecondaryButton } from "@/shared/ui/components/buttons";
@@ -10,6 +10,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { useLazySearchArticlesQuery } from "@/pages/documentationPage/api/queryDoc";
 import { RootState } from "@/app/store";
 import { useSelector } from "react-redux";
+import { SEOArticleList } from "../model";
 
 const ArticlesList: React.FC = () => {
 	const { data: importantArticles = [] } = useGetFavoritesQuery();
@@ -56,96 +57,99 @@ const ArticlesList: React.FC = () => {
 	}, [fetchArticles]);
 
 	return (
-		<div className={styles.content}>
-			<div className={styles.content__cards}>
-				{isWideScreen && (
-					<div className={styles.importantCards}>
-						{importantArticles.map(article => (
-							<ImportantArticleCard
-								key={article.id}
-								title={article.title}
-								description={article.description}
-								onClick={() => navigate(`/documentation/articles/view/${article.id}`, {
-									state: { from: location.pathname + location.search }
-								})}
-							/>
-						))}
-					</div>
-				)}
-			</div>
-
-			<div className={styles.articles}>
-				<div className={styles.articles__title}>
-					<h2>Пользовательское руководство</h2>
-					<div>
-						{!isWideScreen && (
-							<SecondaryButton label="Избранные статьи" link="/documentation/articles/important" />
-						)}
-
-						{isStaff?.is_staff && (
-							<IconButton
-								className={styles.articles__title__addArticle}
-								onClick={() => navigate('/documentation/articles/editor')}
-							>
-								<AddRoundedIcon style={{ fontSize: 30 }} />
-							</IconButton>
-						)}
-					</div>
-				</div>
-
-				<FiltersUrl
-					categories={categories}
-					chapters={chapters}
-					showOrdering = {false}
-					searchQuery={searchAutocomplete}
-					mapItem={(article) => ({ id: article.id, title: article.title })}
-				/>
-
-				<div className={styles.articles__cards}>
-					{(isListFetching && !globalLoading) ? (
-						<div className={styles.loadingContainer}><CircularProgress /></div>
-					) : articles.length > 0 ? (
-						<>
-							{articles.map(article => (
-								<ArticleCard
+		<>
+			<SEOArticleList categoryParam={categoryParam} searchParam={searchParam} />
+			<div className={styles.content}>
+				<div className={styles.content__cards}>
+					{isWideScreen && (
+						<div className={styles.importantCards}>
+							{importantArticles.map(article => (
+								<ImportantArticleCard
 									key={article.id}
 									title={article.title}
 									description={article.description}
-									category={article?.category || ''}
-									chapter={article?.chapter || ''}
 									onClick={() => navigate(`/documentation/articles/view/${article.id}`, {
 										state: { from: location.pathname + location.search }
 									})}
 								/>
 							))}
-							<div className={styles.articles__cards__pagination}>
-								<Pagination
-									count={pageCount}
-									page={pageParam}
-									onChange={(_, value) => {
-										const newParams = new URLSearchParams(searchParams);
-										newParams.set('page', value.toString());
-										navigate({ search: newParams.toString() }, { replace: true });
-									}}
-									color="primary"
-									variant="outlined"
-									shape="rounded"
-									size="small"
-									sx={{
-										'& .MuiPaginationItem-root': {
-											color: 'var(--mui-palette-primary-main)',
-											border: 'none',
-										},
-									}}
-								/>
-							</div>
-						</>
-					) : (
-						<h2>Ничего не найдено</h2>
+						</div>
 					)}
 				</div>
+
+				<div className={styles.articles}>
+					<div className={styles.articles__title}>
+						<h2>Пользовательское руководство</h2>
+						<div>
+							{!isWideScreen && (
+								<SecondaryButton label="Избранные статьи" link="/documentation/articles/important" />
+							)}
+
+							{isStaff?.is_staff && (
+								<IconButton
+									className={styles.articles__title__addArticle}
+									onClick={() => navigate('/documentation/articles/editor')}
+								>
+									<AddRoundedIcon style={{ fontSize: 30 }} />
+								</IconButton>
+							)}
+						</div>
+					</div>
+
+					<FiltersUrl
+						categories={categories}
+						chapters={chapters}
+						showOrdering={false}
+						searchQuery={searchAutocomplete}
+						mapItem={(article) => ({ id: article.id, title: article.title })}
+					/>
+
+					<div className={styles.articles__cards}>
+						{(isListFetching && !globalLoading) ? (
+							<div className={styles.loadingContainer}><CircularProgress /></div>
+						) : articles.length > 0 ? (
+							<>
+								{articles.map(article => (
+									<ArticleCard
+										key={article.id}
+										title={article.title}
+										description={article.description}
+										category={article?.category || ''}
+										chapter={article?.chapter || ''}
+										onClick={() => navigate(`/documentation/articles/view/${article.id}`, {
+											state: { from: location.pathname + location.search }
+										})}
+									/>
+								))}
+								<div className={styles.articles__cards__pagination}>
+									<Pagination
+										count={pageCount}
+										page={pageParam}
+										onChange={(_, value) => {
+											const newParams = new URLSearchParams(searchParams);
+											newParams.set('page', value.toString());
+											navigate({ search: newParams.toString() }, { replace: true });
+										}}
+										color="primary"
+										variant="outlined"
+										shape="rounded"
+										size="small"
+										sx={{
+											'& .MuiPaginationItem-root': {
+												color: 'var(--mui-palette-primary-main)',
+												border: 'none',
+											},
+										}}
+									/>
+								</div>
+							</>
+						) : (
+							<h2>Ничего не найдено</h2>
+						)}
+					</div>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

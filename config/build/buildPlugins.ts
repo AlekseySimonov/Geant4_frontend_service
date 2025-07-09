@@ -6,7 +6,7 @@ import { BuildOptions } from "./types/types";
 import path from "path";
 import dotenv from 'dotenv';
 
-export function buildPlugins({mode,paths}: BuildOptions): Configuration['plugins'] {
+export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plugins'] {
 
 	const isDev = mode === 'development';
 	const isProd = mode === 'production';
@@ -19,26 +19,32 @@ export function buildPlugins({mode,paths}: BuildOptions): Configuration['plugins
 	}, {} as Record<string, string>);
 
 	const plugins: Configuration['plugins'] = [
-		new HtmlWebpackPlugin({
-			template: paths.html,
-			favicon: path.resolve(paths.public, 'favicon.png')
-		}),
 		new webpack.DefinePlugin(envKeys),
-	]
-
-	if (isDev) {
-		plugins.push(
-			new webpack.ProgressPlugin(),
-			new ForkTsCheckerWebpackPlugin()
-		)
-	}
+	];
 
 	if (isProd) {
 		plugins.push(
+			new HtmlWebpackPlugin({
+				template: '!!prerender-loader?string!' + paths.html,
+				favicon: path.resolve(paths.public, 'favicon.png'),
+				inject: true,
+			}),
 			new MiniCssExtractPlugin({
-			filename: "css/[name].[contenthash:8].css",
-			chunkFilename: "css/[name].[contenthash:8].css",
-		}))
+				filename: "css/[name].[contenthash:8].css",
+				chunkFilename: "css/[name].[contenthash:8].css",
+			})
+		);
+	}
+
+	if (isDev) {
+		plugins.push(
+			new HtmlWebpackPlugin({
+				template: paths.html,
+				favicon: path.resolve(paths.public, 'favicon.png'),
+			}),
+			new webpack.ProgressPlugin(),
+			new ForkTsCheckerWebpackPlugin()
+		);
 	}
 
 	return plugins

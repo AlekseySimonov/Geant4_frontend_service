@@ -9,6 +9,7 @@ import { queryExamples } from "@/pages/examplesPage";
 import { Example, RawExampleResponse } from "@/shared/types";
 import { useGetCategoriesQuery, useGetTagsQuery } from "@/pages/examplesPage/api/examplesApi";
 import { ExampleCard } from "@/entities/examples";
+import { SEOExamplesList } from "../model";
 
 const ExamplesList: React.FC = () => {
 	const { data: categories = [] } = useGetCategoriesQuery();
@@ -62,68 +63,76 @@ const ExamplesList: React.FC = () => {
 	}, [fetchArticles]);
 
 	return (
-
-		<div className={styles.examples}>
-			<div className={styles.examples__title}>
-				<h2>Моделирование</h2>
-				<div>
-				</div>
-			</div>
-
-			<FiltersUrl
-				categories={categories}
-				tags={tags}
-				searchQuery={searchAutocomplete}
-				mapItem={(example): { id: number; title: string } => ({
-					id: example.id,
-					title: (example as any).title_verbose,
-				})}
+		<>
+			<SEOExamplesList
+				categoryParam={categoryParam}
+				tagParam={tagParam}
+				searchParam={searchParam}
+				pageParam={pageParam}
 			/>
 
-			<div className={styles.examples__cards}>
-				{(isListFetching && !globalLoading) ? (
-					<div className={styles.loadingContainer}><CircularProgress /></div>
-				) : examples.length > 0 ? (
-					<>
-						{examples.map(example => (
-							<ExampleCard
-								key={example.id}
-								title={example.title_verbose}
-								description={example.description}
-								category={example?.category?.title || ''}
-								tags={example.tags}
-								onClick={() => navigate(`/modeling/examples/${example.id}`, {
-									state: { from: location.pathname + location.search }
-								})}
-							/>
-						))}
-						<div className={styles.examples__cards__pagination}>
-							<Pagination
-								count={pageCount}
-								page={pageParam}
-								onChange={(_, value) => {
-									const newParams = new URLSearchParams(searchParams);
-									newParams.set('page', value.toString());
-									navigate({ search: newParams.toString() }, { replace: true });
-								}}
-								color="primary"
-								variant="outlined"
-								shape="rounded"
-								size="small"
-								sx={{
-									'& .MuiPaginationItem-root': {
-										color: 'var(--mui-palette-primary-main)',
-										border: 'none',
-									},
-								}}
-							/>
-						</div>
-					</>
-				) : (
-					<h2>Ничего не найдено</h2>
-				)}
+			<div className={styles.examples}>
+				<div className={styles.examples__title}>
+					<h2>Моделирование</h2>
+					<div>
+					</div>
+				</div>
+
+				<FiltersUrl
+					categories={categories}
+					tags={tags}
+					searchQuery={searchAutocomplete}
+					mapItem={(example): { id: number; title: string } => ({
+						id: example.id,
+						title: (example as any).title_verbose,
+					})}
+				/>
+
+				<div className={styles.examples__cards}>
+					{(isListFetching && !globalLoading) ? (
+						<div className={styles.loadingContainer}><CircularProgress /></div>
+					) : examples.length > 0 ? (
+						<>
+							{examples.map(example => (
+								<ExampleCard
+									key={example.id}
+									title={example.title_verbose}
+									description={example.description}
+									category={example?.category?.title || ''}
+									tags={example.tags}
+									onClick={() => navigate(`/modeling/examples/${example.id}`, {
+										state: { from: location.pathname + location.search }
+									})}
+								/>
+							))}
+							<div className={styles.examples__cards__pagination}>
+								<Pagination
+									count={pageCount}
+									page={pageParam}
+									onChange={(_, value) => {
+										const newParams = new URLSearchParams(searchParams);
+										newParams.set('page', value.toString());
+										navigate({ search: newParams.toString() }, { replace: true });
+									}}
+									color="primary"
+									variant="outlined"
+									shape="rounded"
+									size="small"
+									sx={{
+										'& .MuiPaginationItem-root': {
+											color: 'var(--mui-palette-primary-main)',
+											border: 'none',
+										},
+									}}
+								/>
+							</div>
+						</>
+					) : (
+						<h2>Ничего не найдено</h2>
+					)}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

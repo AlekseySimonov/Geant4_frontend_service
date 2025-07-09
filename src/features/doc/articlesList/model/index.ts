@@ -1,0 +1,1 @@
+export { SEOArticleList } from "./SEO";
