@@ -1,7 +1,7 @@
 
 import { URLS } from "./urls";
 import { profileApi } from "./profileApi";
-import { RawMyExamplesResponse } from "@/shared/types";
+import { ParsedMyExamplesResponse} from "@/shared/types";
 
 interface QueryParamsTypes{
 	query?: string;
@@ -14,7 +14,7 @@ interface QueryParamsTypes{
 
 export const queryProfile = profileApi.injectEndpoints({
 	endpoints: (builder) => ({
-		searchMyExamples: builder.query<RawMyExamplesResponse, QueryParamsTypes>({
+		searchMyExamples: builder.query<ParsedMyExamplesResponse, QueryParamsTypes>({
 			query: ({ query, category, ordering, tag, page = 1, page_size = 10}) => ({
 				url: URLS.EXAMPLES,
 				method: 'GET',

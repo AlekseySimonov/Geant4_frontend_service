@@ -17,4 +17,10 @@ export interface RawMyExamplesPage {
 	pages_count: number;
 }
 
+export type ParsedMyExample = Omit<MyExamplesTypes, "params"> & {
+	params: Record<string, string>;
+};
+
+export type ParsedMyExamplesResponse = (ParsedMyExample | RawMyExamplesPage)[];
+
 export type RawMyExamplesResponse = (MyExamplesTypes | RawMyExamplesPage)[];

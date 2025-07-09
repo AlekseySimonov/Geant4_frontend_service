@@ -9,7 +9,7 @@ import { useGetCategoriesQuery, useGetTagsQuery } from "@/pages/examplesPage/api
 import { useSelector } from "react-redux";
 import { RootState } from "@/app/store";
 import { queryProfile } from "@/pages/profilePage/api/queryProfile";
-import { MyExamplesTypes, RawMyExamplesPage } from "@/shared/types";
+import { MyExamplesTypes, ParsedMyExample, RawMyExamplesPage } from "@/shared/types";
 const ResolvesList: React.FC = () => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
@@ -22,7 +22,7 @@ const ResolvesList: React.FC = () => {
 
 	const { isLoading: globalLoading } = useSelector((state: RootState) => state.globalLoading);
 
-	const [examples, setExamples] = useState<MyExamplesTypes[]>([]);
+	const [examples, setExamples] = useState<ParsedMyExample[]>([]);
 	const [pageCount, setPageCount] = useState(1);
 
 	const categoryParam = searchParams.get("category");
@@ -48,7 +48,7 @@ const ResolvesList: React.FC = () => {
 			);
 
 			const items = rawData.filter(
-				(item): item is MyExamplesTypes => "id" in item && "title_verbose" in item
+				(item): item is ParsedMyExample => "id" in item && "title_verbose" in item
 			);
 
 			setExamples(items);
@@ -62,6 +62,12 @@ const ResolvesList: React.FC = () => {
 	}, [fetchExamples]);
 
 	if (examples.length < 1) return null
+
+	const convertCommandsToParams = (
+		commands: { title: string; value: string }[]
+	): Record<string, string> => {
+		return Object.fromEntries(commands.map(({ title, value }) => [title, value]));
+	};
 
 	return (
 		<div className={styles.resolves}>
@@ -93,6 +99,7 @@ const ResolvesList: React.FC = () => {
 								date={example.creation_date}
 								status={example.status}
 								tags={example.tags}
+								params={example.params}
 								onClick={() =>
 									navigate(`/profile/my-example/${example.id}`, {
 										state: { from: location.pathname + location.search },

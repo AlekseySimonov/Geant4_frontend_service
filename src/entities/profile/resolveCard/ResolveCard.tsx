@@ -70,20 +70,22 @@ const ResolveCard: React.FC<ResolveCardProps> = ({
 							) : null
 						)}
 				</div>
-				{/* <div className={styles.resolve__info__commands}>
+				<div className={styles.resolve__info__commands}>
 					{params && Object.keys(params).length > 0 ? (
 						<div className={styles.resolve__info__commandRow}>
 							<strong>Команды:</strong>
-							{Object.entries(params).map(([key, value]) => (
+							{Object.entries(params).map(([key, value], index, array) => (
 								<span key={key} className={styles.resolve__info__commandItem}>
 									{key.split('---').join(' ')}: {value}
+									{index < array.length - 1 ? '; ' : ''}
 								</span>
 							))}
 						</div>
 					) : (
 						<p className={styles.resolve__info__noCommands}>Нет команд</p>
 					)}
-				</div> */}
+
+				</div>
 
 			</div>
 			<div className={styles.resolve__progress}>

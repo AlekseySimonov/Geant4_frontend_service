@@ -34,9 +34,16 @@ export const outlinedInputOverride: Components['MuiOutlinedInput'] = {
 					opacity: 1,
 					fontSize: '1rem',
 				},
-				"&:-webkit-autofill": {
-					boxShadow: `0 0 0 100px ${theme.palette.secondary.main} inset`,
-					WebkitTextFillColor: theme.palette.primary.main,
+				'&:-webkit-autofill': {
+					WebkitBoxShadow: `0 0 0 1000px transparent inset !important`,
+					WebkitTextFillColor: 'inherit !important',
+					transition: 'background-color 5000s ease-in-out 0s',
+					caretColor: 'inherit',
+				},
+				'&:-webkit-autofill:hover, &:-webkit-autofill:focus': {
+					WebkitBoxShadow: `0 0 0 1000px transparent inset !important`,
+					WebkitTextFillColor: 'inherit !important',
+					caretColor: 'inherit',
 				},
 			};
 		},
