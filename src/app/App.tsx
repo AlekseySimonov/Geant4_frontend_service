@@ -4,10 +4,11 @@ import { CssBaseline, CssVarsProvider, InitColorSchemeScript } from '@mui/materi
 import { appTheme } from '@/shared/styles/themes';
 
 export const App = () => {
+
 	return ((
 		<>
 			<InitColorSchemeScript attribute="class" />
-			<CssVarsProvider theme={appTheme} forceThemeRerender>
+			<CssVarsProvider defaultMode="light" theme={appTheme} forceThemeRerender>
 				<CssBaseline />
 				<RouterProvider router={appRouter} />
 			</CssVarsProvider>

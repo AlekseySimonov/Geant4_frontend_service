@@ -14,8 +14,9 @@ const AuthPage: React.FC = () => {
 	const navigate = useNavigate()
 	const { data, isSuccess } = useCheckAuthQuery();
 
-	const { mode } = useColorScheme(); 
-	const backgroundImage = mode === 'dark' ? authBackgroundDark : authBackground;
+	const { mode, systemMode } = useColorScheme();
+	const effectiveMode = mode === 'system' ? systemMode : mode;
+	const backgroundImage = effectiveMode === 'dark' ? authBackgroundDark : authBackground;
 
 	useEffect(() => {
 		if ((isSuccess && data?.detail === true)) {

@@ -15,7 +15,8 @@ const MainPage: React.FC = () => {
 	const navigate = useNavigate()
 	const { data, isError, isSuccess } = useCheckAuthQuery()
 
-	const { mode } = useColorScheme();
+	const { mode, systemMode } = useColorScheme();
+	const effectiveMode = mode === 'system' ? systemMode : mode;
 
 	useEffect(() => {
 		if (isError || (isSuccess && data?.detail === false)) {
@@ -47,12 +48,12 @@ const MainPage: React.FC = () => {
 					<img
 						src={mainBack}
 						alt="background"
-						style={{ display: mode === 'dark' ? 'none' : 'block' }}
+						style={{ display: effectiveMode === 'dark' ? 'none' : 'block' }}
 					/>
 					<img
 						src={mainBackDark}
 						alt="background"
-						style={{ display: mode === 'dark' ? 'block' : 'none' }}
+						style={{ display: effectiveMode === 'dark' ? 'block' : 'none' }}
 					/>
 				</>
 			</div>
