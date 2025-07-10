@@ -14,6 +14,6 @@ export const SEOArticleList: React.FC<SEOArticleListProps> = ({
 	const description = `Список статей${categoryParam ? ` по категории "${categoryParam}"` : ''}${searchParam ? `, найденных по запросу "${searchParam}"` : ''}.`;
 
 	return (
-		<SEO description={description} canonical={canonical} />
+		<SEO title={'Geant4ru — Документация'} description={description} canonical={canonical} />
 	);
 };

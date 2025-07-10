@@ -1,3 +1,4 @@
+import { SEO } from '@/shared';
 import { Helmet } from 'react-helmet-async';
 
 interface SEOExamplesListProps {
@@ -6,6 +7,7 @@ interface SEOExamplesListProps {
 	searchParam?: string | null;
 	pageParam?: number;
 	canonical?: string;
+	title?: string;
 }
 
 export const SEOExamplesList: React.FC<SEOExamplesListProps> = ({
@@ -14,6 +16,7 @@ export const SEOExamplesList: React.FC<SEOExamplesListProps> = ({
 	searchParam,
 	pageParam = 1,
 	canonical = window.location.href,
+	title = 'Примеры'
 }) => {
 	const parts: string[] = ['Моделирование'];
 
@@ -25,9 +28,6 @@ export const SEOExamplesList: React.FC<SEOExamplesListProps> = ({
 	const description = `Список примеров${categoryParam ? ` по категории "${categoryParam}"` : ''}${tagParam ? ` с тегами "${tagParam}"` : ''}${searchParam ? `, найденных по запросу "${searchParam}"` : ''}.`;
 
 	return (
-		<Helmet>
-			<meta name="description" content={description} />
-			<link rel="canonical" href={canonical} />
-		</Helmet>
+		<SEO title={title} description={description} canonical={canonical} />
 	);
 };

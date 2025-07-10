@@ -24,7 +24,7 @@ export interface ExampleBaseTypes {
 	title_verbose?: string;
 	title_not_verbose?: string;
 	description: string;
-	date_to_update: string;
+	creation_date: string;
 	tags?: Tag[];
 	category?: string;
 	example_id?: number;

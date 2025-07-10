@@ -1,13 +1,9 @@
-import { Helmet } from 'react-helmet-async';
+import { SEO } from '@/shared';
 
 export const SEOMainPage: React.FC = () => {
+	const content = 'Geant4ru — платформа моделирования прохождения частиц через вещество. Используется в физике высоких энергий, медицине, космосе и других областях'
+	const link = window.location.href
 	return (
-		<Helmet>
-			<meta
-				name="description"
-				content="Geant4ru — платформа моделирования прохождения частиц через вещество. Используется в физике высоких энергий, медицине, космосе и других областях."
-			/>
-			<link rel="canonical" href={window.location.href} />
-		</Helmet>
+		<SEO title='Geant4ru — Главная страница' description={content} canonical={link } />
 	);
 };

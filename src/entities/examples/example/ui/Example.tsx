@@ -43,6 +43,7 @@ const Example: React.FC = () => {
 	return (
 		<>
 			<SEOExampleView
+				title={example.title_verbose}
 				description={example.description}
 			/>
 			<div className={styles.example}>

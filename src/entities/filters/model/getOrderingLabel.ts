@@ -1,8 +1,8 @@
 export const getOrderingLabel = (ordering: string): string => {
 	switch (ordering) {
-		case "-date_to_update":
+		case "-creation_date":
 			return "По дате обновления ↓";
-		case "date_to_update":
+		case "creation_date":
 			return "По дате обновления ↑";
 		case "title_verbose.keyword":
 			return "По названию A–Z";

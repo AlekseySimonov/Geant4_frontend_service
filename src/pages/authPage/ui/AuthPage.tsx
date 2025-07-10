@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import authBackground from '@/shared/ui/assets/authBackground.jpg'
 import authBackgroundDark from '@/shared/ui/assets/authBackgroundDark.jpg'
 import { useColorScheme, useMediaQuery } from '@mui/material'
+import { Helmet } from 'react-helmet-async'
 
 const AuthPage: React.FC = () => {
 
@@ -25,23 +26,27 @@ const AuthPage: React.FC = () => {
 	}, [isSuccess, data, navigate]);
 
 	const { isLoading } = useSelector((state: RootState) => state.globalLoading)
-	const isMobile = useMediaQuery ('(max-width: 600px)') 
+	const isMobile = useMediaQuery('(max-width: 600px)')
 
 	return (
-		<div
-			className={styles.container}
-			style={!isMobile ? { backgroundImage: `url(${backgroundImage})` } : undefined}
-		>
-			<AlertPopup/>
-			<div className={styles.container__content}>
-				<div className={styles.container__content_header}>
-					Geant4ru
+		<>
+			<Helmet>
+				<title>Авторизация</title>
+			</Helmet>
+			<div
+				className={styles.container}
+				style={!isMobile ? { backgroundImage: `url(${backgroundImage})` } : undefined}
+			>
+				<AlertPopup />
+				<div className={styles.container__content}>
+					<div className={styles.container__content_header}>
+						Geant4ru
+					</div>
+					<Outlet />
+					{isLoading && <Loader />}
 				</div>
-				<Outlet />
-				{isLoading && <Loader />}
 			</div>
-		</div>
-
+		</>
 	)
 }
 

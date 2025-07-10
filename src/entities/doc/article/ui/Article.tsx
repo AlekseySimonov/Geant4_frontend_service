@@ -79,6 +79,7 @@ const Article: React.FC = () => {
 	return (
 		<>
 			<SEOArticle
+				title={article.title}
 				description={article.description}
 			/>
 			<div className={styles.article}>

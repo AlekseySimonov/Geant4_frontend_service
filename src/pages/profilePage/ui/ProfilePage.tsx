@@ -2,6 +2,7 @@ import { useCheckAuthQuery } from "@/pages/authPage/api/authApi";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
 import styles from "./_profilePage.module.scss";
+import { Helmet } from "react-helmet-async";
 
 const ProfilePage: React.FC = () => {
 
@@ -15,9 +16,14 @@ const ProfilePage: React.FC = () => {
 	}, [isSuccess, isError, data, navigate]);
 
 	return (
-		<div className={styles.profile}>
-			<Outlet />
-		</div>
+		<>
+			<Helmet>
+				<title>Профиль</title>
+			</Helmet>
+			<div className={styles.profile}>
+				<Outlet />
+			</div>
+		</>
 	);
 };
 

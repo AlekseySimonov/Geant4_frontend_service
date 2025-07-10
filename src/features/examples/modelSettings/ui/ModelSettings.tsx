@@ -20,7 +20,6 @@ const ModelSettings: React.FC = () => {
 	const { data: example, isLoading, isError } = useGetExampleQuery(Number(id))
 	const [postExample] = usePostExampleMutation();
 
-	if (!example) return null 
 
 	const initialValues = useMemo(() => {
 		if (!example) return {};
@@ -31,6 +30,7 @@ const ModelSettings: React.FC = () => {
 	}, [example]);
 
 	if (!example) return null
+
 	const handleBackClick = () => {
 		if (location.state?.from) {
 			navigate(location.state?.from);
@@ -132,13 +132,14 @@ const ModelSettings: React.FC = () => {
 					{({ values, setFieldValue }) => (
 						<Form className={styles.content__form}>
 							{renderFields(values, setFieldValue)}
-
-							<PrimaryButton
-								label="Смоделировать"
-								type="submit"
-								fullWidth
-								size="s"
-							/>
+							<div className={styles.content__form__submit}>
+								<PrimaryButton
+									label="Смоделировать"
+									type="submit"
+									fullWidth
+									size="s"
+								/>
+							</div>
 						</Form>
 					)}
 				</Formik>

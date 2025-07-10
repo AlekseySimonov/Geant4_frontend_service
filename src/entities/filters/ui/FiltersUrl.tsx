@@ -65,8 +65,8 @@ export function FiltersUrl<TEntity extends { id: number; title: string }>({
 				{showOrdering && (
 					<Filter
 						options={[
-							{ title: "По дате обновления ↓", value: "-date_to_update" },
-							{ title: "По дате обновления ↑", value: "date_to_update" },
+							{ title: "По дате обновления ↓", value: "-creation_date" },
+							{ title: "По дате обновления ↑", value: "creation_date" },
 							{ title: "По названию A–Z", value: "title_verbose.keyword" },
 							{ title: "По названию Z–A", value: "-title_verbose.keyword" },
 						]}

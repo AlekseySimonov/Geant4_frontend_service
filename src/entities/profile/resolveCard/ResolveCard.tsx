@@ -82,7 +82,7 @@ const ResolveCard: React.FC<ResolveCardProps> = ({
 							))}
 						</div>
 					) : (
-						<p className={styles.resolve__info__noCommands}>Нет команд</p>
+						<p className={styles.resolve__info__noCommands}>Команды по умолчанию</p>
 					)}
 
 				</div>
