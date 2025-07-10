@@ -1,6 +1,7 @@
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack, { Configuration } from "webpack";
 import { BuildOptions } from "./types/types";
 import path from "path";
@@ -32,7 +33,15 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 			new MiniCssExtractPlugin({
 				filename: "css/[name].[contenthash:8].css",
 				chunkFilename: "css/[name].[contenthash:8].css",
-			})
+			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: path.resolve(paths.public, 'yandex_e5b3494182c44b3d.html'),
+						to: path.resolve(paths.output, 'yandex_e5b3494182c44b3d.html'),
+					},
+				],
+			}),
 		);
 	}
 
@@ -43,7 +52,15 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 				favicon: path.resolve(paths.public, 'favicon.png'),
 			}),
 			new webpack.ProgressPlugin(),
-			new ForkTsCheckerWebpackPlugin()
+			new ForkTsCheckerWebpackPlugin(),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: path.resolve(paths.public, 'yandex_e5b3494182c44b3d.html'),
+						to: path.resolve(paths.output, 'yandex_e5b3494182c44b3d.html'),
+					},
+				],
+			}),
 		);
 	}
 
