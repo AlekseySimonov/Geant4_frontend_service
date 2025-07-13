@@ -7,7 +7,7 @@ import { useGetExampleQuery, usePostExampleMutation } from "@/pages/examplesPage
 import { PrimaryButton } from "@/shared/ui/components/buttons";
 import { Autocomplete, TextField } from "@mui/material";
 import { useMemo } from "react";
-import { submitExample } from "../model";
+import { buildValidationSchema, submitExample } from "../model";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/app/store";
 const ModelSettings: React.FC = () => {
@@ -20,6 +20,7 @@ const ModelSettings: React.FC = () => {
 	const { data: example, isLoading, isError } = useGetExampleQuery(Number(id))
 	const [postExample] = usePostExampleMutation();
 
+	const validationSchema = useMemo(() => buildValidationSchema(example), [example]);
 
 	const initialValues = useMemo(() => {
 		if (!example) return {};
@@ -127,6 +128,7 @@ const ModelSettings: React.FC = () => {
 				<Formik
 					enableReinitialize={true}
 					initialValues={initialValues}
+					validationSchema={validationSchema}
 					onSubmit={submitExample(Number(id), postExample, navigate, dispatch)}
 				>
 					{({ values, setFieldValue }) => (
