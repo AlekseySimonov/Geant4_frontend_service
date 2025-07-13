@@ -48,6 +48,14 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 					},
 				],
 			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: path.resolve(paths.public, 'sitemap.xml'),
+						to: path.resolve(paths.output, 'sitemap.xml'),
+					},
+				],
+			}),
 		);
 	}
 
