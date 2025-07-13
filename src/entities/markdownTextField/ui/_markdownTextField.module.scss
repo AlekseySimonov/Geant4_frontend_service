@@ -17,10 +17,22 @@
 		word-break: break-word;
 		color: var(--mui-palette-primary-main);
 
-		.preview{
+		.preview.wmde-markdown code .token.class-name {
+			color: var(--mui-palette-success-main) !important;
+		}
+
+		.preview {
 			color: var(--mui-palette-primary-main);
 			background-color: var(--mui-palette-background-paper);
 			font-family: "Inter", "Manrope", sans-serif;
+
+			code {
+				background-color: var(--mui-palette-background-default);
+			}
+
+			pre {
+				background-color: var(--mui-palette-background-default);
+			}
 		}
 	}
 

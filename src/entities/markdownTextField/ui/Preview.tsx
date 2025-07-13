@@ -5,7 +5,7 @@ import katex from "katex";
 import "katex/dist/katex.css";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
-import { useMediaQuery } from "@mui/material";
+import { useColorScheme, useMediaQuery } from "@mui/material";
 
 interface PreviewProps {
 	value: string;
@@ -14,6 +14,9 @@ interface PreviewProps {
 
 export const Preview: React.FC<PreviewProps> = ({ value, withBorder }) => {
 	if (!value) return null;
+
+	const { mode, systemMode } = useColorScheme();
+	const effectiveMode = mode === 'system' ? systemMode : mode;
 	const isMobile = useMediaQuery("(max-width:600px)");
 
 	const renderLaTeX = (text: string): string => {
@@ -44,7 +47,7 @@ export const Preview: React.FC<PreviewProps> = ({ value, withBorder }) => {
 
 	return (
 		<div
-			data-color-mode="light"
+			data-color-mode={effectiveMode}
 			className={`${styles.latex__text} ${withBorder ? styles.withBorder : ""}`}
 			style={{ fontSize: isMobile ? "1rem" : "1.1rem" }}
 		>

@@ -129,12 +129,12 @@ const ResolvesList: React.FC = () => {
 							/>
 						</div>
 					</>
-				) : (
+				) : pageCount === 0 ? (
 					<div className={styles.resolves__nullList}>
 						<h3>У вас пока нет решений</h3>
-						<PrimaryButton label="Приступить к моделированию" link="/" />
+						<PrimaryButton label="Приступить к моделированию" link="/modeling/examples" />
 					</div>
-				)}
+				) : null}
 			</div>
 		</div>
 	);

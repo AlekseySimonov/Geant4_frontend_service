@@ -8,7 +8,7 @@ const FRONT_URL = process.env.FRONT_BASE_URL || 'http://localhost:3000';
 
 async function getDynamicRoutes() {
 	const [articlesRes, examplesRes] = await Promise.all([
-		axios.get(`${BASE_URL}/documentations/articles/`, { withCredentials: true }),
+		axios.get(`${BASE_URL}/no-search-path/`, { withCredentials: true }),
 	]);
 
 	const articleRoutes = articlesRes.data.map((article) => `/documentation/articles/view/${article.id}`);
