@@ -56,6 +56,14 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 					},
 				],
 			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: path.resolve(paths.public, 'googled995f99cd884b40f.html'),
+						to: path.resolve(paths.output, 'googled995f99cd884b40f.html'),
+					},
+				],
+			}),
 		);
 	}
 
