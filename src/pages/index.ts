@@ -1,3 +1,4 @@
+export { default as ExamplesPage } from "./examplesPage";
 export { ProfileMain } from "./profilePage";
 export { ErrorPage } from "./errorPage";
 export { default as AuthPage } from "./authPage";

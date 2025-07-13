@@ -3,6 +3,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import webpack, { Configuration } from "webpack";
 import { BuildOptions } from "./types/types";
+import { execSync } from 'child_process'; 
 import path from "path";
 import dotenv from 'dotenv';
 
@@ -23,6 +24,11 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 	];
 
 	if (isProd) {
+		try {
+			execSync('node config/build/generateSitemap.js', { stdio: 'inherit' });
+		} catch (e) {
+			process.exit(1);
+		}
 		plugins.push(
 			new HtmlWebpackPlugin({
 				template: paths.html,
