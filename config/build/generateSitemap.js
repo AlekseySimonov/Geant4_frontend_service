@@ -4,6 +4,7 @@ const path = require('path');
 const axios = require('axios');
 
 const BASE_URL = process.env.API_BASE_URL || 'http://localhost:3000';
+const FRONT_URL = process.env.FRONT_BASE_URL || 'http://localhost:3000';
 
 async function getDynamicRoutes() {
 	const [articlesRes, examplesRes] = await Promise.all([
@@ -33,7 +34,7 @@ async function generateSitemap() {
 	});
 
 	allRoutes.forEach((route) => {
-		urlset.ele('url').ele('loc').txt(`${BASE_URL}${route}`);
+		urlset.ele('url').ele('loc').txt(`${FRONT_URL}${route}`);
 	});
 
 	const xml = urlset.end({ prettyPrint: true });

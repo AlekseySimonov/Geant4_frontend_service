@@ -4,7 +4,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack, { Configuration } from "webpack";
 import { BuildOptions } from "./types/types";
-import { execSync } from 'child_process'; 
+import { execSync } from 'child_process';
 import path from "path";
 import dotenv from 'dotenv';
 
@@ -46,21 +46,17 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 						from: path.resolve(paths.public, 'yandex_e5b3494182c44b3d.html'),
 						to: path.resolve(paths.output, 'yandex_e5b3494182c44b3d.html'),
 					},
-				],
-			}),
-			new CopyWebpackPlugin({
-				patterns: [
 					{
 						from: path.resolve(paths.public, 'sitemap.xml'),
 						to: path.resolve(paths.output, 'sitemap.xml'),
 					},
-				],
-			}),
-			new CopyWebpackPlugin({
-				patterns: [
 					{
 						from: path.resolve(paths.public, 'googled995f99cd884b40f.html'),
 						to: path.resolve(paths.output, 'googled995f99cd884b40f.html'),
+					},
+					{
+						from: path.resolve(paths.public, 'robots.txt'),
+						to: path.resolve(paths.output, 'robots.txt'),
 					},
 				],
 			}),
@@ -75,14 +71,6 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
 			}),
 			new webpack.ProgressPlugin(),
 			new ForkTsCheckerWebpackPlugin(),
-			new CopyWebpackPlugin({
-				patterns: [
-					{
-						from: path.resolve(paths.public, 'yandex_e5b3494182c44b3d.html'),
-						to: path.resolve(paths.output, 'yandex_e5b3494182c44b3d.html'),
-					},
-				],
-			}),
 		);
 	}
 

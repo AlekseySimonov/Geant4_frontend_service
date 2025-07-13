@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://geant4-dev-frontend.tsu.ru/sitemap.xml

@@ -1,54 +1,54 @@
 <?xml version="1.0"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/main</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/main</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/modeling</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/modeling</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/modeling/examples</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/modeling/examples</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/12</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/12</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/13</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/13</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/14</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/14</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/15</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/15</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/16</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/16</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/17</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/17</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/18</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/18</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/19</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/19</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/20</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/20</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/21</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/21</loc>
   </url>
   <url>
-    <loc>https://geant4-dev-frontend.tsu.ru:444/api/v1/documentation/articles/view/undefined</loc>
+    <loc>https://geant4-dev-frontend.tsu.ru/documentation/articles/view/undefined</loc>
   </url>
 </urlset>
