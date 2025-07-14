@@ -1,33 +1,52 @@
-import * as Yup from 'yup';
 import { Example } from '@/shared/types';
+import * as Yup from 'yup';
 
 export function buildValidationSchema(example: Example | undefined) {
 	if (!example) return Yup.object({});
+
 	const shape: Record<string, Yup.AnySchema> = {};
 
 	for (const cmd of example.commands) {
+		const key = cmd.title;
+
+		if (cmd.command_list?.command_values?.length) {
+			const allowedValues = cmd.command_list.command_values.map(String);
+			const defaultValue = cmd.default?.toString();
+
+			shape[key] = Yup.string()
+				.oneOf(allowedValues, 'Недопустимое значение')
+				.test(
+					'is-required-or-default',
+					'Обязательное поле',
+					(value) => value === defaultValue || allowedValues.includes(value ?? '')
+				);
+
+			continue;
+		}
+
 		const isNumber = !isNaN(Number(cmd.default)) && isFinite(Number(cmd.default));
-		const label = cmd.title.replace(`${example.title_verbose}, `, "");
 
 		if (isNumber) {
 			let schema = Yup.number()
-				.typeError(`${label} должно быть числом`)
-				.required(`${label} обязательно`);
+				.typeError('Должно быть числом')
+				.required('Обязательное поле');
 
-			if (cmd.min !== undefined) {
-				schema = schema.min(cmd.min, `${label} ≥ ${cmd.min}`);
-			}
-			if (cmd.max !== undefined) {
-				schema = schema.max(cmd.max, `${label} ≤ ${cmd.max}`);
+			if (typeof cmd.min === 'number') {
+				schema = schema.min(cmd.min, `Минимум: ${cmd.min}`);
 			}
 
-			shape[cmd.title] = schema;
-		} else {
-			shape[cmd.title] = Yup.string()
-				.trim()
-				.required(`${label} обязательно`);
+			if (typeof cmd.max === 'number') {
+				schema = schema.max(cmd.max, `Максимум: ${cmd.max}`);
+			}
+
+			shape[key] = schema;
+			continue;
 		}
+
+		shape[key] = Yup.string().notRequired();
 	}
 
 	return Yup.object().shape(shape);
 }
+
+

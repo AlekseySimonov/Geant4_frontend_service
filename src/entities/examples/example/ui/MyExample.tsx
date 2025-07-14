@@ -77,7 +77,7 @@ const MyExample: React.FC = () => {
 
 			{example.status === 2 && (
 				<div className={styles.example__block}>
-					<div className={styles.status__inProcess}>
+					<div className={styles.status__error}>
 						В данный момент моделирование невозможно. Повторите попытку позже
 					</div>
 				</div>

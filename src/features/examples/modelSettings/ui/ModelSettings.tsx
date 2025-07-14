@@ -40,84 +40,6 @@ const ModelSettings: React.FC = () => {
 		}
 	};
 
-	const renderFields = (
-		values: typeof initialValues,
-		setFieldValue: (field: string, value: any) => void
-	) =>
-		example.commands
-			.slice()
-			.sort((a, b) => a.order_index - b.order_index)
-			.map((cmd) => {
-				const label = cmd.title.replace(`${example.title_verbose}, `, "");
-				const value = values[cmd.title] ?? "";
-
-				const options = cmd.command_list?.command_values?.map(v => v.toString()) ?? [];
-
-				const isNumberDefault = !isNaN(Number(cmd.default)) && isFinite(Number(cmd.default));
-
-				if (isNumberDefault) {
-					return (
-						<TextField
-							key={cmd.title}
-							type="number"
-							label={label}
-							variant="outlined"
-							fullWidth
-							value={value}
-							onChange={(e) => {
-								const val = e.target.value;
-								const parsed = val === "" ? "" : Number(val);
-								setFieldValue(cmd.title, parsed);
-							}}
-							inputProps={{
-								min: cmd.min ?? undefined,
-								max: cmd.max ?? undefined,
-							}}
-							className={styles.content__field}
-						/>
-					);
-				}
-
-				if (options.length > 0) {
-					return (
-						<Autocomplete
-							key={cmd.title}
-							options={options}
-							value={value}
-							onChange={(_, newValue) => {
-								setFieldValue(cmd.title, newValue ?? "");
-							}}
-							onBlur={() => {
-								setFieldValue(cmd.title, value);
-							}}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label={label}
-									variant="outlined"
-									fullWidth
-								/>
-							)}
-							className={styles.content__field}
-						/>
-					);
-				}
-
-				return (
-					<TextField
-						key={cmd.title}
-						label={label}
-						variant="outlined"
-						fullWidth
-						value={value}
-						disabled
-						className={styles.content__field}
-					/>
-				);
-			});
-
-
-
 	return (
 		<div className={styles.settings}>
 			<div className={styles.content}>
@@ -125,19 +47,103 @@ const ModelSettings: React.FC = () => {
 					<ArrowBackIosRoundedIcon style={{ fontSize: 24 }} onClick={handleBackClick} />
 					<h2>Задание параметров моделирования</h2>
 				</div>
+
 				<Formik
-					enableReinitialize={true}
+					enableReinitialize
 					initialValues={initialValues}
 					validationSchema={validationSchema}
 					onSubmit={submitExample(Number(id), postExample, navigate, dispatch)}
 				>
-					{({ values, setFieldValue }) => (
+					{({ values, setFieldValue, status, isValid, dirty, errors, touched, setFieldTouched }) => (
 						<Form className={styles.content__form}>
-							{renderFields(values, setFieldValue)}
+							{example.commands
+								.slice()
+								.sort((a, b) => a.order_index - b.order_index)
+								.map((cmd) => {
+									const name = cmd.title;
+									const label = name.replace(`${example.title_verbose}, `, "");
+									const value = values[name] ?? "";
+									const error = touched[name] && Boolean(errors[name]);
+									const helperText = touched[name] ? (errors[name] as string) : "";
+
+									const options = cmd.command_list?.command_values?.map((v) => v.toString()) ?? [];
+									const isNumberField = !isNaN(Number(cmd.default)) && isFinite(Number(cmd.default));
+
+									if (isNumberField) {
+										return (
+											<TextField
+												key={name}
+												name={name}
+												type="number"
+												label={label}
+												variant="outlined"
+												fullWidth
+												value={value}
+												onBlur={() => setFieldTouched(name, true)}
+												onChange={(e) => {
+													const val = e.target.value;
+													setFieldValue(name, val === "" ? "" : Number(val));
+												}}
+												inputProps={{
+													min: cmd.min ?? undefined,
+													max: cmd.max ?? undefined,
+												}}
+												error={error}
+												helperText={helperText}
+												className={styles.content__field}
+											/>
+										);
+									}
+
+									if (options.length > 0) {
+										return (
+											<Autocomplete
+												key={name}
+												options={options}
+												value={value}
+												onChange={(_, newValue) => {
+													setFieldValue(name, newValue ?? "");
+												}}
+												onBlur={() => {
+													setFieldTouched(name, true);
+												}}
+												renderInput={(params) => (
+													<TextField
+														{...params}
+														name={name}
+														label={label}
+														variant="outlined"
+														fullWidth
+														error={touched[name] && Boolean(errors[name])}
+														helperText={touched[name] ? (errors[name] as string) : ""}
+													/>
+												)}
+												className={styles.content__field}
+											/>
+										);
+									}
+
+									return (
+										<TextField
+											key={name}
+											name={name}
+											label={label}
+											variant="outlined"
+											fullWidth
+											value={value}
+											disabled
+											className={styles.content__field}
+										/>
+									);
+								})}
+
+							{status && <div className={styles.content__form__errorMessage}>{status}</div>}
+
 							<div className={styles.content__form__submit}>
 								<PrimaryButton
 									label="Смоделировать"
 									type="submit"
+									disabled={!(isValid)}
 									fullWidth
 									size="s"
 								/>
@@ -148,6 +154,6 @@ const ModelSettings: React.FC = () => {
 			</div>
 		</div>
 	);
-}
+};
 
-export default ModelSettings
+export default ModelSettings;

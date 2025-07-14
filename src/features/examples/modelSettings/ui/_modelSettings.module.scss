@@ -77,6 +77,12 @@
 				grid-template-columns: 1fr;
 			}
 
+			&__errorMessage{
+				color: var(--mui-palette-error-main);
+				font-size: 0.9rem;
+				padding-left: 21px;
+			}
+
 			&__submit {
 				grid-column: span 2;
 				justify-self: center;
