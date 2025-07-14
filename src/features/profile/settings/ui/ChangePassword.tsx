@@ -27,7 +27,7 @@ export const ChangePassword: React.FC<{ onClose: () => void }> = ({ onClose }) =
 			resetForm();
 			dispatch(
 				showAlert({
-					message: 'Проверьте почту для сброса пароля',
+					message: 'Пароль успешно изменен',
 					severity: 'info',
 				})
 			);
@@ -36,7 +36,7 @@ export const ChangePassword: React.FC<{ onClose: () => void }> = ({ onClose }) =
 			if (error?.data?.non_field_errors?.length) {
 				setStatus("Неправильно введен старый пароль")
 			} else {
-				setStatus("Не удалось сменить пароль. Попробуйте позже.")
+				setStatus("Не удалось сменить пароль. Попробуйте позже")
 			}
 		}
 	};
