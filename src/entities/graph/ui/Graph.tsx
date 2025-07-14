@@ -131,7 +131,6 @@ const Graph = ({ data, title }: Props) => {
   const mergedLayout = {
     ...baseLayout,
     ...viewLayout,
-    height: isSmallScreen ? 400 : 600,
   };
 
   const config: Partial<Plotly.Config> = {
