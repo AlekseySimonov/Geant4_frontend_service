@@ -40,10 +40,10 @@ async function generateSitemap() {
 	const xml = urlset.end({ prettyPrint: true });
 	fs.writeFileSync(path.join(__dirname, '../../public/sitemap.xml'), xml, 'utf-8');
 
-	console.log('✅ Sitemap сгенерирован.');
+	console.log('✅ Sitemap generated.');
 }
 
 generateSitemap().catch((err) => {
-	console.error('❌ Ошибка при генерации sitemap:', err);
+	console.error('❌ Error generating sitemap:', err);
 	process.exit(1);
 });
