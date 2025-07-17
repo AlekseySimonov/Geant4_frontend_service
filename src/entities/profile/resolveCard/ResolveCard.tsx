@@ -39,14 +39,14 @@ const ResolveCard: React.FC<ResolveCardProps> = ({
 	const handleCategoryClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		if (category?.trim()) {
-			navigate(`/profile?category=${category}&page=1`)
+			navigate(`/profile/main?category=${category}&page=1`)
 		}
 	}
 
 	const handleTagClick = (e: React.MouseEvent, tag: string) => {
 		e.stopPropagation();
 		if (tag.trim()) {
-			navigate(`/profile?tags=${encodeURIComponent(tag.trim())}&page=1`);
+			navigate(`/profile/main?tags=${encodeURIComponent(tag.trim())}&page=1`);
 		}
 	};
 

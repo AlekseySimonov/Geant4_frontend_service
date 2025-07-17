@@ -68,16 +68,16 @@ const MainPage: React.FC = () => {
 						<SecondaryButton label='Читать больше' link='https://hep.tsu.ru/' />
 					</div>
 					<Card
-						title="Загрузка"
-						text="Исходный код Geant4 и установочные файлы доступны для загрузки."
-						link="https://gitlab.cern.ch/geant4/geant4/-/archive/v11.3.2/geant4-v11.3.2.zip"
-						btnLabel="Последняя версия: 11.3.2"
-					/>
-					<Card
 						title="Документация"
 						text="Документация Geant4ru, а также учебные пособия и руководства, доступны онлайн."
 						link="/documentation"
 						btnLabel="Читать документацию"
+					/>
+					<Card
+						title="Начало работы"
+						text="Всё, что нужно для начала работы с Geant4ru."
+						link="/modeling/examples"
+						btnLabel="Начать моделирование"
 					/>
 					<Card
 						title="Сайт Geant4"
@@ -86,12 +86,11 @@ const MainPage: React.FC = () => {
 						btnLabel="Перейти на сайт"
 					/>
 					<Card
-						title="Начало работы"
-						text="Всё, что нужно для начала работы с Geant4ru."
-						link="/modeling/examples"
-						btnLabel="Начать моделирование"
+						title="Загрузка"
+						text="Исходный код Geant4 и установочные файлы доступны для загрузки."
+						link="https://gitlab.cern.ch/geant4/geant4/-/archive/v11.3.2/geant4-v11.3.2.zip"
+						btnLabel="Последняя версия: 11.3.2"
 					/>
-
 				</div>
 			</div>
 		</>
